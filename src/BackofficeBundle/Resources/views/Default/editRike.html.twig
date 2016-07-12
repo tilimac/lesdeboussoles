@@ -1,0 +1,100 @@
+{% extends "BackofficeBundle::layout.html.twig" %}
+
+{% block page_container %}
+    <style>
+        #image-fields-list {
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Modifier une randonnée</h1>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            {{ form_start(form) }}
+                <div class="row">
+                    {{ form_label(form.images) }}
+                    {{ form_errors(form.images) }}
+                    <div id="image-fields-list"
+                         class="col-sm-8"
+                         data-prototype="{{ form_widget(form.images.vars.prototype)|e }}">
+                        {% for imageField in form.images %}
+                            <div class="form-group input-group">
+                                {{ form_errors(imageField) }}
+                                {{ form_widget(imageField) }}
+                                <span class="input-group-btn">
+                                    <a href="#" data-id="app_hike_images_{{ imageField.vars.name }}" class="btn btn-default">Pick File</a>
+                                </span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <a href="#" id="add-another-image" {% if form.images|length >= 5 %}style="display: none;"{% endif %}>Ajouter une image</a>
+                        <a href="#" id="delete-another-image" class="text-danger" {% if form.images|length == 0 %}style="display: none;"{% endif %}>Supprimer une image</a>
+                    </div>
+                </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // keep track of how many email fields have been rendered
+        var imageCount = '{{ form.images|length }}';
+
+        jQuery(document).ready(function() {
+            jQuery('#add-another-image').click(function(e) {
+                e.preventDefault();
+                $("#delete-another-image").show();
+                if(imageCount >= 5) return;
+
+                var imageList = jQuery('#image-fields-list');
+
+                // grab the prototype template
+                var newWidget = imageList.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                newWidget = newWidget.replace(/__name__/g, imageCount);
+                imageCount++;
+
+                if(imageCount >= 5) $(this).hide();
+
+                // create a new list element and add it to the list
+                var newLi = jQuery('<div></div>').addClass('form-group input-group').html(newWidget);
+                var btnMoxie = jQuery('<span></span>').addClass('input-group-btn').html('<a href="#" data-id="'+$(newWidget).attr('id')+'" class="btn btn-default">Pick File</a>');
+                btnMoxie.appendTo(newLi);
+                newLi.appendTo(imageList);
+            });
+
+            jQuery('#delete-another-image').click(function(e) {
+                e.preventDefault();
+                $(".image-box:last").closest('.form-group').remove();
+                $("#add-another-image").show();
+                imageCount--;
+                if(imageCount == 0) $(this).hide();
+            });
+
+            $("#image-fields-list").on('click', 'a', function(e){
+                e.preventDefault();
+                var field = $(this).data('id');
+                moxman.browse({
+                    fields: field,
+                    no_host: true,
+                    /*oninsert: function(args) {
+                        var str = args.files[0].url;
+                        var res = str.replace("/web", "");
+                        $("#"+field).val(res);
+                    }*/
+                });
+            })
+        })
+    </script>
+{% endblock %}

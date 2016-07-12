@@ -1,0 +1,93 @@
+{% extends "::lib.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {% stylesheets 
+        'bundles/app/css/client.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    <style>
+        .navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse {
+            max-height: none;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand visible-sm" href="{{ path('_home') }}"><img src="{{ asset('bundles/app/img/rando.png') }}" style="height: 35px; margin-top: -7px;" /></a>
+                <a class="navbar-brand hidden-sm" href="{{ path('_home') }}"><img src="{{ asset('bundles/app/img/rando.png') }}" style="height: 35px; margin-top: -7px;float: left;margin-right: 10px;" /> Les Déboussolés</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{{ path('_association') }}">Association</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('_previous_hikes') }}">Précédentes randonnées</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('_next_hikes') }}">Prochaines randonnées</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('_contact') }}">Contact</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                <li class="dropdown-header">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</li>
+                                <li><a href="{{ path('_home') }}"><i class="fa fa-home fa-fw"></i>Accueil</a></li>
+                                <li><a href="{{ path('fos_user_profile_show') }}"><i class="fa fa-user fa-fw"></i>Profil</a></li>
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <li><a href="{{ path('_admin_home') }}"><i class="fa fa-cog fa-fw"></i>Administration</a></li>
+                                {% endif %}
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out fa-fw"></i>{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
+                            {% else %}
+                                <li><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-sign-in fa-fw"></i>{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
+                                <li><a href="{{ path('fos_user_registration_register') }}"><i class="fa fa-edit fa-fw"></i>{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    
+    {% block page_header %}
+    {% endblock %}
+
+    <!-- Page Content -->
+    <div id="container" class="container">
+        {% block page_container %}
+        {% endblock %}
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Les déboussolés, Valentin Boschatel 2015</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}

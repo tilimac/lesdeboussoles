@@ -1,0 +1,100 @@
+{% extends "FrontofficeBundle::layout.html.twig" %}
+
+{% block page_container %}
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Contact
+                </h1>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Content Row -->
+        <div class="row">
+            <!-- Map Column -->
+            <div class="col-md-12">
+                <p>
+                    &emsp;&emsp;Les rendez-vous de départ s'effectuent le Dimanche à 9 heures (sauf indications modificatives) du Pairhing sous la salle Jean Moulin, au Crès. Si, après une rando d'essai (chaussures adaptées, repas tiré du sac), vous souhaitez poursuivre, un bulletin d'adhésion vous sera remis. La cotisation, comprenant l'assurance, est fixée, pour 2015 — 2016 à 45 € par personne ; un certificat médical est exigé. 
+                </p>
+                <p>
+                    &emsp;&emsp;Bonnes découvertes et bonnes randonnées ! 
+                </p>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+        
+        <!-- Contact Form -->
+        <!-- In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Nous contacter ? <small>Un petit mot et on vous répondra</small></h3>
+
+                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                    {% if not form.vars.valid %}
+                        <div class="alert alert-danger">
+                            {{ form_errors(form) }}
+                            {{ form_errors(form.firstName) }}
+                            {{ form_errors(form.lastName) }}
+                            {{ form_errors(form.phoneNumber) }}
+                            {{ form_errors(form.mail) }}
+                            {{ form_errors(form.message) }}
+                        </div>
+                    {% endif %}
+                    {% if success is not null %}
+                        <div class="alert alert-success">
+                            Message envoyé avec succès
+                        </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                        {{ form_label(form.firstName, 'Prénom', { 'label_attr': {'class': 'col-sm-4 control-label'} }) }}
+                        <div class="col-sm-8">
+                            {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.lastName, 'Nom', { 'label_attr': {'class': 'col-sm-4 control-label'} }) }}
+                        <div class="col-sm-8">
+                            {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.phoneNumber, 'Téléphone', { 'label_attr': {'class': 'col-sm-4 control-label'} }) }}
+                        <div class="col-sm-8">
+                            {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.mail, 'E-mail', { 'label_attr': {'class': 'col-sm-4 control-label'} }) }}
+                        <div class="col-sm-8">
+                            {{ form_widget(form.mail, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.message, 'Message', { 'label_attr': {'class': 'col-sm-4 control-label'} }) }}
+                        <div class="col-sm-8">
+                            {{ form_widget(form.message, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            {% if success is not null %}
+                                {{ form_widget(form.save, {'label': 'Envoyé avec succés', 'attr': {'class': 'disabled btn btn-success'}}) }}
+                            {% else %}
+                                {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                            
+                    {{ form_rest(form) }}
+                {{ form_end(form) }}
+
+            </div>
+
+        </div>
+    <!-- /.container -->
+{% endblock %}

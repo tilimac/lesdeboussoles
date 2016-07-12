@@ -1,0 +1,77 @@
+{% extends "FrontofficeBundle::layout.html.twig" %}
+
+{% block page_container %}
+    
+    <style>
+        .carousel-inner{
+            height: 400px;
+        }
+        .carousel-inner > .item,.carousel-inner > .item > .fill{
+            height: 100%;
+        }
+    </style>
+
+    <!-- Page Heading/Breadcrumbs -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ hike.locality }}
+                <small>{{ hike.title }}</small>
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+
+        <div class="col-md-8">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    {% if hike.image2 is not null %}<li data-target="#carousel-example-generic" data-slide-to="1"></li>{% endif %}
+                    {% if hike.image3 is not null %}<li data-target="#carousel-example-generic" data-slide-to="2"></li>{% endif %}
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <div class="fill" style="background-image:url('{{ asset('uploads/'~hike.image1) }}');background-size: cover;"></div>
+                    </div>
+                    {% if hike.image2 is not null %}
+                        <div class="item">
+                            <div class="fill" style="background-image:url('{{ asset('uploads/'~hike.image2) }}');background-size: cover;"></div>
+                        </div>
+                    {% endif %}
+                    {% if hike.image3 is not null %}
+                        <div class="item">
+                            <div class="fill" style="background-image:url('{{ asset('uploads/'~hike.image3) }}');background-size: cover;"></div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <h3>Description</h3>
+            <p class="text-justify">{{ hike.description|raw }}</p>
+            <h3>Details</h3>
+            <p>{{ hike.date|date('d/m/Y H:i:s') }}</p>
+            <ul>
+                <li><strong>Longueur : </strong>{{ hike.lenght }} km</li>
+                <li><strong>Durée estimée : </strong>{{ hike.duration|date('H:i') }}</li>
+                <li><strong>Dénivelé cumulé : </strong>{{ hike.heightDifference }} métres </li>
+                <li><strong>Difficulté : </strong>{{ hike.dificulty }} </li>
+                <li><strong>Départ  : </strong>{{ hike.start }}</li>
+            </ul>
+        </div>
+
+    </div>
+{% endblock %}

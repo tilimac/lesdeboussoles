@@ -1,0 +1,14 @@
+{% extends "::layout.html.twig" %}
+
+{% block page_container %}
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">Mon profil</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+    </div>
+</div>
+{% endblock page_container %}

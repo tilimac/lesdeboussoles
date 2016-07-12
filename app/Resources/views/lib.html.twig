@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/app/lib/bootstrap/dist/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/app/lib/font-awesome/css/font-awesome.min.css') }}" />
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">-->
+    {% stylesheets 
+        'bundles/app/css/general.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts_header %}
+    <script src="{{ asset('bundles/app/lib/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/lib/moxiemanager/js/moxman.loader.min.js') }}"></script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ tinymce_init() }}
+    
+    {% javascripts 
+        '@AppBundle/Resources/public/js/*' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% endblock %}

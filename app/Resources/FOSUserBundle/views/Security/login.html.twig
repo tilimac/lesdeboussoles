@@ -1,0 +1,46 @@
+{% extends "FrontofficeBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block page_container %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">Connexion</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <form action="{{ path("fos_user_security_check") }}" method="post" class="form-horizontal">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            <div class="form-group">
+                <label for="username" class="col-sm-4 control-label">{{ 'security.login.username'|trans }}</label>
+                <div class="col-sm-8">
+                    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-4 control-label">{{ 'security.login.password'|trans }}</label>
+                <div class="col-sm-8">
+                    <input type="password" id="password" name="_password" required="required" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="remember_me" name="_remember_me" value="on" />{{ 'security.login.remember_me'|trans }}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock page_container %}

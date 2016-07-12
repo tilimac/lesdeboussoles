@@ -1,0 +1,19 @@
+parameters:
+    hike_manager.class: FrontofficeBundle\Manager\HikeManager
+    contact_manager.class: FrontofficeBundle\Manager\ContactManager
+
+services:
+    app_user.profile.form.type:
+        class: FrontofficeBundle\Form\Type\ProfileFormType
+        tags:
+            - { name: form.type, alias: app_user_profile }
+    app_user.registration.form.type:
+        class: FrontofficeBundle\Form\Type\RegistrationFormType
+        tags:
+            - { name: form.type, alias: app_user_registration }
+    hike.manager:
+        class:     "%hike_manager.class%"
+        arguments: ["@doctrine.orm.entity_manager"]
+    contact.manager:
+        class:     "%contact_manager.class%"
+        arguments: ["@doctrine.orm.entity_manager"]

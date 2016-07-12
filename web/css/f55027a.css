@@ -1,0 +1,110 @@
+.alert{
+    position: relative;
+    padding-left: 50px;
+}
+.alert:before {
+    font-family:'FontAwesome';
+    border: 2px solid;
+    border-radius: 50%;
+    font-size: 20px;
+    height: 30px;
+    left: 10px;
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    width: 30px;
+    text-align: center;
+}
+.alert-info:before {
+    content:"\f129";
+}
+.alert-success:before {
+    content:"\f00c";
+}
+.alert-danger:before {
+    content:"\f00d";
+}
+.alert-warning:before {
+    content:"\f12a";
+}
+
+
+
+
+.box {
+    width: 100%; height: 300px;
+    position: relative;
+    border: 1px solid #BBB;
+    background-size: cover;
+}
+.ribbon {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    z-index: 1;
+    overflow: hidden;
+    width: 134px;
+    height: 132px;
+    text-align: right;
+}
+.ribbon span {
+    font-size: 17px;
+    font-weight: bold;
+    color: #FFF;
+    /*text-transform: uppercase;*/
+    text-align: center;
+    line-height: 33px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    width: 146px;
+    display: block;
+    background: #79A70A;
+    box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+    position: absolute;
+    top: 24px;
+    right: -33px;
+}
+.ribbon span::before {
+    content: "";
+    position: absolute; left: 0px; top: 100%;
+    z-index: -1;
+    border-left: 3px solid #808080;
+    border-top: 3px solid #808080;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+}
+.ribbon span::after {
+    content: "";
+    position: absolute; right: 0px; top: 100%;
+    z-index: -1;
+    border-left: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #808080;
+    border-right: 3px solid #808080;
+}
+
+.ribbon-success span {
+    background: #79A70A;
+    background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+}
+.ribbon-success span::before {
+    border-left: 3px solid #79A70A;
+    border-top: 3px solid #79A70A;
+}
+.ribbon-success span::after {
+    border-right: 3px solid #79A70A;
+    border-top: 3px solid #79A70A;
+}
+
+.ribbon-danger span {
+    background: #8F0808;
+    background: linear-gradient(#F70505 0%, #8F0808 100%);
+}
+.ribbon-danger span::before {
+    border-left: 3px solid #8F0808;
+    border-top: 3px solid #8F0808;
+}
+.ribbon-danger span::after {
+    border-right: 3px solid #8F0808;
+    border-top: 3px solid #8F0808;
+}

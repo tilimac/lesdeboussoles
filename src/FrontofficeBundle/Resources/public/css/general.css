@@ -1,0 +1,29 @@
+.alert{
+    position: relative;
+    padding-left: 50px;
+}
+.alert:before {
+    font-family:'FontAwesome';
+    border: 2px solid;
+    border-radius: 50%;
+    font-size: 20px;
+    height: 30px;
+    left: 10px;
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    width: 30px;
+    text-align: center;
+}
+.alert-info:before {
+    content:"\f129";
+}
+.alert-success:before {
+    content:"\f00c";
+}
+.alert-danger:before {
+    content:"\f00d";
+}
+.alert-warning:before {
+    content:"\f12a";
+}
