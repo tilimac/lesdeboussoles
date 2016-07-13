@@ -28,14 +28,17 @@ class DefaultController extends Controller
      */
     public function addRikeAction(Request $request){
         $hike = new Hike();
+        $hike->setImages(array(''));
         $form = $this->createForm(new HikeType(), $hike);
 
         $form->handleRequest($request);
         if($form->isValid() && $form->isSubmitted()) {
             $gpx = $form['gpx']->getData();
-            $nameGpx = $gpx->getClientOriginalName();
-            $gpx->move('uploads/gpx', $nameGpx);
-            $hike->setGpx($nameGpx);
+            if($gpx !== null){
+                $nameGpx = $gpx->getClientOriginalName();
+                $gpx->move('uploads/gpx', $nameGpx);
+                $hike->setGpx($nameGpx);
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($hike);

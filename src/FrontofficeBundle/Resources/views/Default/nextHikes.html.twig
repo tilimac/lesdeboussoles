@@ -10,7 +10,7 @@
     {% for hike in nextHikes %}
         <div class="row">
             <div class="col-md-6">
-                <img class="img-responsive" src="http://www.rodaires.com/saison1415/rando/rando16/Concluse.jpg" alt="" style="margin-top: 20px">
+                <img class="img-responsive" src="{{ asset(hike.images[0]) }}" alt="" style="margin-top: 20px">
             </div>
             <div class="col-md-6">
                 <h1>{{ hike.locality }}<br><small>{{ hike.title }}</small></h1>
@@ -23,7 +23,7 @@
                     <li><strong>Départ  : </strong>{{ hike.start }}</li>
                 </ul>
                 <p>
-                    {{ hike.description }}
+                    {{ hike.description|raw }}
                 </p>
                 <a href="{{ path('_hike',{'id':hike.id}) }}" class="btn btn-primary">En savoir plus</a>
             </div>

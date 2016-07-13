@@ -30,9 +30,11 @@ class HikeType extends AbstractType {
                 'options'  => array(
                     'required'  => true,
                     'attr'      => array('class' => 'image-box')
-                ),
+                )
             ))
-            ->add('gpx', 'file')
+            ->add('gpx', 'file', array(
+                'required'  => false
+            ))
             ->add('save', 'submit');
     }
 

@@ -1,6 +1,11 @@
 {% extends "BackofficeBundle::layout.html.twig" %}
 
 {% block page_container %}
+    <style>
+        #image-fields-list .input-group + .input-group{
+            margin-top: 15px;
+        }
+    </style>
 
     <div class="row">
         <div class="col-lg-12">
@@ -11,26 +16,27 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             {{ form_start(form) }}
-            <div class="row">
+            <div class="form-group">
                 {{ form_label(form.images) }}
+                {{ form_errors(form.images) }}
                 <div id="image-fields-list"
-                     class="col-sm-8"
+                     class="col-sm-10"
                      data-prototype="{{ form_widget(form.images.vars.prototype)|e }}">
                     {% for imageField in form.images %}
-                        <div class="form-group input-group">
+                        <div class="input-group">
                             {{ form_errors(imageField) }}
+                            {{ form_widget(imageField) }}
                             <span class="input-group-btn">
                                     <a href="#" data-id="app_hike_images_{{ imageField.vars.name }}" class="btn btn-default">Pick File</a>
                                 </span>
                         </div>
                     {% endfor %}
                 </div>
-                {{ form_widget(form.images) }}
             </div>
             <div class="form-group">
                 <div class="col-sm-8 col-sm-offset-4">
                     <a href="#" id="add-another-image" {% if form.images|length >= 5 %}style="display: none;"{% endif %}>Ajouter une image</a>
-                    <a href="#" id="delete-another-image" class="text-danger" {% if form.images|length == 0 %}style="display: none;"{% endif %}>Supprimer une image</a>
+                    <a href="#" id="delete-another-image" class="text-danger" {% if form.images|length == 1 %}style="display: none;"{% endif %}>Supprimer une image</a>
                 </div>
             </div>
 
@@ -61,7 +67,7 @@
                 if(imageCount >= 5) $(this).hide();
 
                 // create a new list element and add it to the list
-                var newLi = jQuery('<div></div>').addClass('form-group input-group').html(newWidget);
+                var newLi = jQuery('<div></div>').addClass('input-group').html(newWidget);
                 var btnMoxie = jQuery('<span></span>').addClass('input-group-btn').html('<a href="#" data-id="'+$(newWidget).attr('id')+'" class="btn btn-default">Pick File</a>');
                 btnMoxie.appendTo(newLi);
                 newLi.appendTo(imageList);
@@ -69,10 +75,10 @@
 
             jQuery('#delete-another-image').click(function(e) {
                 e.preventDefault();
-                $(".image-box:last").closest('.form-group').remove();
+                $(".image-box:last").closest('.input-group').remove();
                 $("#add-another-image").show();
                 imageCount--;
-                if(imageCount == 0) $(this).hide();
+                if(imageCount == 1) $(this).hide();
             });
 
             $("#image-fields-list").on('click', 'a', function(e){
@@ -87,6 +93,9 @@
                      $("#"+field).val(res);
                      }*/
                 });
+            });
+            $(".image-box").keydown(function(e){
+                e.preventDefault();
             });
 
             {#$('#datetimepicker1').datetimepicker({

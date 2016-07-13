@@ -101,7 +101,7 @@ class Hike {
     /**
      * @var string
      *
-     * @ORM\Column(name="gpx", type="text")
+     * @ORM\Column(name="gpx", type="text", nullable=true)
      */
     private $gpx;
 

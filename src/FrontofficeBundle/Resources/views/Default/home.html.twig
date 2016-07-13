@@ -130,7 +130,7 @@
                     <a href="{{ path('_hike',{'id':nextHike.id}) }}" class="btn btn-default">En savoir plus</a>
                 </div>
                 <div class="col-md-6">
-                    <img class="img-responsive" src="{{ asset('uploads/'~nextHike.image1) }}" alt="" style="margin-top: 20px">
+                    <img class="img-responsive" src="{{ asset(nextHike.images[0]) }}" alt="" style="margin-top: 20px">
                 </div>
             </div>
         {% endif %}
@@ -145,7 +145,7 @@
             {% for hike in previousHikes %}
                 <div class="col-md-4 col-sm-6">
                     <a href="{{ path('_hike',{'id':hike.id}) }}">
-                        <div class="img-portfolio" style="background-image: url('{{ asset('uploads/'~hike.image1) }}');">
+                        <div class="img-portfolio" style="background-image: url('{{ asset(hike.images[0]) }}');">
                             
                         </div>
                         {#<img class="img-responsive img-portfolio img-hover" src="{{ asset('uploads/'~hike.image1) }}" alt="">#}
