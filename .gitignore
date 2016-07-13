@@ -11,3 +11,8 @@
 /bin/
 /composer.phar
 /.idea/
+/web/.htaccess
+/web/css/
+/web/js/
+/web/uploads/*
+!web/uploads/.gitkeep
