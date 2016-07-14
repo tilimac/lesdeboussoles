@@ -15,4 +15,5 @@
 /web/css/
 /web/js/
 /web/uploads/*
-!web/uploads/.gitkeep
+!web/uploads/randonnes/.gitkeep
+!web/uploads/gpx/.gitkeep

@@ -33,7 +33,8 @@ class HikeType extends AbstractType {
                 )
             ))
             ->add('gpx', 'file', array(
-                'required'  => false
+                'required'  => false,
+                'data_class' => null
             ))
             ->add('save', 'submit');
     }

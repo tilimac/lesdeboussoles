@@ -17,7 +17,7 @@ class DefaultController extends Controller
      */
     public function homeAction(){
         $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
-        $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads"); // Set a root path for this use*/
+        $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes"); // Set a root path for this use*/
 
         return array();
     }
@@ -82,9 +82,11 @@ class DefaultController extends Controller
         $form->handleRequest($request);
         if($form->isValid() && $form->isSubmitted()) {
             $gpx = $form['gpx']->getData();
-            $nameGpx = $gpx->getClientOriginalName();
-            $gpx->move('uploads/gpx', $nameGpx);
-            $hike->setGpx($nameGpx);
+            if($gpx !== null) {
+                $nameGpx = $gpx->getClientOriginalName();
+                $gpx->move('uploads/gpx', $nameGpx);
+                $hike->setGpx($nameGpx);
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($hike);
