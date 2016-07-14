@@ -103,7 +103,7 @@ class DefaultController extends Controller
     public function listRikesAction(){
         $query = $this->get('request')->query;
         $hikes = $this->get('doctrine')
-            ->getRepository('BackofficeBundle:Hike')
+            ->getRepository('FrontofficeBundle:Hike')
             ->findAllOrdered($query->get('sort','h.id'),$query->get('direction','asc'));
 
         $paginator  = $this->get('knp_paginator');
