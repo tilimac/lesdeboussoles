@@ -154,7 +154,8 @@ footer {
 }
 
 .sink {
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0px 0px 15px 10px rgba(0,0,0,0.8);
     display: inline-block;
     transform: translateZ(0px);
     transition-duration: 0.3s;
