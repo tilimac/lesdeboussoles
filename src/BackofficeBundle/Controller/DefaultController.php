@@ -18,6 +18,7 @@ class DefaultController extends Controller
     public function homeAction(){
         $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
         $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes"); // Set a root path for this use*/
+        var_dump($_SESSION['moxiemanager.filesystem.rootpath']);
 
         return array();
     }
