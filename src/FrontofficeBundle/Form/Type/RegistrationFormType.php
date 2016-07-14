@@ -8,7 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 class RegistrationFormType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('firstName', 'text', array('label' => 'Prénom'))
-                ->add('lastName', 'text', array('label' => 'Nom'));
+                ->add('lastName', 'text', array('label' => 'Nom'))
+                ->add('save', 'submit', array('label' => 'Enregistrer'));
     }
 
     public function getParent() {
