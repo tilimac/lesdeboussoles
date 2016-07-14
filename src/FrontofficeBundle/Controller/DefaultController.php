@@ -224,6 +224,7 @@ class DefaultController extends Controller
 
         $programme = array();
         foreach ($hikeManager->getAll() as $hike) {
+            if($hike->getDate() >= new \DateTime())
             $month = $hike->getDate()->format('n');
             $day = $hike->getDate()->format('j');
             $programme[$month][$day] = $hike;
