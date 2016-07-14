@@ -11,7 +11,7 @@
 	$moxieManagerConfig['general.allow_override'] = 'hidden_tools,disabled_tools';
 
 	// Filesystem
-	$moxieManagerConfig['filesystem.rootpath'] = "/web/uploads/";
+	$moxieManagerConfig['filesystem.rootpath'] = "/web/uploads/randonnes/";
 	$moxieManagerConfig['filesystem.include_directory_pattern'] = '';
 	$moxieManagerConfig['filesystem.exclude_directory_pattern'] = '/^mcith$/i';
 	$moxieManagerConfig['filesystem.include_file_pattern'] = '';
