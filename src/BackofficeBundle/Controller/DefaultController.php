@@ -110,7 +110,7 @@ class DefaultController extends Controller
         $pagination = $paginator->paginate(
             $hikes,
             $query->get('page',1),
-            3
+            10
         );
 
         return array('pagination' => $pagination);
