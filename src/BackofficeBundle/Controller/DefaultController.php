@@ -3,11 +3,14 @@
 namespace BackofficeBundle\Controller;
 
 use BackofficeBundle\Form\Type\HikeType;
+use FrontofficeBundle\Entity\Course;
 use FrontofficeBundle\Entity\Hike;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -23,51 +26,40 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/randonnees/ajouter/", name="_admin_add_rike")
+     * @Route("/hikes/add", name="_admin_add_rike")
      * @Template()
      */
     public function addRikeAction(Request $request){
         $hike = new Hike();
         $hike->setImages(array(''));
+        $hike->addCourse(new Course());
         $form = $this->createForm(new HikeType(), $hike);
 
         $form->handleRequest($request);
         if($form->isValid() && $form->isSubmitted()) {
-            $gpx = $form['gpx']->getData();
-            if($gpx !== null){
-                $nameGpx = $gpx->getClientOriginalName();
-                $gpx->move('uploads/gpx', $nameGpx);
-                $hike->setGpx($nameGpx);
+            foreach($hike->getCourses() as $key => $course) {
+                $course->setHike($hike);
+                $gpx = $course->getGpx();
+                if($gpx !== null){
+                    /* @var UploadedFile $gpx */
+                    $nameGpx = "hike_".time().$key.".gpx";
+                    $gpx->move('uploads/gpx', $nameGpx);
+                    $course->setGpx($nameGpx);
+                }
             }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($hike);
             $em->flush();
         }
-        /*
-                ->add('image1', 'file')
-                    ->add('image2', 'file', array('required' => false))
-                    ->add('image3', 'file', array('required' => false))
-                    ->add('save', 'submit')
-                    ->getForm();
 
-                $form->handleRequest($request);
-
-                $isSaved = false;
-                if($form->isValid()) {
-                    $file1 = $form['image1']->getData();
-                    $file2 = $form['image2']->getData();
-                    $file3 = $form['image3']->getData();
-                    $nameFile1 = $file1->getClientOriginalName();
-                    $file1->move('uploads', $nameFile1);
-                    $hike->setImage1($nameFile1);*/
         return array(
             'form' => $form->createView(),
         );
     }
 
     /**
-     * @Route("/randonnees/editer/{hike}/", name="_admin_edit_hike")
+     * @Route("/hikes/{hike}/edit", name="_admin_edit_hike")
      * @Template()
      */
     public function editRikeAction(Request $request, Hike $hike){
@@ -96,6 +88,18 @@ class DefaultController extends Controller
         return array(
             'form' => $form->createView(),
         );
+    }
+
+    /**
+     * @Route("/hikes/{hike}/delete", name="_admin_delete_hikes")
+     */
+    public function deleteHikesAction(Hike $hike)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($hike);
+        $em->flush();
+
+        return $this->redirectToRoute('_admin_list_rikes');
     }
 
     /**

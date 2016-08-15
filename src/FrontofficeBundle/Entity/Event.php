@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * Trip
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TripRepository")
+ * @ORM\Entity(repositoryClass="FrontofficeBundle\Repository\EventRepository")
  */
-class Trip
+class Event
 {
     /**
      * @var integer
@@ -38,16 +38,28 @@ class Trip
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="content", type="text")
      */
-    private $description;
+    private $content;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date_create", type="datetime")
      */
-    private $date;
+    private $dateCreate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="date_event", type="datetime")
+     */
+    private $dateEvent;
+
+    public function __construct()
+    {
+        $this->dateCreate = new \DateTime();
+    }
 
 
     /**
@@ -64,7 +76,7 @@ class Trip
      * Set title
      *
      * @param string $title
-     * @return Trip
+     * @return Event
      */
     public function setTitle($title)
     {
@@ -87,7 +99,7 @@ class Trip
      * Set image
      *
      * @param string $image
-     * @return Trip
+     * @return Event
      */
     public function setImage($image)
     {
@@ -107,48 +119,71 @@ class Trip
     }
 
     /**
-     * Set description
+     * Set content
      *
-     * @param string $description
-     * @return Trip
+     * @param string $content
+     * @return Event
      */
-    public function setDescription($description)
+    public function setContent($content)
     {
-        $this->description = $description;
+        $this->content = $content;
 
         return $this;
     }
 
     /**
-     * Get description
+     * Get content
      *
      * @return string 
      */
-    public function getDescription()
+    public function getContent()
     {
-        return $this->description;
+        return $this->content;
     }
 
     /**
-     * Set date
+     * Set dateCreate
      *
-     * @param \DateTime $date
-     * @return Trip
+     * @param \DateTime $dateCreate
+     * @return Event
      */
-    public function setDate($date)
+    public function setDateCreate($dateCreate)
     {
-        $this->date = $date;
+        $this->dateCreate = $dateCreate;
 
         return $this;
     }
 
     /**
-     * Get date
+     * Get dateCreate
      *
      * @return \DateTime 
      */
-    public function getDate()
+    public function getDateCreate()
     {
-        return $this->date;
+        return $this->dateCreate;
+    }
+
+    /**
+     * Set dateEvent
+     *
+     * @param \DateTime $dateEvent
+     * @return Event
+     */
+    public function setDateEvent($dateEvent)
+    {
+        $this->dateEvent = $dateEvent;
+
+        return $this;
+    }
+
+    /**
+     * Get dateEvent
+     *
+     * @return \DateTime 
+     */
+    public function getDateEvent()
+    {
+        return $this->dateEvent;
     }
 }

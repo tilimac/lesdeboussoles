@@ -259,6 +259,18 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
+                            <a href="#"><i class="fa fa-calendar fa-fw"></i> Evènement<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{ path('_admin_event_new') }}">Ajouter</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('_admin_event_list') }}">Liste</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
                             <a href="{{ path('_admin_requests') }}"><i class="fa fa-envelope fa-fw"></i> Demandes d'information</a>
                         </li>
                     </ul>

@@ -1,0 +1,15 @@
+{% extends "BackofficeBundle::layout.html.twig" %}
+
+{% block page_container %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Modifier un événement</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -2,6 +2,8 @@
 
 namespace FrontofficeBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use FrontofficeBundle\Entity\Course;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,39 +45,11 @@ class Hike {
     private $distance;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="lenght", type="integer")
-     */
-    private $lenght;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="heightDifference", type="integer")
-     */
-    private $heightDifference;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="duration", type="time")
-     */
-    private $duration;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="dificulty", type="string", length=255)
-     */
-    private $dificulty;
 
     /**
      * @var string
@@ -99,13 +73,6 @@ class Hike {
     public $images;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="gpx", type="text", nullable=true)
-     */
-    private $gpx;
-
-    /**
      * @var boolean
      *
      * @ORM\Column(name="canceled", type="boolean", options={"default":false})
@@ -113,7 +80,19 @@ class Hike {
     private $canceled = false;
 
     /**
-     * @return int
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="hike", cascade={"persist"})
+     */
+    private $courses;
+
+    public function __construct()
+    {
+        $this->courses = new ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
      */
     public function getId()
     {
@@ -121,15 +100,22 @@ class Hike {
     }
 
     /**
-     * @param int $id
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Hike
      */
-    public function setId($id)
+    public function setDate($date)
     {
-        $this->id = $id;
+        $this->date = $date;
+
+        return $this;
     }
 
     /**
-     * @return \DateTime
+     * Get date
+     *
+     * @return \DateTime 
      */
     public function getDate()
     {
@@ -137,15 +123,22 @@ class Hike {
     }
 
     /**
-     * @param \DateTime $date
+     * Set locality
+     *
+     * @param string $locality
+     * @return Hike
      */
-    public function setDate($date)
+    public function setLocality($locality)
     {
-        $this->date = $date;
+        $this->locality = $locality;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get locality
+     *
+     * @return string 
      */
     public function getLocality()
     {
@@ -153,15 +146,22 @@ class Hike {
     }
 
     /**
-     * @param string $locality
+     * Set distance
+     *
+     * @param integer $distance
+     * @return Hike
      */
-    public function setLocality($locality)
+    public function setDistance($distance)
     {
-        $this->locality = $locality;
+        $this->distance = $distance;
+
+        return $this;
     }
 
     /**
-     * @return int
+     * Get distance
+     *
+     * @return integer 
      */
     public function getDistance()
     {
@@ -169,63 +169,22 @@ class Hike {
     }
 
     /**
-     * @param int $distance
+     * Set title
+     *
+     * @param string $title
+     * @return Hike
      */
-    public function setDistance($distance)
+    public function setTitle($title)
     {
-        $this->distance = $distance;
+        $this->title = $title;
+
+        return $this;
     }
 
     /**
-     * @return int
-     */
-    public function getLenght()
-    {
-        return $this->lenght;
-    }
-
-    /**
-     * @param int $lenght
-     */
-    public function setLenght($lenght)
-    {
-        $this->lenght = $lenght;
-    }
-
-    /**
-     * @return int
-     */
-    public function getHeightDifference()
-    {
-        return $this->heightDifference;
-    }
-
-    /**
-     * @param int $heightDifference
-     */
-    public function setHeightDifference($heightDifference)
-    {
-        $this->heightDifference = $heightDifference;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDuration()
-    {
-        return $this->duration;
-    }
-
-    /**
-     * @param \DateTime $duration
-     */
-    public function setDuration($duration)
-    {
-        $this->duration = $duration;
-    }
-
-    /**
-     * @return string
+     * Get title
+     *
+     * @return string 
      */
     public function getTitle()
     {
@@ -233,31 +192,22 @@ class Hike {
     }
 
     /**
-     * @param string $title
+     * Set start
+     *
+     * @param string $start
+     * @return Hike
      */
-    public function setTitle($title)
+    public function setStart($start)
     {
-        $this->title = $title;
+        $this->start = $start;
+
+        return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getDificulty()
-    {
-        return $this->dificulty;
-    }
-
-    /**
-     * @param string $dificulty
-     */
-    public function setDificulty($dificulty)
-    {
-        $this->dificulty = $dificulty;
-    }
-
-    /**
-     * @return string
+     * Get start
+     *
+     * @return string 
      */
     public function getStart()
     {
@@ -265,15 +215,22 @@ class Hike {
     }
 
     /**
-     * @param string $start
+     * Set description
+     *
+     * @param string $description
+     * @return Hike
      */
-    public function setStart($start)
+    public function setDescription($description)
     {
-        $this->start = $start;
+        $this->description = $description;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get description
+     *
+     * @return string 
      */
     public function getDescription()
     {
@@ -281,47 +238,22 @@ class Hike {
     }
 
     /**
-     * @param string $description
+     * Set images
+     *
+     * @param array $images
+     * @return Hike
      */
-    public function setDescription($description)
+    public function setImages($images)
     {
-        $this->description = $description;
+        $this->images = $images;
+
+        return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getGpx()
-    {
-        return $this->gpx;
-    }
-
-    /**
-     * @param string $gpx
-     */
-    public function setGpx($gpx)
-    {
-        $this->gpx = $gpx;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isCanceled()
-    {
-        return $this->canceled;
-    }
-
-    /**
-     * @param boolean $canceled
-     */
-    public function setCanceled($canceled)
-    {
-        $this->canceled = $canceled;
-    }
-
-    /**
-     * @return array
+     * Get images
+     *
+     * @return array 
      */
     public function getImages()
     {
@@ -329,10 +261,41 @@ class Hike {
     }
 
     /**
-     * @param array $images
+     * Set canceled
+     *
+     * @param boolean $canceled
+     * @return Hike
      */
-    public function setImages($images)
+    public function setCanceled($canceled)
     {
-        $this->images = $images;
+        $this->canceled = $canceled;
+
+        return $this;
+    }
+
+    /**
+     * Get canceled
+     *
+     * @return boolean 
+     */
+    public function getCanceled()
+    {
+        return $this->canceled;
+    }
+
+    public function addCourse(Course $course)
+    {
+        $this->courses->add($course);
+        $course->setHike($this);
+    }
+
+    public function removeCourse(Course $course)
+    {
+        $this->courses->removeElement($course);
+    }
+
+    public function getCourses()
+    {
+        return $this->courses;
     }
 }

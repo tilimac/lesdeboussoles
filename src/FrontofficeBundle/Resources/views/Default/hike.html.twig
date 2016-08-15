@@ -54,16 +54,45 @@
         <div class="col-md-4">
             <h3>Description</h3>
             <p class="text-justify">{{ hike.description|raw }}</p>
-            <h3>Details</h3>
+            <h3>Détails</h3>
             <p>{{ hike.date|date('d/m/Y H:i:s') }}</p>
-            <ul>
-                <li><strong>Longueur : </strong>{{ hike.lenght }} km</li>
-                <li><strong>Durée estimée : </strong>{{ hike.duration|date('H:i') }}</li>
-                <li><strong>Dénivelé cumulé : </strong>{{ hike.heightDifference }} métres </li>
-                <li><strong>Difficulté : </strong>{{ hike.dificulty }} </li>
-                <li><strong>Départ  : </strong>{{ hike.start }}</li>
-            </ul>
         </div>
 
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">test</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% for course in hike.courses %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading_course_{{ course.id }}">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_course_{{ course.id }}" aria-expanded="true" aria-controls="collapse_course_{{ course.id }}">
+                                    <b>Parcours de {{ course.lenght }} km</b> (durée : {{ course.duration|date('h\\hm') }})
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse_course_{{ course.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_course_{{ course.id }}">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        test
+                                    </div>
+                                    <div class="col-md-8">
+                                        {{ course.gpx }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}

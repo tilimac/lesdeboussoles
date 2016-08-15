@@ -5,6 +5,15 @@
         #image-fields-list .input-group + .input-group{
             margin-top: 15px;
         }
+        #add_tag_link > a{
+            display: block;
+            background-color: rgb(245, 245, 245);
+            border: 1px solid rgb(221, 221, 221);
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+            font-size: 25px;
+        }
     </style>
 
     <div class="row">
@@ -14,31 +23,89 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-12">
             {{ form_start(form) }}
-            <div class="form-group">
-                {{ form_label(form.images) }}
-                {{ form_errors(form.images) }}
-                <div id="image-fields-list"
-                     class="col-sm-10"
-                     data-prototype="{{ form_widget(form.images.vars.prototype)|e }}">
-                    {% for imageField in form.images %}
+                {{ form_row(form.title) }}
+                {{ form_row(form.locality) }}
+                {{ form_row(form.date) }}
+                <div class="form-group">
+                    {{ form_label(form.distance) }}
+                    <div class="col-sm-2">
                         <div class="input-group">
-                            {{ form_errors(imageField) }}
-                            {{ form_widget(imageField) }}
-                            <span class="input-group-btn">
-                                    <a href="#" data-id="app_hike_images_{{ imageField.vars.name }}" class="btn btn-default">Pick File</a>
-                                </span>
+                            {{ form_widget(form.distance) }}
+                            <span class="input-group-addon">km</span>
                         </div>
-                    {% endfor %}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-8 col-sm-offset-4">
-                    <a href="#" id="add-another-image" {% if form.images|length >= 5 %}style="display: none;"{% endif %}>Ajouter une image</a>
-                    <a href="#" id="delete-another-image" class="text-danger" {% if form.images|length == 1 %}style="display: none;"{% endif %}>Supprimer une image</a>
+                {{ form_row(form.start) }}
+                <div class="form-group">
+                    {{ form_label(form.images) }}
+                    {{ form_errors(form.images) }}
+                    <div id="image-fields-list"
+                         class="col-sm-10"
+                         data-prototype="{{ form_widget(form.images.vars.prototype)|e }}">
+                        {% for imageField in form.images %}
+                            <div class="input-group">
+                                {{ form_errors(imageField) }}
+                                {{ form_widget(imageField) }}
+                                <span class="input-group-btn">
+                                        <a href="#" data-id="app_hike_images_{{ imageField.vars.name }}" class="btn btn-default">Pick File</a>
+                                    </span>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <a href="#" id="add-another-image" {% if form.images|length >= 5 %}style="display: none;"{% endif %}>Ajouter une image</a>
+                        <a href="#" id="delete-another-image" class="text-danger" {% if form.images|length == 1 %}style="display: none;"{% endif %}>Supprimer une image</a>
+                    </div>
+                </div>
+                {{ form_row(form.description) }}
+                <div class="form-group">
+                    {{ form_label(form.courses) }}
+                    {{ form_errors(form.courses) }}
+                    <div class="col-sm-10">
+                        <div id="courses_fields_list"
+                             class="row"
+                             data-prototype="<div class='col-sm-6 course'>
+                                 <div class='panel panel-default'>
+                                     <div class='panel-heading'>
+                                        Parcours
+                                        <button type='button' class='close' aria-label='Close'>
+                                            <span aria-hidden='true'>&times;</span>
+                                        </button></div>
+                                     <div class='panel-body'>{{ form_widget(form.courses.vars.prototype)|e }}</div>
+                                 </div
+                             ></div>">
+                            {% for courseField in form.courses %}
+                                <div class="col-sm-6 course">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            Parcours
+                                            {% if not loop.first %}
+                                                <button type="button" class="close" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                        <div class="panel-body">
+                                            {{ form_errors(courseField) }}
+                                            {{ form_widget(courseField) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {{ form_row(form.canceled) }}
+                {#<div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <a href="#" id="add-another-course" {% if form.courses|length >= 5 %}style="display: none;"{% endif %}>Ajouter un parcour</a>
+                        <a href="#" id="delete-another-course" class="text-danger" {% if form.courses|length == 1 %}style="display: none;"{% endif %}>Supprimer un parcour</a>
+                    </div>
+                </div>#}
 
             {{ form_end(form) }}
         </div>
@@ -47,6 +114,7 @@
     <script type="text/javascript">
         // keep track of how many email fields have been rendered
         var imageCount = '{{ form.images|length }}';
+        var courseCount = '{{ form.courses|length }}';
 
         jQuery(document).ready(function() {
             jQuery('#add-another-image').click(function(e) {
@@ -98,14 +166,73 @@
                 e.preventDefault();
             });
 
-            {#$('#datetimepicker1').datetimepicker({
+            $('#datetimepicker1').datetimepicker({
                 locale: '{{ app.request.locale[:2] }}'
             });
             $('#datetimepicker2').datetimepicker({
                 locale: '{{ app.request.locale[:2] }}',
                 format: 'HH:mm',
                 defaultDate: '00/00/0000 00:00'
-            });#}
-        })
+            });
+        });
+
+
+
+        var $collectionHolder;
+
+        // setup an "add a tag" link
+        var $addTagLink = $('<div id="add_tag_link" class="col-sm-6"><a href="#">Ajouter un parcours</a></div>');
+        var $newLinkBlock = $addTagLink;
+
+        jQuery(document).ready(function() {
+            // Get the ul that holds the collection of tags
+            $collectionHolder = $('#courses_fields_list');
+
+            // add the "add a tag" anchor and li to the tags ul
+            $collectionHolder.append($newLinkBlock);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            $collectionHolder.data('index', $collectionHolder.find('.panel').length);
+
+            $addTagLink.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // add a new tag form (see next code block)
+                addCourseForm($collectionHolder, $newLinkBlock);
+            });
+            /*$(".close").on('click', function(e) {
+                e.preventDefault();
+                $(this).closest('.course').remove();
+            });*/
+        });
+        function addCourseForm($collectionHolder, $newLinkBlock) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+            index++;
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var newForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            var $newForm = $(newForm);
+            $(".close",$newForm).on('click', function(e) {
+                e.preventDefault();
+                $newForm.remove();
+                $("#add_tag_link").show();
+            });
+            $newLinkBlock.before($newForm);
+            if($("#courses_fields_list .course").length >= 4) {
+                $("#add_tag_link").hide();
+            }
+        }
     </script>
 {% endblock %}

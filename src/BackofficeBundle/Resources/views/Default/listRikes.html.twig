@@ -49,7 +49,10 @@
                             <td>{{ hike.id }}</td>
                             <td>{{ hike.locality }}</td>
                             <td>{{ hike.date|date('d/m/Y') }}</td>
-                            <td><a href="{{ path('_admin_edit_hike', {'hike': hike.id}) }}" class="btn btn-primary btn-sm"><span class="fa fa-pencil"></span></a></td>
+                            <td>
+                                <a href="{{ path('_admin_edit_hike', {'hike': hike.id}) }}" class="btn btn-primary btn-sm"><span class="fa fa-pencil"></span></a>
+                                <a href="#" data-toggle="modal" data-target="#modal_remove_hike" data-link="{{ path('_admin_delete_hikes', {'hike': hike.id}) }}" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -60,5 +63,31 @@
             </div>
         </div>
     </div>
-    <!-- /.row -->
+
+    <div id="modal_remove_hike" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a href="#" type="button" class="btn btn-danger">Save changes</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <script>
+        var $btn;
+        $('#modal_remove_hike').on('show.bs.modal', function (event) {
+            var $button = $(event.relatedTarget);
+            var link = $button.data('link');
+            $("#modal_remove_hike a.btn-danger").attr('href', link);
+        });
+    </script>
 {% endblock %}

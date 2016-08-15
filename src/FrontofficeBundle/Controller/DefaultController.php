@@ -15,11 +15,15 @@ class DefaultController extends Controller
      */
     public function homeAction(){
         $hikeManager = $this->get('hike.manager');
+        $eventManager = $this->get('event.manager');
+
+        $nextEvent = $eventManager->getNextEvent();
 
         $nextHikes = $hikeManager->getNextHikes(1);
         $nextHike = empty($nextHikes) ? NULL : $nextHikes[0];
 
         return array(
+            'nextEvent' => $nextEvent,
             'nextHike' => $nextHike,
             'previousHikes' => $hikeManager->getPreviousHikes(6)
         );
