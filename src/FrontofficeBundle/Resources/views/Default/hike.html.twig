@@ -45,7 +45,7 @@
                 <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                 </a>
-                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                <a class="right carzqzousel-control" href="#carousel-example-generic" data-slide="next">
                     <span class="glyphicon glyphicon-chevron-right"></span>
                 </a>
             </div>
@@ -86,6 +86,33 @@
                                     </div>
                                     <div class="col-md-8">
                                         {{ course.gpx }}
+                                        <script>
+                                            var map = new L.Map('map');
+                                            var url = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg',
+                                                    attr = 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+                                                    service = new L.TileLayer(url, {subdomains: "1234", attribution: attr});
+                                            var bounds = new L.LatLngBounds(new L.LatLng(<?php echo $minLat; ?>, <?php echo $minLon; ?>), new L.LatLng(<?php echo $maxLat; ?>,<?php echo $maxLon; ?>));
+                                            /*console.log(bounds);
+                                            console.log(<?php echo $minLat; ?>);
+                                            console.log(<?php echo $minLon; ?>);
+                                            console.log(new L.LatLng(<?php echo $minLat; ?>, <?php echo $minLon; ?>));
+                                            console.log(new L.LatLng(<?php echo $maxLat; ?>, <?php echo $maxLon; ?>));*/
+                                            var geojson = {"name": "NewFeatureType", "type": "FeatureCollection"
+                                                , "features": [{
+                                                    "type": "Feature",
+                                                    "geometry": {
+                                                        "type": "LineString",
+                                                        "coordinates": <?php echo json_encode($carte); ?>
+                                            }, "properties": null}
+                                            ]}
+                                            ;
+                                            var el = L.control.elevation();
+                                            el.addTo(map);
+                                            var gjl = L.geoJson(geojson, {
+                                                onEachFeature: el.addData.bind(el)
+                                            }).addTo(map);
+                                            map.addLayer(service).fitBounds(bounds);
+                                        </script>
                                     </div>
                                 </div>
                             </div>

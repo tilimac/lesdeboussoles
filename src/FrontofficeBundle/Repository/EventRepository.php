@@ -26,4 +26,12 @@ class EventRepository extends EntityRepository {
 
         return $query->getQuery()->getOneOrNullResult();
     }
+
+    public function findAllOrdered($sort,$direction) {
+        $query = $this->createQueryBuilder('h')
+            ->orderBy($sort, $direction)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

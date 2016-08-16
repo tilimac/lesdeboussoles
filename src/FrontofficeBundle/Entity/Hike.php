@@ -80,7 +80,7 @@ class Hike {
     private $canceled = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="Course", mappedBy="hike", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="hike", cascade={"persist", "remove"})
      */
     private $courses;
 

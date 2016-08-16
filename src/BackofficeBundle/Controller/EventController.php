@@ -12,12 +12,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/event")
+ * @Route("/events")
  */
 class EventController extends Controller
 {
     /**
-     * @Route("/new", name="_admin_event_new")
+     * @Route("/new", name="_admin_events_new")
      * @Template()
      */
     public function newAction(Request $request){
@@ -38,7 +38,7 @@ class EventController extends Controller
     }
 
     /**
-     * @Route("/{event}/edit", name="_admin_event_edit")
+     * @Route("/{event}/edit", name="_admin_events_edit")
      * @Template()
      */
     public function editAction(Request $request, Event $event){
@@ -57,7 +57,7 @@ class EventController extends Controller
     }
 
     /**
-     * @Route("/list", name="_admin_event_list")
+     * @Route("/list", name="_admin_events_list")
      * @Template()
      */
     public function listAction(){
@@ -74,5 +74,17 @@ class EventController extends Controller
         );
 
         return array('pagination' => $pagination);
+    }
+
+    /**
+     * @Route("/{event}/delete", name="_admin_events_delete")
+     */
+    public function deleteHikesAction(Event $event)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($event);
+        $em->flush();
+
+        return $this->redirectToRoute('_admin_events_list');
     }
 }

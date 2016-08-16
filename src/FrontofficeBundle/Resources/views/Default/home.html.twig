@@ -143,7 +143,7 @@
                     <p class="text-justify">
                         {{ nextHike.description|raw }}
                     </p>
-                    <a href="{{ path('_hike',{'id':nextHike.id}) }}" class="btn btn-default">En savoir plus</a>
+                    <a href="{{ path('_hike',{'hike':nextHike.id}) }}" class="btn btn-default">En savoir plus</a>
                 </div>
                 <div class="col-md-6">
                     <div class="box" style="background-image: url('{{ asset(nextHike.images[0]|replace({'/web': ""})) }}')">
@@ -166,7 +166,7 @@
             
             {% for hike in previousHikes %}
                 <div class="col-md-4 col-sm-6">
-                    <a href="{{ path('_hike',{'id':hike.id}) }}">
+                    <a href="{{ path('_hike',{'hike':hike.id}) }}">
                         <div class="img-portfolio" style="background-image: url('{{ asset(hike.images[0]) }}');">
                             
                         </div>

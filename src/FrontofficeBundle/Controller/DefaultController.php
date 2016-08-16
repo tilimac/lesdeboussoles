@@ -3,6 +3,7 @@
 namespace FrontofficeBundle\Controller;
 
 use FrontofficeBundle\Entity\Contact;
+use FrontofficeBundle\Entity\Hike;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -54,14 +55,41 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/randonnee/{id}/", name="_hike")
+     * @Route("/randonnee/{hike}/", name="_hike")
      * @Template()
      */
-    public function hikeAction($id){
-        $hikeManager = $this->get('hike.manager');
+    public function hikeAction(Hike $hike){
+
+        foreach ($hike->getCourses() as $course) {
+            $xml=new \SimpleXMLElement(file_get_contents('/uploads/gpx/'.$course->getGpx()));
+
+            $carte = array();
+            $minLon = null;
+            $maxLon = null;
+            $minLat = null;
+            $maxLat = null;
+            foreach($xml->trk->trkseg->trkpt as $value) {
+                $lon = floatval($value['lon']);
+                $lat = floatval($value['lat']);
+                $ele = intval($value->ele);
+
+                if(count($carte) == 0){
+                    $minLon = $maxLon = $lon;
+                    $minLat = $maxLat = $lat;
+                }
+
+                if($minLon > $lon) $minLon = $lon;
+                if($maxLon < $lon) $maxLon = $lon;
+                if($minLat > $lon) $minLat = $lat;
+                if($maxLat < $lon) $maxLat = $lat;
+
+                $coord = array($lon,$lat,$ele);
+                $carte[] = $coord;
+            }
+        }
 
         return array(
-            'hike' => $hikeManager->getHike($id)
+            'hike' => $hike
         );
     }
 

@@ -63,21 +63,21 @@ class DefaultController extends Controller
      * @Template()
      */
     public function editRikeAction(Request $request, Hike $hike){
-        $listImage = array();
-        foreach($hike->getImages() as $image){
-            if($image != "") $listImage[] = $image;
-        }
-        $hike->setImages($listImage);
+        $hike = new Hike();
+        $hike->setImages(array(''));
         $form = $this->createForm(new HikeType(), $hike);
-
 
         $form->handleRequest($request);
         if($form->isValid() && $form->isSubmitted()) {
-            $gpx = $form['gpx']->getData();
-            if($gpx !== null) {
-                $nameGpx = $gpx->getClientOriginalName();
-                $gpx->move('uploads/gpx', $nameGpx);
-                $hike->setGpx($nameGpx);
+            foreach($hike->getCourses() as $key => $course) {
+                $course->setHike($hike);
+                $gpx = $course->getGpx();
+                if($gpx !== null){
+                    /* @var UploadedFile $gpx */
+                    $nameGpx = "hike_".time().$key.".gpx";
+                    $gpx->move('uploads/gpx', $nameGpx);
+                    $course->setGpx($nameGpx);
+                }
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -91,7 +91,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/hikes/{hike}/delete", name="_admin_delete_hikes")
+     * @Route("/hikes/{hike}/delete", name="_admin_hikes_delete")
      */
     public function deleteHikesAction(Hike $hike)
     {
@@ -99,14 +99,14 @@ class DefaultController extends Controller
         $em->remove($hike);
         $em->flush();
 
-        return $this->redirectToRoute('_admin_list_rikes');
+        return $this->redirectToRoute('_admin_hikes_list');
     }
 
     /**
-     * @Route("/randonnees/list/", name="_admin_list_rikes")
+     * @Route("/hikes/list/", name="_admin_hikes_list")
      * @Template()
      */
-    public function listRikesAction(){
+    public function listHikesAction(){
         $query = $this->get('request')->query;
         $hikes = $this->get('doctrine')
             ->getRepository('FrontofficeBundle:Hike')
