@@ -63,7 +63,6 @@ class DefaultController extends Controller
      * @Template()
      */
     public function editRikeAction(Request $request, Hike $hike){
-        $hike = new Hike();
         $hike->setImages(array(''));
         $form = $this->createForm(new HikeType(), $hike);
 
