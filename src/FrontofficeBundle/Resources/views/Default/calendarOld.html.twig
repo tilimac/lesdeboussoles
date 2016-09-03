@@ -63,7 +63,7 @@
                                 <td {% if day is empty %}class="empty"{% endif %}>
                                     <span class="pull-left">{{ day }}</span>
                                     {% if programme[month][day] is defined %}
-                                        <a href="{{ path('_hike',{'id':programme[month][day].id}) }}" class="label label-primary pull-right" data-toggle="tooltip" data-placement="top" title="{{ programme[month][day].locality }}">
+                                        <a href="{{ path('_hike',{'hike':programme[month][day].id}) }}" class="label label-primary pull-right" data-toggle="tooltip" data-placement="top" title="{{ programme[month][day].locality }}">
                                             <span class="fa fa-child fa-lg"></span>
                                         </a>
                                     {% endif %}
