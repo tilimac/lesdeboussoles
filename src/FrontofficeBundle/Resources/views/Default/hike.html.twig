@@ -82,11 +82,15 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        test
+                                        <ul>
+                                            <li><b>Distance Le Crès jusqu'à destination</b> : {{ course.lenght }}</li>
+                                            <li><b>Dénivelé</b> : {{ course.heightDifference }}</li>
+                                            <li><b>Temps du parcours</b> : {{ course.duration|date('H:m') }}</li>
+                                        </ul>
                                     </div>
                                     <div class="col-md-8">
-                                        {{ course.gpx }}
-                                        <script>
+                                        {#{{ course.gpx }}#}
+                                        {#<script>
                                             var map = new L.Map('map');
                                             var url = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg',
                                                     attr = 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
@@ -112,7 +116,7 @@
                                                 onEachFeature: el.addData.bind(el)
                                             }).addTo(map);
                                             map.addLayer(service).fitBounds(bounds);
-                                        </script>
+                                        </script>#}
                                     </div>
                                 </div>
                             </div>
