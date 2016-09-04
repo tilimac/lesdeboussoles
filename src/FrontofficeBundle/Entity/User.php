@@ -70,7 +70,7 @@ class User extends BaseUser {
     private $city;
 
     /**
-     * @ORM\Column(name="phone", type="integer", length=10)
+     * @ORM\Column(name="phone", type="integer", length=10, nullable=true)
      */
     private $phone;
 
