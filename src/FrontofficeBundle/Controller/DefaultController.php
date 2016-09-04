@@ -60,7 +60,7 @@ class DefaultController extends Controller
      */
     public function hikeAction(Hike $hike){
 
-        foreach ($hike->getCourses() as $course) {
+        /*foreach ($hike->getCourses() as $course) {
             $xml=new \SimpleXMLElement(file_get_contents('/uploads/gpx/'.$course->getGpx()));
 
             $carte = array();
@@ -86,7 +86,7 @@ class DefaultController extends Controller
                 $coord = array($lon,$lat,$ele);
                 $carte[] = $coord;
             }
-        }
+        }*/
 
         return array(
             'hike' => $hike
@@ -98,6 +98,14 @@ class DefaultController extends Controller
      * @Template()
      */
     public function associationAction(){
+        return array();
+    }
+
+    /**
+     * @Route("/loi/", name="_loi")
+     * @Template()
+     */
+    public function loiAction(){
         return array();
     }
 

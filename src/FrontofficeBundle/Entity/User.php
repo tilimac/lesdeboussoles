@@ -26,6 +26,11 @@ class User extends BaseUser {
     protected $id;
 
     /**
+     * @ORM\Column(name="civil", type="string", length=10)
+     */
+    private $civil;
+
+    /**
      * @ORM\Column(name="first_name", type="string", length=255)
      */
     private $firstName;
@@ -261,5 +266,28 @@ class User extends BaseUser {
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * Set civil
+     *
+     * @param string $civil
+     * @return User
+     */
+    public function setCivil($civil)
+    {
+        $this->civil = $civil;
+
+        return $this;
+    }
+
+    /**
+     * Get civil
+     *
+     * @return string 
+     */
+    public function getCivil()
+    {
+        return $this->civil;
     }
 }

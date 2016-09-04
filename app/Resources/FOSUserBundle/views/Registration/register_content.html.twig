@@ -1,3 +1,9 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-{{ form(form) }}
+{{ form_start(form) }}
+    <h3>Identifiants de connexion au site</h3>
+    {{ form_row(form.email) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.plainPassword) }}
+    <h3>Information complémentaire</h3>
+{{ form_end(form) }}

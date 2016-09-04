@@ -11,7 +11,15 @@ class RegistrationFormType extends AbstractType {
         $yearMax = $dateTimeNow->format('Y');
         $yearMin = $yearMax-100;*/
 
-        $builder->add('firstName', 'text', array('label' => 'Prénom'))
+        $builder->add('civil', 'choice', array(
+                'label' => 'Titre',
+                'choices' => array(
+                    'Melle',
+                    'Mme',
+                    'Mr'
+                )
+            ))
+            ->add('firstName', 'text', array('label' => 'Prénom'))
             ->add('lastName', 'text', array('label' => 'Nom'))
             ->add('birthdate', 'birthday', array( 'label' => 'Date de naissance'))
             ->add('adress1', 'text', array('label' => 'Adresse'))
