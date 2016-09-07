@@ -24,6 +24,13 @@
 
     <div class="row">
         <div class="col-md-12">
+            {% if app.session.flashBag.has('success') %}
+                <div id="result_form" class="alert alert-success">
+                    {% for msg in app.session.flashBag.get('success') %}
+                        {{ msg }}
+                    {% endfor %}
+                </div>
+            {% endif %}
             {{ form_start(form) }}
                 {{ form_row(form.title) }}
                 {{ form_row(form.locality) }}
@@ -42,7 +49,7 @@
                     {{ form_label(form.images) }}
                     {{ form_errors(form.images) }}
                     <div id="image-fields-list"
-                         class="col-sm-10"
+                         class="col-sm-9"
                          data-prototype="{{ form_widget(form.images.vars.prototype)|e }}">
                         {% for imageField in form.images %}
                             <div class="input-group">
@@ -65,7 +72,7 @@
                 <div class="form-group">
                     {{ form_label(form.courses) }}
                     {{ form_errors(form.courses) }}
-                    <div class="col-sm-10">
+                    <div class="col-sm-9">
                         <div id="courses_fields_list"
                              class="row"
                              data-prototype="<div class='col-sm-6 course'>
@@ -117,6 +124,10 @@
         var courseCount = '{{ form.courses|length }}';
 
         jQuery(document).ready(function() {
+            setTimeout(function(){
+                $("#result_form").slideUp();
+            }, 10000);
+
             jQuery('#add-another-image').click(function(e) {
                 e.preventDefault();
                 $("#delete-another-image").show();

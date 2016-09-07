@@ -37,6 +37,10 @@ class DefaultController extends Controller
 
         $form->handleRequest($request);
         if($form->isValid() && $form->isSubmitted()) {
+            $request->getSession()
+                ->getFlashBag()
+                ->add('success', 'La randonnée a été ajouter avec succés')
+            ;
             foreach($hike->getCourses() as $key => $course) {
                 $course->setHike($hike);
                 $gpx = $course->getGpx();
@@ -63,11 +67,15 @@ class DefaultController extends Controller
      * @Template()
      */
     public function editRikeAction(Request $request, Hike $hike){
-        $hike->setImages(array(''));
+        //$hike->setImages(array(''));
         $form = $this->createForm(new HikeType(), $hike);
 
         $form->handleRequest($request);
         if($form->isValid() && $form->isSubmitted()) {
+            $request->getSession()
+                ->getFlashBag()
+                ->add('success', 'La randonnée a été modifier avec succés')
+            ;
             foreach($hike->getCourses() as $key => $course) {
                 $course->setHike($hike);
                 $gpx = $course->getGpx();
