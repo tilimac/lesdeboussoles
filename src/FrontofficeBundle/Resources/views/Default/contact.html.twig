@@ -15,11 +15,12 @@
             <!-- Map Column -->
             <div class="col-md-12">
                 <p>
-                    &emsp;&emsp;Les rendez-vous de départ s'effectuent le Dimanche à 9 heures (sauf indications modificatives) du Pairhing sous la salle Jean Moulin, au Crès. Si, après une rando d'essai (chaussures adaptées, repas tiré du sac), vous souhaitez poursuivre, un bulletin d'adhésion vous sera remis. La cotisation, comprenant l'assurance, est fixée, pour 2015 — 2016 à 45 € par personne ; un certificat médical est exigé. 
+                    &emsp;&emsp;Les rendez-vous de départ s'effectuent le Dimanche à 9 heures au parking, sous la salle Jean Moulin, au Crès (sauf indications modificatives). Si après une rando d'essai (chaussures adaptées, repas tiré du sac) vous souhaitez poursuivre, vous pouvez vous inscrire en cliquant sur le bouton ci-dessous ou en demandant un bultin d'adhésion lors de votre première randonnée. La cotisation, comprenant l'assurance, est fixée, pour 2016 — 2017 à 50 € par personne. Un certificat médical est exigé.
                 </p>
                 <p>
                     &emsp;&emsp;Bonnes découvertes et bonnes randonnées ! 
                 </p>
+                <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary btn-lg">S'inscrire maintenant</a>
             </div>
         </div>
         <!-- /.row -->
@@ -81,7 +82,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-8">
+                        <div class="col-sm-offset-3 col-sm-9">
                             {% if success is not null %}
                                 {{ form_widget(form.save, {'label': 'Envoyé avec succés', 'attr': {'class': 'disabled btn btn-success'}}) }}
                             {% else %}
