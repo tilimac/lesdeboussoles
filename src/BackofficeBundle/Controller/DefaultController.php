@@ -22,7 +22,26 @@ class DefaultController extends Controller
         $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
         $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes"); // Set a root path for this use*/
 
-        return array();
+
+        $hikeManager = $this->get('hike.manager');
+        $eventManager = $this->get('event.manager');
+        $contactManager = $this->get('contact.manager');
+        $memberManager = $this->get('member.manager');
+
+        $nextEvents = $eventManager->getNextEvent();
+
+        $nextHikes = $hikeManager->getNextHikes();
+
+        $contacts = $contactManager->getAll();
+
+        $members = $memberManager->getAll();
+
+        return array(
+            'nextEvents' => $nextEvents,
+            'nextHikes' => $nextHikes,
+            'contacts' => $contacts,
+            'members' => $members
+        );
     }
 
     /**

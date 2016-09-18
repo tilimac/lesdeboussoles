@@ -9,6 +9,7 @@
         }
         a.label{
             padding: 5px;
+            margin-right: 2px;
         }
         .table > thead:first-child > tr:first-child > th{
             border: 1px solid #DDD;
@@ -46,13 +47,13 @@
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-primary active">
                     <span class="fa fa-child fa-lg"></span>
-                    <input type="checkbox" autocomplete="off" checked> Randonnées
+                    <input class="hide-show" type="checkbox" autocomplete="off" data-type="hike" checked> Randonnées
                 </label>
             </div>
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-success active">
                     <span class="fa fa-child fa-lg"></span>
-                    <input type="checkbox" autocomplete="off" checked> Rendez-vous
+                    <input class="hide-show" type="checkbox" autocomplete="off" data-type="event" checked> Evènement
                 </label>
             </div>
         </div>
@@ -80,8 +81,13 @@
                                 <td {% if day > nbDay %}class="empty"{% elseif isWeekEnd[month][day] %}class="sunday"{% endif %}>
                                     {% if day <= nbDay %}
                                         <span class="pull-left">{{ day }}</span>
-                                        {% if programme[month][day] is defined %}
-                                            <a href="{{ path('_hike',{'hike':programme[month][day].id}) }}" class="label label-primary pull-right" data-toggle="tooltip" data-placement="top" title="{{ programme[month][day].locality }}">
+                                        {% if programmeEvent[month][day] is defined %}
+                                            <a href="{{ path('_event_show',{'event':programmeEvent[month][day].id}) }}" class="label label-success label-event pull-right" data-toggle="tooltip" data-placement="top" title="{{ programmeEvent[month][day].title }}">
+                                                <span class="fa fa-child fa-lg"></span>
+                                            </a>
+                                        {% endif %}
+                                        {% if programmeHike[month][day] is defined %}
+                                            <a href="{{ path('_hike',{'hike':programmeHike[month][day].id}) }}" class="label label-primary label-hike pull-right" data-toggle="tooltip" data-placement="top" title="{{ programmeHike[month][day].locality }}">
                                                 <span class="fa fa-child fa-lg"></span>
                                             </a>
                                         {% endif %}
@@ -97,7 +103,17 @@
                     
     <script>
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $(".hide-show").change(function(){
+                var $elements = $(".label-"+$(this).data('type'));
+                if($(this).is(':checked')){
+                    $elements.show();
+                }
+                else{
+                    $elements.hide();
+                }
+            });
         })
     </script>
 {% endblock %}

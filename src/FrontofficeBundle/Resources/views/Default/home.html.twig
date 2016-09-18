@@ -12,6 +12,10 @@
                 transition: all 0.3s ease-in-out 0s;
             }
         }
+        blockquote {
+            padding: 5px 15px;
+            font-size: inherit;
+        }
     </style>
 
     <!-- Header Carousel -->
@@ -43,6 +47,7 @@
                 <div class="item">
                     <div class="fill" style="background-image:url('http://matthieudefolleville.fr/wp-content/uploads/2015/01/chaussures-randonnee.jpg');"></div>
                 </div>
+                <div style="position: absolute; height: 100%; width: 100%; top: 0px; background-color: rgba(0, 0, 0, 0.3);"></div>
             </div>
 
             <div class="caption-header">
@@ -77,7 +82,7 @@
                     Bienvenue sur le site des Déboussolés
                 </h1>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4><i class="fa fa-fw fa-user-secret"></i> Qui sommes nous ?</h4>
@@ -88,24 +93,24 @@
                     </div>
                 </div>
             </div>
-            {#<div class="col-md-4">
+            <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4><i class="fa fa-fw fa-rocket"></i> Lorem ipsum</h4>
+                        <h4><i class="fa fa-fw fa-rocket"></i> Ou s'inscrire ?</h4>
                     </div>
                     <div class="panel-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
-                        <a href="404.html" class="btn btn-default">En savoir plus</a>
+                        <p>Pour cela, rien de plus simple. Il suffit de s'inscrire sur le site et de ramener, lors de la première randonnée, un certificat médical et la cotisation de 50€ qui comprend l'assurance ainsi que la license pour les randonnées.</p>
+                        <a href="{{ path('_member_create') }}" class="btn btn-primary">S'incrire</a>
                     </div>
                 </div>
-            </div>#}
-            <div class="col-md-6">
+            </div>
+            <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4><i class="fa fa-fw fa-compass"></i> Comment nous rejoindre ?</h4>
+                        <h4><i class="fa fa-fw fa-compass"></i> Comment venir au randonnées ?</h4>
                     </div>
                     <div class="panel-body">
-                        <p>Les rendez-vous de départ s'effectuent le Dimanche à 9 heures (sauf indications modificatives) du Pairhing sous la salle Jean Moulin, au Crès. </p>
+                        <p>Les trajets pour les randonnées s'effectuent en co-voiturage. Les rendez-vous de départ se font le dimanche à 9 heures (sauf indications modificatives) au parking sous la salle Jean Moulin, au Crès. </p>
                         <a href="{{ path('_contact') }}" class="btn btn-default">En savoir plus</a>
                     </div>
                 </div>
@@ -114,26 +119,38 @@
         <!-- /.row -->
 
         <!-- Features Section -->
-        {% if nextEvent is not null %}
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="page-header">Actualité</h2>
-                </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Actualités</h2>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="box" style="background-image: url('{{ asset(nextEvent.image|replace({'/web': ""})) }}')">
+        </div>
+        <div class="row">
+            {% for event in nextEvents %}
+                <div class="col-md-4 col-sm-6 hero-feature">
+                    <div class="thumbnail">
+                        <img src="{{ asset(event.image|replace({'/web': ""})) }}" alt="">
+                        <div class="caption">
+                            <h3>{{ event.title }}</h3>
+                            <p>{{ event.content|striptags|length > 120 ? event.content|striptags|slice(0, 120) ~ ' ...' : event.content|striptags  }}</p>
+                            <p>
+                                <a href="{{ path('_event_show',{'event':event.id}) }}" class="btn btn-default">En savoir plus</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <h3>{{ nextEvent.title }}</h3>
-                    <p>{{ nextEvent.dateEvent|date('d/m/Y H:i:s') }}</p>
-                    <p class="text-justify">
-                        {{ nextEvent.content|raw }}
-                    </p>
+            {% endfor %}
+            {#<div class="col-md-6">
+                <div class="box" style="background-image: url('{{ asset(nextEvent.image|replace({'/web': ""})) }}')">
                 </div>
             </div>
-        {% endif %}
+            <div class="col-md-6">
+                <h3>{{ nextEvent.title }}</h3>
+                <p>{{ nextEvent.dateEvent|date('d/m/Y H:i:s') }}</p>
+                <p class="text-justify">
+                    {{ nextEvent.content|raw }}
+                </p>
+            </div>#}
+        </div>
         <!-- /.row -->
 
         <!-- Features Section -->
@@ -143,11 +160,12 @@
                     <h2 class="page-header">La prochaine randonnée <a href="{{ path('_calendar') }}" class="btn btn-primary pull-right"><span class="fa fa-calendar"></span> Le calendrier</a></h2>
                 </div>
                 <div class="col-md-6">
-                    <h3>{{ nextHike.locality }}<br><small>{{ nextHike.title }}</small></h3>
-                    <p>{{ nextHike.date|date('d/m/Y H:i:s') }}</p>
-                    <p class="text-justify">
+                    <h3>{{ nextHike.title }}<br><small>{{ nextHike.locality }}</small></h3>
+                    <p><i>Le {{ nextHike.date|date('d/m/Y') }} à {{ nextHike.date|date('H\\hi') }}</i></p>
+                    <blockquote>
                         {{ nextHike.description|raw }}
-                    </p>
+                    </blockquote>
+                    <p><i>Cette randonnée comprend <b>{{ nextHike.courses|length }}</b> parcours</i></p>
                     <a href="{{ path('_hike',{'hike':nextHike.id}) }}" class="btn btn-default">En savoir plus</a>
                 </div>
                 <div class="col-md-6">
@@ -205,7 +223,7 @@
     <script>
         $('.carousel').carousel({
             interval: 5000 //changes the speed
-        })
+        });
 
         $( window ).scroll(function() {
             if($( window ).scrollTop() != 0)

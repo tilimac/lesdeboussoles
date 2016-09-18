@@ -4,7 +4,7 @@
     
     <style>
         .carousel-inner{
-            height: 400px;
+            height: 340px;
         }
         .carousel-inner > .item,.carousel-inner > .item > .fill{
             height: 100%;
@@ -15,15 +15,15 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                {{ hike.locality }}
-                <small>{{ hike.title }}</small>
+                {{ hike.title }}
+                <small>{{ hike.locality }}</small>
             </h1>
         </div>
     </div>
     <!-- /.row -->
     <div class="row">
 
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
@@ -45,17 +45,25 @@
                 <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                 </a>
-                <a class="right carzqzousel-control" href="#carousel-example-generic" data-slide="next">
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
                     <span class="glyphicon glyphicon-chevron-right"></span>
                 </a>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
+            <p><i>Le {{ hike.date|date('d/m/Y') }} à {{ hike.date|date('H\\hi') }}</i></p>
             <h3>Description</h3>
             <p class="text-justify">{{ hike.description|raw }}</p>
-            <h3>Détails</h3>
-            <p>{{ hike.date|date('d/m/Y H:i:s') }}</p>
+            <h3>Trajet</h3>
+            <dl class="dl-horizontal">
+                <dt>Départ</dt>
+                <dd>{{ hike.start }}</dd>
+                <dt>Arrivé</dt>
+                <dd>{{ hike.locality }}</dd>
+                <dt>Longeur du trajet</dt>
+                <dd>{{ hike.distance }} km</dd>
+            </dl>
         </div>
 
     </div>
@@ -67,63 +75,53 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                {% for course in hike.courses %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="heading_course_{{ course.id }}">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_course_{{ course.id }}" aria-expanded="true" aria-controls="collapse_course_{{ course.id }}">
-                                    <b>Parcours de {{ course.lenght }} km</b> (durée : {{ course.duration|date('h\\hm') }})
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapse_course_{{ course.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_course_{{ course.id }}">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <ul>
-                                            <li><b>Distance Le Crès jusqu'à destination</b> : {{ course.lenght }}</li>
-                                            <li><b>Dénivelé</b> : {{ course.heightDifference }}</li>
-                                            <li><b>Temps du parcours</b> : {{ course.duration|date('H:m') }}</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-8">
-                                        {#{{ course.gpx }}#}
-                                        {#<script>
-                                            var map = new L.Map('map');
-                                            var url = 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg',
-                                                    attr = 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-                                                    service = new L.TileLayer(url, {subdomains: "1234", attribution: attr});
-                                            var bounds = new L.LatLngBounds(new L.LatLng(<?php echo $minLat; ?>, <?php echo $minLon; ?>), new L.LatLng(<?php echo $maxLat; ?>,<?php echo $maxLon; ?>));
-                                            /*console.log(bounds);
-                                            console.log(<?php echo $minLat; ?>);
-                                            console.log(<?php echo $minLon; ?>);
-                                            console.log(new L.LatLng(<?php echo $minLat; ?>, <?php echo $minLon; ?>));
-                                            console.log(new L.LatLng(<?php echo $maxLat; ?>, <?php echo $maxLon; ?>));*/
-                                            var geojson = {"name": "NewFeatureType", "type": "FeatureCollection"
-                                                , "features": [{
-                                                    "type": "Feature",
-                                                    "geometry": {
-                                                        "type": "LineString",
-                                                        "coordinates": <?php echo json_encode($carte); ?>
-                                            }, "properties": null}
-                                            ]}
-                                            ;
-                                            var el = L.control.elevation();
-                                            el.addTo(map);
-                                            var gjl = L.geoJson(geojson, {
-                                                onEachFeature: el.addData.bind(el)
-                                            }).addTo(map);
-                                            map.addLayer(service).fitBounds(bounds);
-                                        </script>#}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        {% for course in hike.courses %}
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><b>Parcours de {{ course.lenght }} km</b></h3>
                     </div>
-                {% endfor %}
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Longueur</dt>
+                            <dd>{{ course.lenght }} km</dd>
+                            <dt>Dénivelé</dt>
+                            <dd>{{ course.heightDifference }} m</dd>
+                            <dt>Durée</dt>
+                            <dd>{{ course.duration|date('h\\hm') }}</dd>
+                        </dl>
+                    </div>
+                </div>
             </div>
+        {% endfor %}
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">Les photos de la randonnée</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                Les
+                {#{% if is_granted("ROLE_MEMBER") %}
+                    TODO faire les photo des randonnées
+                {% else %}
+                    <p>Votre compte n'a pas encore été vérifié. Veuillez ré-essayer ultérieurement.</p>
+                {% endif %} #}
+            {% else %}
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <a href="{{ path('fos_user_security_login') }}" class="btn btn-default btn-block btn-lg">Se connecter</a>
+                        <h1 class="text-center">OU</h1>
+                        <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary btn-block btn-lg">S'inscrire au site</a>
+                        <p>L'inscription au site permet aux membres de voir les photos des randonnées effectuées.</p>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

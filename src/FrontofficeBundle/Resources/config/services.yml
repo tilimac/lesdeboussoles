@@ -2,6 +2,7 @@ parameters:
     hike_manager.class: FrontofficeBundle\Manager\HikeManager
     event_manager.class: FrontofficeBundle\Manager\EventManager
     contact_manager.class: FrontofficeBundle\Manager\ContactManager
+    member_manager.class: FrontofficeBundle\Manager\MemberManager
 
 services:
     app_user.profile.form.type:
@@ -20,4 +21,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
     contact.manager:
         class:     "%contact_manager.class%"
+        arguments: ["@doctrine.orm.entity_manager"]
+    member.manager:
+        class:     "%member_manager.class%"
         arguments: ["@doctrine.orm.entity_manager"]

@@ -3,6 +3,7 @@
 namespace FrontofficeBundle\Controller;
 
 use FrontofficeBundle\Entity\Contact;
+use FrontofficeBundle\Entity\Event;
 use FrontofficeBundle\Entity\Hike;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -18,13 +19,14 @@ class DefaultController extends Controller
         $hikeManager = $this->get('hike.manager');
         $eventManager = $this->get('event.manager');
 
-        $nextEvent = $eventManager->getNextEvent();
+        $nextEvents = $eventManager->getNextEvent();
+        //$nextEvent = empty($nextEvents) ? NULL : $nextEvents[0];
 
         $nextHikes = $hikeManager->getNextHikes(1);
         $nextHike = empty($nextHikes) ? NULL : $nextHikes[0];
 
         return array(
-            'nextEvent' => $nextEvent,
+            'nextEvents' => $nextEvents,
             'nextHike' => $nextHike,
             'previousHikes' => $hikeManager->getPreviousHikes(6)
         );
@@ -154,6 +156,7 @@ class DefaultController extends Controller
      */
     public function calendarAction(){
         $hikeManager = $this->get('hike.manager');
+        $eventManager = $this->get('event.manager');
         $months = array(NULL, 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
         $days = array('Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi');
         $numDay = array(NULL, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -196,19 +199,31 @@ class DefaultController extends Controller
         $nbMonthnextYear = 12 - $nbMonthCurrentYear;
 
 
-        $programme = array();
+        $programmeHike = array();
         foreach ($hikeManager->getAll() as $hike) {
+            /* @var Hike $hike */
             if($hike->getDate() >= new \DateTime()){
                 $month = $hike->getDate()->format('n');
                 $day = $hike->getDate()->format('j');
-                $programme[$month][$day] = $hike;
+                $programmeHike[$month][$day] = $hike;
+            }
+        }
+
+        $programmeEvent = array();
+        foreach ($eventManager->getAll() as $event) {
+            /* @var Event $event */
+            if($event->getDateEvent() >= new \DateTime()){
+                $month = $event->getDateEvent()->format('n');
+                $day = $event->getDateEvent()->format('j');
+                $programmeEvent[$month][$day] = $event;
             }
         }
 
         return array(
             'months' => $months,
             'firstDayByMonth' => $firstDayByMonth,
-            'programme' => $programme,
+            'programmeHike' => $programmeHike,
+            'programmeEvent' => $programmeEvent,
             'nbMonthCurrentYear' => $nbMonthCurrentYear,
             'currentYear' => $currentYear,
             'nextYear' => $nextYear,

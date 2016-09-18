@@ -4,27 +4,20 @@ namespace FrontofficeBundle\Manager;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Description of EventManager
+ * Description of MemberManager
  *
  * @author Valentin
  */
-class EventManager {
+class MemberManager {
     
     protected $em;
     protected $repository;
-
     public function __construct(EntityManager $em) {
         $this->em = $em;
-        $this->repository = $this->em->getRepository('FrontofficeBundle:Event');
+        $this->repository = $this->em->getRepository('FrontofficeBundle:Member');
     }
-
-    public function getNextEvent()
-    {
-        return $this->repository->findNextEvent();
-    }
-
-    public function getAll()
-    {
+    
+    public function getAll() {
         return $this->repository->findAll();
     }
 }

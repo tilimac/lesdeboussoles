@@ -15,16 +15,16 @@ use Doctrine\ORM\EntityRepository;
  * @author Tilimac
  */
 class EventRepository extends EntityRepository {
-    public function findNextEvent()
+    public function findNextEvent($limit = null)
     {
         $query = $this->createQueryBuilder('h')
             ->where("h.dateCreate < :now")
             ->andWhere("h.dateEvent > :now")
             ->setParameter('now', new \DateTime('now'))
-            ->orderBy('h.dateEvent')
-            ->setMaxResults(1);
+            ->orderBy('h.dateEvent');
+        if($limit !== null) $query->setMaxResults($limit);
 
-        return $query->getQuery()->getOneOrNullResult();
+        return $query->getQuery()->getResult();
     }
 
     public function findAllOrdered($sort,$direction) {
