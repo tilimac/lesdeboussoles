@@ -131,7 +131,13 @@
                         <img src="{{ asset(event.image|replace({'/web': ""})) }}" alt="">
                         <div class="caption">
                             <h3>{{ event.title }}</h3>
-                            <p>{{ event.content|striptags|length > 120 ? event.content|striptags|slice(0, 120)|raw ~ ' ...' : event.content|striptags|raw  }}</p>
+                            <p>
+                                {% if event.content|striptags|length > 120 %}
+                                    {{ event.content|striptags|slice(0, 120)|raw }} ...
+                                {% else %}
+                                    {{ event.content|striptags|raw }}
+                                {% endif %}
+                            </p>
                             <p>
                                 <a href="{{ path('_event_show',{'event':event.id}) }}" class="btn btn-default">En savoir plus</a>
                             </p>

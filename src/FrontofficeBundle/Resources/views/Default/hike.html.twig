@@ -88,7 +88,9 @@
                             <dt>Dénivelé</dt>
                             <dd>{{ course.heightDifference }} m</dd>
                             <dt>Durée</dt>
-                            <dd>{{ course.duration|date('h\\hm') }}</dd>
+                            <dd>{{ course.duration|date('H\\hi') }}</dd>
+                            <dt>Difficulté</dt>
+                            <dd>{{ dificulty[course.dificulty] }}</dd>
                         </dl>
                     </div>
                 </div>

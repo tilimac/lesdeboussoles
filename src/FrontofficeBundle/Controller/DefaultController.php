@@ -90,8 +90,15 @@ class DefaultController extends Controller
             }
         }*/
 
+        $dificulty = array(
+            "Facile",
+            "Moyen",
+            "Difficile"
+        );
+
         return array(
-            'hike' => $hike
+            'hike' => $hike,
+            'dificulty' => $dificulty
         );
     }
 
