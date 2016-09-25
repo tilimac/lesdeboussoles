@@ -75,6 +75,11 @@ class Member {
     private $city;
 
     /**
+     * @ORM\Column(name="mail", type="string", length=255, nullable=true)
+     */
+    private $mail;
+
+    /**
      * @Assert\Type(
      *      type="numeric",
      *      message="Numéro de téléphone invalide"
@@ -284,6 +289,29 @@ class Member {
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * Set mail
+     *
+     * @param integer $mail
+     * @return Member
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return integer
+     */
+    public function getMail()
+    {
+        return $this->mail;
     }
 
     /**

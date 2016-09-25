@@ -9,6 +9,15 @@
         .carousel-inner > .item,.carousel-inner > .item > .fill{
             height: 100%;
         }
+        #little_carousel .carousel-inner{
+            height: 170px;
+        }
+        #little_carousel .carousel-inner > .item > .fill{
+            width: 25%;
+            float: left;
+            background-size: cover;
+            background-position: center;
+        }
     </style>
 
     <!-- Page Heading/Breadcrumbs -->
@@ -98,22 +107,60 @@
         {% endfor %}
     </div>
 
-
     <div class="row">
         <div class="col-md-12">
-            <h1 class="page-header">Les photos de la randonnée</h1>
+            <h1 class="page-header">
+                Les photos de la randonnée
+                {% if is_granted("ROLE_ADMIN")  %}
+                    <button id="add_pictures" class="btn btn-primary pull-right">Ajouter des photos</button>
+                {% endif %}
+            </h1>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <div class="alert alert-info">Aucune photos ajouté pour le moment</div>
-                {#{% if is_granted("ROLE_MEMBER") %}
-                    TODO faire les photo des randonnées
+                {% if is_granted("ROLE_MEMBER") %}
+                    {% if picturesList is empty %}
+                        <div class="alert alert-info">Aucune photos ajouté pour le moment</div>
+                    {% else %}
+                        <div id="little_carousel" class="carousel slide" data-ride="carousel">
+                            <!-- Indicators
+                            <ol class="carousel-indicators">
+                                <li data-target="#little_carousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#little_carousel" data-slide-to="1"></li>
+                                <li data-target="#little_carousel" data-slide-to="2"></li>
+                            </ol>-->
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner" role="listbox">
+                                <div class="item active">
+                                    {% for picture in picturesList %}
+                                        <div class="fill" style="background-image:url('{{ asset('uploads/hike/'~hike.id~'/'~picture) }}');"></div>
+                                        {% if loop.index%4 == 0 %}
+                                            </div>
+                                            <div class="item">
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Controls -->
+                            <a class="left carousel-control" href="#little_carousel" role="button" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#little_carousel" role="button" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <a href="{{ path('_hike_pictures', {'hike': hike.id}) }}" class="btn btn-primary btn-lg btn-block" style="margin-top: 25px;">Voir toutes les photos</a>
+                    {% endif %}
                 {% else %}
                     <p>Votre compte n'a pas encore été vérifié. Veuillez ré-essayer ultérieurement.</p>
-                {% endif %} #}
+                {% endif %}
             {% else %}
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
@@ -126,4 +173,18 @@
             {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(function(){
+            $("#add_pictures").on('click', function(e){
+                e.preventDefault();
+
+                moxman.browse();
+            });
+        });
+    </script>
 {% endblock %}

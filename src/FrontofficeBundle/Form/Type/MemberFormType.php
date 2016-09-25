@@ -17,6 +17,7 @@ class MemberFormType extends AbstractType {
             ))
             ->add('firstName', 'text', array('label' => 'Prénom'))
             ->add('lastName', 'text', array('label' => 'Nom'))
+            ->add('mail', 'email', array('label' => 'Adresse mail'))
             ->add('birthdate', 'birthday', array( 'label' => 'Date de naissance'))
             ->add('adress1', 'text', array('label' => 'Adresse'))
             ->add('adress2', 'text', array('label' => 'Complément d\'adresse'))

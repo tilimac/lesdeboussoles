@@ -61,6 +61,15 @@ class DefaultController extends Controller
      * @Template()
      */
     public function hikeAction(Hike $hike){
+        $path = __DIR__ . "/../../../web/uploads/hike/".$hike->getId()."/";
+        $pathTumb = $path."mcith/";
+
+        if(!is_dir($path)) mkdir($path);
+
+        $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
+        $_SESSION['moxiemanager.filesystem.rootpath'] = $hike->getTitle()."=".realpath($path); // Set a root path for this use*/
+
+        $picturesList = array_diff(scandir($path), array('..', '.', 'mcith'));
 
         /*foreach ($hike->getCourses() as $course) {
             $xml=new \SimpleXMLElement(file_get_contents('/uploads/gpx/'.$course->getGpx()));
@@ -98,7 +107,8 @@ class DefaultController extends Controller
 
         return array(
             'hike' => $hike,
-            'dificulty' => $dificulty
+            'dificulty' => $dificulty,
+            'picturesList' => $picturesList
         );
     }
 
@@ -303,6 +313,27 @@ class DefaultController extends Controller
             'nextYear' => $nextYear,
             'nbMonthCurrentYear' => $nbMonthCurrentYear,
             'nbMonthnextYear' => $nbMonthnextYear
+        );
+    }
+
+    /**
+     * @Route("/hike/{hike}/pictures/", name="_hike_pictures")
+     * @Template()
+     */
+    public function picturesAction(Hike $hike){
+        $path = __DIR__ . "/../../../web/uploads/hike/".$hike->getId()."/";
+        $pathTumb = $path."mcith/";
+
+        if(!is_dir($path)) mkdir($path);
+
+        $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
+        $_SESSION['moxiemanager.filesystem.rootpath'] = $hike->getTitle()."=".realpath($path); // Set a root path for this use*/
+
+        $picturesList = array_diff(scandir($path), array('..', '.', 'mcith'));
+
+        return array(
+            'hike' => $hike,
+            'picturesList' => $picturesList
         );
     }
 }
