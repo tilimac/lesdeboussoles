@@ -122,7 +122,7 @@
 	$moxieManagerConfig['ExternalAuthenticator.basic_auth_password'] = '';
 
 	// Local filesystem
-	$moxieManagerConfig['filesystem.local.wwwroot'] = '/homez.2119/lesdebourb/www';
+	$moxieManagerConfig['filesystem.local.wwwroot'] = '';
 	$moxieManagerConfig['filesystem.local.urlprefix'] = '';
 	$moxieManagerConfig['filesystem.local.urlsuffix'] = '';
 	$moxieManagerConfig['filesystem.local.access_file_name'] = 'mc_access';

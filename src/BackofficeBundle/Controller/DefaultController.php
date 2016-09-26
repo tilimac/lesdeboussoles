@@ -48,6 +48,7 @@ class DefaultController extends Controller
     public function addHikeAction(Request $request){
         $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
         $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
+        $_SESSION['moxiemanager.filesystem.local.wwwroot'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
 
 
         $hike = new Hike();
