@@ -19,6 +19,7 @@ class DefaultController extends Controller
      * @Template()
      */
     public function homeAction(){
+        var_dump(realpath(__DIR__ . "/../../../web/uploads/randonnes"));
         $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
         $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes"); // Set a root path for this use*/
 
@@ -48,7 +49,7 @@ class DefaultController extends Controller
      * @Route("/hikes/add", name="_admin_add_rike")
      * @Template()
      */
-    public function addRikeAction(Request $request){
+    public function addHikeAction(Request $request){
         $hike = new Hike();
         $hike->setImages(array(''));
         $hike->addCourse(new Course());
@@ -85,7 +86,7 @@ class DefaultController extends Controller
      * @Route("/hikes/{hike}/edit", name="_admin_edit_hike")
      * @Template()
      */
-    public function editRikeAction(Request $request, Hike $hike){
+    public function editHikeAction(Request $request, Hike $hike){
         //$hike->setImages(array(''));
         $form = $this->createForm(new HikeType(), $hike);
 
