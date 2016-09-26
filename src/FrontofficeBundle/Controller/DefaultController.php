@@ -64,7 +64,7 @@ class DefaultController extends Controller
         $path = __DIR__ . "/../../../web/uploads/hike/".$hike->getId()."/";
         $pathTumb = $path."mcith/";
 
-        if(!is_dir($path)) mkdir($path);
+        if(!is_dir($path)) mkdir($path, 0777, true);
 
         var_dump(realpath($path));
 
