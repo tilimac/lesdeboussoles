@@ -66,8 +66,6 @@ class DefaultController extends Controller
 
         if(!is_dir($path)) mkdir($path, 0777, true);
 
-        var_dump(realpath($path));
-
         $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
         $_SESSION['moxiemanager.filesystem.rootpath'] = $hike->getTitle()."=".realpath($path); // Set a root path for this use*/
         //$_SESSION['moxiemanager.filesystem.local.wwwroot'] = realpath($path);
