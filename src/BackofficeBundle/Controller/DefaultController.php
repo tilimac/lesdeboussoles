@@ -88,6 +88,10 @@ class DefaultController extends Controller
      * @Template()
      */
     public function editHikeAction(Request $request, Hike $hike){
+        $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
+        $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
+        $_SESSION['moxiemanager.filesystem.local.wwwroot'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
+
         //$hike->setImages(array(''));
         $form = $this->createForm(new HikeType(), $hike);
 
