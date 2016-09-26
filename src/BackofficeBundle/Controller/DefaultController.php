@@ -19,10 +19,6 @@ class DefaultController extends Controller
      * @Template()
      */
     public function homeAction(){
-        var_dump(realpath(__DIR__ . "/../../../web/uploads/randonnes"));
-        $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
-        $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes"); // Set a root path for this use*/
-
 
         $hikeManager = $this->get('hike.manager');
         $eventManager = $this->get('event.manager');
@@ -50,6 +46,11 @@ class DefaultController extends Controller
      * @Template()
      */
     public function addHikeAction(Request $request){
+        $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
+        $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
+        $_SESSION['moxiemanager.filesystem.local.wwwroot'] = '/homez.2119/lesdebourb/www'; // Set a root path for this use*/
+
+
         $hike = new Hike();
         $hike->setImages(array(''));
         $hike->addCourse(new Course());
