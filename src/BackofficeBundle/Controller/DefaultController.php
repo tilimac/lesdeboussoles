@@ -19,6 +19,9 @@ class DefaultController extends Controller
      * @Template()
      */
     public function homeAction(){
+        $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
+        $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
+        $_SESSION['moxiemanager.filesystem.local.wwwroot'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
 
         $hikeManager = $this->get('hike.manager');
         $eventManager = $this->get('event.manager');
@@ -46,9 +49,6 @@ class DefaultController extends Controller
      * @Template()
      */
     public function addHikeAction(Request $request){
-        $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
-        $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
-        $_SESSION['moxiemanager.filesystem.local.wwwroot'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
 
 
         $hike = new Hike();
@@ -73,6 +73,12 @@ class DefaultController extends Controller
                 }
             }
 
+            $images = array();
+            foreach ($hike->getImages() as $image) {
+                $images[] = '/web/uploads/randonnes'.$image;
+            }
+            $hike->setImages($images);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($hike);
             $em->flush();
@@ -88,9 +94,6 @@ class DefaultController extends Controller
      * @Template()
      */
     public function editHikeAction(Request $request, Hike $hike){
-        $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
-        $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
-        $_SESSION['moxiemanager.filesystem.local.wwwroot'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
 
         //$hike->setImages(array(''));
         $form = $this->createForm(new HikeType(), $hike);
@@ -111,6 +114,12 @@ class DefaultController extends Controller
                     $course->setGpx($nameGpx);
                 }
             }
+
+            $images = array();
+            foreach ($hike->getImages() as $image) {
+                $images[] = '/web/uploads/randonnes'.$image;
+            }
+            $hike->setImages($images);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($hike);
