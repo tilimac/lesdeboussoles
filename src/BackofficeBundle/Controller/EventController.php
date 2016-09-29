@@ -22,6 +22,9 @@ class EventController extends Controller
      */
     public function newAction(Request $request){
         $event = new Event();
+        $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
+        $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
+        $_SESSION['moxiemanager.filesystem.local.wwwroot'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
 
         $form = $this->createForm(new EventType(), $event);
 
@@ -42,6 +45,9 @@ class EventController extends Controller
      * @Template()
      */
     public function editAction(Request $request, Event $event){
+        $_SESSION['isLoggedIn'] = true; // True/false if user is logged in or not, should be same as above
+        $_SESSION['moxiemanager.filesystem.rootpath'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
+        $_SESSION['moxiemanager.filesystem.local.wwwroot'] = realpath(__DIR__ . "/../../../web/uploads/randonnes");
         $form = $this->createForm(new EventType(), $event);
 
         $form->handleRequest($request);
