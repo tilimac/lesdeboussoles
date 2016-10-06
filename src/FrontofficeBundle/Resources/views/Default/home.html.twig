@@ -126,9 +126,11 @@
         </div>
         <div class="row">
             {% for event in nextEvents %}
-                <div class="col-md-4 col-sm-6 hero-feature">
-                    <div class="thumbnail">
-                        <img src="{{ asset(event.image|replace({'/web': ""})) }}" alt="">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div style="background-image:url('{{ asset(event.image|replace({'/web': ""})) }}');height: 141px;background-size: cover;"></div>
+                    </div>
+                    <div class="col-md-8">
                         <div class="caption">
                             <h3>{{ event.title }}</h3>
                             <p>
