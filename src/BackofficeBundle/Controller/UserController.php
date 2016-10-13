@@ -7,6 +7,7 @@ use BackofficeBundle\Form\Type\HikeType;
 use FrontofficeBundle\Entity\Event;
 use FrontofficeBundle\Entity\Hike;
 use FrontofficeBundle\Entity\Member;
+use FrontofficeBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -14,23 +15,23 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/members")
+ * @Route("/users")
  */
-class MemberController extends Controller
+class UserController extends Controller
 {
     /**
-     * @Route("/list", name="_admin_member_list")
+     * @Route("/list", name="_admin_user_list")
      * @Template()
      */
     public function listAction(){
         $query = $this->get('request')->query;
-        $members = $this->get('doctrine')
-            ->getRepository('FrontofficeBundle:Member')
-            ->findAllOrdered($query->get('sort','m.id'),$query->get('direction','asc'));
+        $users = $this->get('doctrine')
+            ->getRepository('FrontofficeBundle:User')
+            ->findAllOrdered($query->get('sort','u.id'),$query->get('direction','asc'));
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-            $members,
+            $users,
             $query->get('page',1),
             10
         );
@@ -39,34 +40,25 @@ class MemberController extends Controller
     }
 
     /**
-     * @Route("/{member}/status", name="_admin_member_status", options={"expose"=true})
+     * @Route("/{user}/delete", name="_admin_user_delete", options={"expose"=true})
      */
-    public function statusAction(Request $request, Member $member){
-        $member->setEnabled($request->get('enabled', false) == "true" ? true : false);
+    public function deleteAction(User $user){
 
         $em = $this->getDoctrine()->getManager();
-        $em->persist($member);
+        $em->remove($user);
         $em->flush();
 
         return new JsonResponse(array());
     }
 
     /**
-     * @Route("/{member}/detail", name="_admin_member_detail", options={"expose"=true})
-     * @Template()
+     * @Route("/{user}/switch", name="_admin_user_switch", options={"expose"=true})
      */
-    public function detailAction(Member $member){
-
-        return array('member' => $member);
-    }
-
-    /**
-     * @Route("/{member}/delete", name="_admin_member_delete", options={"expose"=true})
-     */
-    public function deleteAction(Member $member){
+    public function switchAction(Request $request, User $user){
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove($member);
+        $user->setRoles(array($request->get('role')));
+        $em->persist($user);
         $em->flush();
 
         return new JsonResponse(array());

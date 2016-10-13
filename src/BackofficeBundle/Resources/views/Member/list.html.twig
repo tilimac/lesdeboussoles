@@ -43,7 +43,7 @@
                             <i class="fa fa-sort pull-right"></i>
                         {% endif %}
                     </th>
-                    <th style="min-width: 200px;">
+                    <th style="min-width: 310px;">
                         Option
                     </th>
                 </tr>
@@ -55,6 +55,7 @@
                         <td>{{ member.lastName }}</td>
                         <td>
                             <button class="btn btn-primary see-member" data-member="{{ member.id }}" data-civil="{{ member.civil }}" data-first-name="{{ member.firstName }}" data-last-name="{{ member.lastName }}"><span class="fa fa-eye"></span> Voir</button>
+                            <button class="btn btn-danger remove-member" data-member="{{ member.id }}" data-first-name="{{ member.firstName }}" data-last-name="{{ member.lastName }}"><span class="fa fa-times"></span> Supprimer</button>
                             <label>
                                 <input class="enable-member" type="checkbox" data-member="{{ member.id }}" {% if member.enabled == true %}checked{% endif %}>
                             </label>
@@ -85,11 +86,34 @@
         </div>
     </div>
 
+    <div id="modal_remove_member" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        Êtes-vous sûr de vouloir supprimer <b></b>?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Supprimer</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(function(){
             var $enableMember = $(".enable-member");
             var $seeMember = $(".see-member");
+            var $removeMember = $(".remove-member");
             var $modalSeeMember = $("#modal_see_member");
+            var $modalRemoveMember = $("#modal_remove_member");
+
             $enableMember.bootstrapSwitch({
                 onSwitchChange: function(){
                     $.get(Routing.generate('_admin_member_status', {member: $(this).data('member'), enabled: $(this).is(':checked')}))
@@ -103,6 +127,23 @@
                 $modalSeeMember.find('.modal-body').load(Routing.generate('_admin_member_detail', {member: $(this).data('member')}), function(){
                     $modalSeeMember.modal('show');
                 })
+            });
+
+            var memberId;
+            $removeMember.on('click', function(e){
+                e.preventDefault();
+                memberId = $(this).data('member');
+
+                $modalRemoveMember.find('.modal-body b').html($(this).data('firstName')+' '+$(this).data('lastName'));
+                $modalRemoveMember.modal('show');
+            });
+
+            $modalRemoveMember.find('.btn-danger').on('click', function(e){
+                e.preventDefault();
+
+                $.post(Routing.generate('_admin_member_delete', {member: memberId}), function(){
+                    location.reload();
+                });
             });
 
         });
