@@ -176,10 +176,12 @@
                 </div>
                 <div class="col-md-6">
                     <div class="box" style="background-image: url('{{ asset(nextHike.images[0]|replace({'/web': ""})) }}')">
-                        {% if nextHike.canceled %}
+                        {% if nextHike.canceled == 1 %}
                             <div class="ribbon ribbon-danger"><span>Annulé</span></div>
+                        {% elseif nextHike.canceled == 2 %}
+                            <div class="ribbon ribbon-danger"><span>Reporté</span></div>
                         {% else %}
-                            <div class="ribbon ribbon-success"><span>Maintenue</span></div>
+                            <div class="ribbon ribbon-danger"><span>Maintenue</span></div>
                         {% endif %}
                     </div>
                 </div>

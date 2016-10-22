@@ -73,11 +73,11 @@ class Hike {
     public $images;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="canceled", type="boolean", options={"default":false})
+     * @ORM\Column(name="canceled", type="integer")
      */
-    private $canceled = false;
+    private $canceled = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="Course", mappedBy="hike", cascade={"persist", "remove"})
