@@ -5,6 +5,7 @@ namespace BackofficeBundle\Controller;
 use BackofficeBundle\Form\Type\HikeType;
 use FrontofficeBundle\Entity\Course;
 use FrontofficeBundle\Entity\Hike;
+use FrontofficeBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -52,7 +53,7 @@ class DefaultController extends Controller
 
 
         $hike = new Hike();
-        $hike->setImages(array(''));
+        $hike->addImage(new Image());
         $hike->addCourse(new Course());
         $form = $this->createForm(new HikeType(), $hike);
 
@@ -73,11 +74,17 @@ class DefaultController extends Controller
                 }
             }
 
-            $images = array();
+            /*$images = array();
+            foreach ($form['images']->getData() as $image) {
+                $image->move('uploads/hikes', $image->getClientOriginalName());
+                $images[] = $image->getClientOriginalName();
+            }
+            $hike->setImages($images);*/
+            /*$images = array();
             foreach ($hike->getImages() as $image) {
                 $images[] = '/web/uploads/randonnes'.$image;
             }
-            $hike->setImages($images);
+            $hike->setImages($images);*/
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($hike);
@@ -99,6 +106,7 @@ class DefaultController extends Controller
         $form = $this->createForm(new HikeType(), $hike);
 
         $form->handleRequest($request);
+
         if($form->isValid() && $form->isSubmitted()) {
             $request->getSession()
                 ->getFlashBag()
@@ -114,12 +122,13 @@ class DefaultController extends Controller
                     $course->setGpx($nameGpx);
                 }
             }
-
+/*
             $images = array();
             foreach ($hike->getImages() as $image) {
-                $images[] = '/web/uploads/randonnes'.$image;
+                //var_dump($image);
+                //$images[] = '/web/uploads/randonnes'.$image;
             }
-            $hike->setImages($images);
+            $hike->setImages($images);*/
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($hike);
@@ -161,17 +170,5 @@ class DefaultController extends Controller
         );
 
         return array('pagination' => $pagination);
-    }
-
-    /**
-     * @Route("/demandes/", name="_admin_requests")
-     * @Template()
-     */
-    public function requestsAction(){
-        $contactManager = $this->get('contact.manager');
-
-        return array(
-            'contacts' => $contactManager->getAll()
-        );
     }
 }

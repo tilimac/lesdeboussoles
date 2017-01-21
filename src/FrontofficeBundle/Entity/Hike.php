@@ -5,6 +5,8 @@ namespace FrontofficeBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use FrontofficeBundle\Entity\Course;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use FrontofficeBundle\Entity\Image;
 
 /**
  * Hike
@@ -62,13 +64,12 @@ class Hike {
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     * @Assert\NotBlank()
      */
     private $description;
 
     /**
-     * @var array
-     *
-     * @ORM\Column(name="images", type="array")
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="hike", cascade={"persist"})
      */
     public $images;
 
@@ -86,6 +87,7 @@ class Hike {
 
     public function __construct()
     {
+        $this->images = new ArrayCollection();
         $this->courses = new ArrayCollection();
     }
 
@@ -238,29 +240,6 @@ class Hike {
     }
 
     /**
-     * Set images
-     *
-     * @param array $images
-     * @return Hike
-     */
-    public function setImages($images)
-    {
-        $this->images = $images;
-
-        return $this;
-    }
-
-    /**
-     * Get images
-     *
-     * @return array 
-     */
-    public function getImages()
-    {
-        return $this->images;
-    }
-
-    /**
      * Set canceled
      *
      * @param boolean $canceled
@@ -297,5 +276,49 @@ class Hike {
     public function getCourses()
     {
         return $this->courses;
+    }
+
+    /**
+     * Add images
+     *
+     * @param Image $images
+     * @return Hike
+     */
+    public function addImage(Image $image)
+    {
+        $this->images[] = $image;
+
+        $image->setHike($this);
+
+        return $this;
+    }
+
+    public function setImages(ArrayCollection $images)
+    {
+        foreach ($images as $image) {
+            $image->setHike($this);
+        }
+
+        $this->images = $images;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param Image $images
+     */
+    public function removeImage(Image $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getImages()
+    {
+        return $this->images;
     }
 }

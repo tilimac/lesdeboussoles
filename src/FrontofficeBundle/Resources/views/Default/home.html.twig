@@ -198,7 +198,7 @@
             {% for hike in previousHikes %}
                 <div class="col-md-4 col-sm-6">
                     <a href="{{ path('_hike',{'hike':hike.id}) }}">
-                        <div class="img-portfolio" style="background-image: url('{{ asset(hike.images[0]) }}');">
+                        <div class="img-portfolio" style="background-image: url('{{ asset('uploads/hikes/'~hike.images.first.path) }}#}');">
                             
                         </div>
                         {#<img class="img-responsive img-portfolio img-hover" src="{{ asset('uploads/'~hike.image1) }}" alt="">#}

@@ -2,9 +2,9 @@
 
 {% block page_container %}
     <style>
-        #image-fields-list .input-group + .input-group{
+        /*#image-fields-list .input-group + .input-group{
             margin-top: 15px;
-        }
+        }*/
         #add_tag_link > a{
             display: block;
             background-color: rgb(245, 245, 245);
@@ -13,6 +13,10 @@
             padding: 15px;
             text-align: center;
             font-size: 25px;
+        }
+        #image-fields-list > .input-group{
+            display: inline-block;
+            margin: 0 5px 15px;
         }
     </style>
 
@@ -55,9 +59,10 @@
                             <div class="input-group">
                                 {{ form_errors(imageField) }}
                                 {{ form_widget(imageField) }}
+                                {#<input type="file" id="app_hike_images_{{ imageField.vars.name }}" name="app_hike[images][{{ imageField.vars.name }}]" required="required" value="{{ imageField.vars.value }}">
                                 <span class="input-group-btn">
-                                            <a href="#" data-id="app_hike_images_{{ imageField.vars.name }}" class="btn btn-default">Pick File</a>
-                                        </span>
+                                    <a href="#" data-id="app_hike_images_{{ imageField.vars.name }}" class="btn btn-default">Pick File</a>
+                                </span>#}
                             </div>
                         {% endfor %}
                     </div>
@@ -65,7 +70,7 @@
                 <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-4">
                         <a href="#" id="add-another-image" {% if form.images|length >= 5 %}style="display: none;"{% endif %}>Ajouter une image</a>
-                        <a href="#" id="delete-another-image" class="text-danger" {% if form.images|length == 1 %}style="display: none;"{% endif %}>Supprimer une image</a>
+                        <a href="#" id="delete-another-image" class="text-danger" {% if form.images|length <= 1 %}style="display: none;"{% endif %}>Supprimer une image</a>
                     </div>
                 </div>
                 {{ form_row(form.description) }}
@@ -113,8 +118,10 @@
                         <a href="#" id="delete-another-course" class="text-danger" {% if form.courses|length == 1 %}style="display: none;"{% endif %}>Supprimer un parcour</a>
                     </div>
                 </div>#}
+                {{ form_row(form.save) }}
+                {{ form_row(form._token) }}
 
-            {{ form_end(form) }}
+            {{ form_end(form, {'render_rest': false}) }}
         </div>
     </div>
 
@@ -124,6 +131,10 @@
         var courseCount = '{{ form.courses|length }}';
 
         jQuery(document).ready(function() {
+            $("#image-fields-list").on('change',"input[type=file]",function() {
+                $(this).closest('.input-group').find('.key-image').val(Date.now());
+            });
+
             setTimeout(function(){
                 $("#result_form").slideUp();
             }, 10000);
@@ -147,14 +158,14 @@
 
                 // create a new list element and add it to the list
                 var newLi = jQuery('<div></div>').addClass('input-group').html(newWidget);
-                var btnMoxie = jQuery('<span></span>').addClass('input-group-btn').html('<a href="#" data-id="'+$(newWidget).attr('id')+'" class="btn btn-default">Pick File</a>');
-                btnMoxie.appendTo(newLi);
+                //var btnMoxie = jQuery('<span></span>').addClass('input-group-btn').html('<a href="#" data-id="'+$(newWidget).attr('id')+'" class="btn btn-default">Pick File</a>');
+                //btnMoxie.appendTo(newLi);
                 newLi.appendTo(imageList);
             });
 
             jQuery('#delete-another-image').click(function(e) {
                 e.preventDefault();
-                $(".image-box:last").closest('.input-group').remove();
+                $("#image-fields-list > .input-group:last").remove();
                 $("#add-another-image").show();
                 imageCount--;
                 if(imageCount == 1) $(this).hide();

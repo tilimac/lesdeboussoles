@@ -85,11 +85,14 @@
     </div>
 
     <script>
-        var $btn;
-        $('#modal_remove_hike').on('show.bs.modal', function (event) {
-            var $button = $(event.relatedTarget);
-            var link = $button.data('link');
-            $("#modal_remove_hike a.btn-danger").attr('href', link);
+        var $modalRemoveHike = $('#modal_remove_hike');
+        $modalRemoveHike.on('show.bs.modal', function (event) {
+            var link = $(event.relatedTarget).data('link');
+            $modalRemoveHike.find("a.btn-danger").attr('href', link);
+        });
+
+        $modalRemoveHike.find("a.btn-danger").click(function(){
+            $(this).button('loading');
         });
     </script>
 {% endblock %}
