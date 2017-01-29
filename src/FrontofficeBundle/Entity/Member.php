@@ -98,9 +98,24 @@ class Member {
     private $phone;
 
     /**
-     * @ORM\Column(name="enabled", type="boolean", nullable=true)
+     * @ORM\Column(name="enabled", type="boolean")
      */
-    private $enabled;
+    private $enabled = false;
+
+    /**
+     * @ORM\Column(name="mail_visible", type="boolean")
+     */
+    private $mailVisible = false;
+
+    /**
+     * @ORM\Column(name="phone_visible", type="boolean")
+     */
+    private $phoneVisible = false;
+
+    /**
+     * @ORM\Column(name="adress_visible", type="boolean")
+     */
+    private $adressVisible = false;
 
     /**
      * Get id
@@ -358,5 +373,74 @@ class Member {
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Set mailVisible
+     *
+     * @param boolean $mailVisible
+     * @return Member
+     */
+    public function setMailVisible($mailVisible)
+    {
+        $this->mailVisible = $mailVisible;
+
+        return $this;
+    }
+
+    /**
+     * Get mailVisible
+     *
+     * @return boolean 
+     */
+    public function getMailVisible()
+    {
+        return $this->mailVisible;
+    }
+
+    /**
+     * Set phoneVisible
+     *
+     * @param boolean $phoneVisible
+     * @return Member
+     */
+    public function setPhoneVisible($phoneVisible)
+    {
+        $this->phoneVisible = $phoneVisible;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneVisible
+     *
+     * @return boolean 
+     */
+    public function getPhoneVisible()
+    {
+        return $this->phoneVisible;
+    }
+
+    /**
+     * Set adressVisible
+     *
+     * @param boolean $adressVisible
+     * @return Member
+     */
+    public function setAdressVisible($adressVisible)
+    {
+        $this->adressVisible = $adressVisible;
+
+        return $this;
+    }
+
+    /**
+     * Get adressVisible
+     *
+     * @return boolean 
+     */
+    public function getAdressVisible()
+    {
+        return $this->adressVisible;
     }
 }

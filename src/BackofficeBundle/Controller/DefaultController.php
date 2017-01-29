@@ -102,6 +102,16 @@ class DefaultController extends Controller
      */
     public function editHikeAction(Request $request, Hike $hike){
 
+        /*$message = \Swift_Message::newInstance()
+            ->setSubject('Hello Email')
+            ->setFrom('monique.boschatel@gmail.com')
+            ->setTo('tilimac@gmail.com')
+            ->setBody('You should see me from the profiler!')
+        ;
+
+        var_dump($this->get('mailer')->send($message));*/
+
+
         //$hike->setImages(array(''));
         $form = $this->createForm(new HikeType(), $hike);
 
