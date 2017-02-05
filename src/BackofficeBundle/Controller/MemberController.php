@@ -42,7 +42,23 @@ class MemberController extends Controller
      * @Route("/{member}/status", name="_admin_member_status", options={"expose"=true})
      */
     public function statusAction(Request $request, Member $member){
-        $member->setEnabled($request->get('enabled', false) == "true" ? true : false);
+        $type   = $request->get('type', null);
+        $status = $request->get('enabled', false) == "true" ? true : false;
+
+
+        switch ($type) {
+            case 'mail':
+                $member->setMailVisible($status);
+                break;
+            case 'adress':
+                $member->setAdressVisible($status);
+                break;
+            case 'phone':
+                $member->setPhoneVisible($status);
+                break;
+           default:
+               $member->setEnabled($status);
+        }
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($member);

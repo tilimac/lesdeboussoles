@@ -1,6 +1,13 @@
 {% extends "FrontofficeBundle::layout.html.twig" %}
 
 {% block page_container %}
+        <style>
+            .img-center {
+                margin: 0 auto;
+                height: 120px;
+            }
+        </style>
+
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
@@ -26,6 +33,27 @@
         <!-- /.row -->
 
         <hr>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Les membres</h2>
+            </div>
+
+            {% for member in members %}
+                <div class="col-lg-4 col-sm-6 text-center">
+                    <img class="img-circle img-responsive img-center" src="http://www.mapannonce.net/images/user.jpg" alt="">
+                    <h3>{{ member.firstName }} {{ member.lastName }}</h3>
+                    <p>
+                        {% if member.mailVisible and member.mail != '' %}<b>Email :</b> {{ member.mail }}<br>{% endif %}
+                        {% if member.phoneVisible and member.phone != '' %}<b>Téléphone :</b> {{ member.phone }}<br>{% endif %}
+                        {% if member.adressVisible and member.adress1 != '' %}<b>Adresse :</b> {{ member.adress1 }} {{ member.adress2 }}<br>{{ member.zipCode }}<br>{{ member.city }}{% endif %}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+
+    <hr>
         
         <!-- Contact Form -->
         <!-- In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->

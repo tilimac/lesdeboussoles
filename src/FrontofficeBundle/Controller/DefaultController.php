@@ -11,8 +11,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class DefaultController extends Controller
 {
+
     /**
-     * @Route("/", name="_home")
+     * @Route("/", name="_maintenance")
+     * @Template()
+     */
+    public function maintenanceAction(){
+        return array();
+    }
+
+    /**
+     * @Route("/test", name="_home")
      * @Template()
      */
     public function homeAction(){
@@ -162,9 +171,14 @@ class DefaultController extends Controller
             $success = true;
         }
 
+        $members = $this->get('doctrine')
+            ->getRepository('FrontofficeBundle:Member')
+            ->findAll();
+
         return array(
             'form' => $form->createView(),
-            'success' => $success
+            'success' => $success,
+            'members' => $members
         );
     }
 

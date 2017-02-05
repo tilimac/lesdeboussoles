@@ -45,7 +45,7 @@
                 <div class="carousel-inner">
                     {% for image in hike.images %}
                         <div class="item{% if loop.first %} active{% endif %}">
-                            <div class="fill" style="background-image:url('{{ asset(image) }}');background-size: cover;"></div>
+                            <div class="fill" style="background-image:url('{{ asset('uploads/hikes/'~image.path) }}');background-size: cover;"></div>
                         </div>
                     {% endfor %}
                 </div>

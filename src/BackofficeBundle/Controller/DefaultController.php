@@ -3,9 +3,11 @@
 namespace BackofficeBundle\Controller;
 
 use BackofficeBundle\Form\Type\HikeType;
+use BackofficeBundle\Form\Type\MessageType;
 use FrontofficeBundle\Entity\Course;
 use FrontofficeBundle\Entity\Hike;
 use FrontofficeBundle\Entity\Image;
+use FrontofficeBundle\Entity\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -37,11 +39,15 @@ class DefaultController extends Controller
 
         $members = $memberManager->getAll();
 
+
+        $form = $this->createForm(new MessageType(), new Message());
+
         return array(
             'nextEvents' => $nextEvents,
             'nextHikes' => $nextHikes,
             'contacts' => $contacts,
-            'members' => $members
+            'members' => $members,
+            'form' => $form->createView()
         );
     }
 
