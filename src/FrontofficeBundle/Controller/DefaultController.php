@@ -13,7 +13,7 @@ class DefaultController extends Controller
 {
 
     /**
-     * @Route("/", name="_maintenance")
+     * @Route("/maintenance", name="_maintenance")
      * @Template()
      */
     public function maintenanceAction(){
@@ -21,7 +21,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/test", name="_home")
+     * @Route("/", name="_home")
      * @Template()
      */
     public function homeAction(){
