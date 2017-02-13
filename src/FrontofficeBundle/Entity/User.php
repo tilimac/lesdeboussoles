@@ -107,9 +107,26 @@ class User extends BaseUser {
      */
     private $adressVisible = false;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Invitation")
+     * @ORM\JoinColumn(referencedColumnName="code")
+     * @Assert\NotNull(message="Your invitation is wrong", groups={"Registration"})
+     */
+    protected $invitation;
+
     public function __construct() {
         parent::__construct();
         $this->roles = array('ROLE_GUEST');
+    }
+
+    public function setInvitation(Invitation $invitation)
+    {
+        $this->invitation = $invitation;
+    }
+
+    public function getInvitation()
+    {
+        return $this->invitation;
     }
 
     /**

@@ -4,6 +4,18 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.form.registration:
+        class: FrontofficeBundle\Form\Type\RegistrationFormType
+        tags:
+            - { name: "form.type", alias: "app_user_registration" }
+
+    app.form.invitation:
+        class: FrontofficeBundle\Form\Type\InvitationFormType
+        arguments: ['@app.form.data_transformer.invitation']
+        tags:
+            - { name: "form.type", alias: "app_invitation_type" }
+
+    app.form.data_transformer.invitation:
+        class: FrontofficeBundle\Form\DataTransformer\InvitationToCodeTransformer
+        arguments: ['@doctrine.orm.entity_manager']
+        public: false

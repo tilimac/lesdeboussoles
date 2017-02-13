@@ -12,6 +12,7 @@ class RegistrationFormType extends AbstractType {
         $yearMin = $yearMax-100;*/
 
         $builder
+            ->add('invitation', 'FrontofficeBundle\Form\Type\InvitationFormType')
             ->add('accept', 'checkbox', array(
                 'label' => 'J\'accepte le règlement et la politique de confidentialité',
                 'mapped' => false
@@ -20,11 +21,18 @@ class RegistrationFormType extends AbstractType {
             ->remove('username');
     }
 
-    public function getParent() {
-        return 'fos_user_registration';
+    public function getParent()
+    {
+        return 'FOS\UserBundle\Form\Type\RegistrationFormType';
     }
 
-    public function getName() {
+    public function getBlockPrefix()
+    {
+        return 'app_user_registration';
+    }
+
+    public function getName()
+    {
         return 'app_user_registration';
     }
 }
