@@ -64,11 +64,13 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    spool:     { type: memory }
+    transport:  gmail
+#    encryption: ssl
+#    host:       smtp.gmail.com
+#    auth_mode:  login
+    username:   boschatel.valentin
+    password:   Val01Bos07
+#    port: 465
 
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
@@ -94,3 +96,6 @@ fos_user:
     registration:
         form:
             type: FrontofficeBundle\Form\Type\RegistrationFormType
+    profile:
+        form:
+            type: FrontofficeBundle\Form\Type\ProfileFormType

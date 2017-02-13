@@ -11,11 +11,13 @@ class RegistrationFormType extends AbstractType {
         $yearMax = $dateTimeNow->format('Y');
         $yearMin = $yearMax-100;*/
 
-        $builder->add('accept', 'checkbox', array(
+        $builder
+            ->add('accept', 'checkbox', array(
                 'label' => 'J\'accepte le règlement et la politique de confidentialité',
                 'mapped' => false
             ))
-            ->add('save', 'submit', array('label' => 'Enregistrer'));
+            ->add('save', 'submit', array('label' => 'Enregistrer'))
+            ->remove('username');
     }
 
     public function getParent() {

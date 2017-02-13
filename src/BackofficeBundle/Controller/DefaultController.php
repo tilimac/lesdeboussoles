@@ -40,6 +40,13 @@ class DefaultController extends Controller
         $members = $memberManager->getAll();
 
 
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Hello Email')
+            ->setFrom('tilimac@gmail.com')
+            ->setTo('tilimac@gmail.com')
+            ->setBody('test');
+        $this->get('mailer')->send($message);
+
         $form = $this->createForm(new MessageType(), new Message());
 
         return array(
