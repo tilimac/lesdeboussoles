@@ -5,6 +5,7 @@ namespace FrontofficeBundle\Controller;
 use FrontofficeBundle\Entity\Contact;
 use FrontofficeBundle\Entity\Event;
 use FrontofficeBundle\Entity\Hike;
+use FrontofficeBundle\Entity\Invitation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -25,6 +26,13 @@ class DefaultController extends Controller
      * @Template()
      */
     public function homeAction(){
+        $invitation = new Invitation();
+        $invitation->setEmail('tilimac@gmail.com');
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($invitation);
+        $em->flush();
+
+
         $hikeManager = $this->get('hike.manager');
         $eventManager = $this->get('event.manager');
 

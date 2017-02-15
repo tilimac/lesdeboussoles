@@ -1,10 +1,3 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        {{ form_start(form) }}
-            {{ form_row(form.email) }}
-            {{ form_row(form.plainPassword) }}
-        {{ form_end(form) }}
-    </div>
-</div>
+{{ form(form) }}

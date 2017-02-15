@@ -119,6 +119,12 @@ class User extends BaseUser {
         $this->roles = array('ROLE_GUEST');
     }
 
+    public function setEmail($email){
+        parent::setEmail($email);
+        $this->setUsername($email);
+    }
+
+
     public function setInvitation(Invitation $invitation)
     {
         $this->invitation = $invitation;
