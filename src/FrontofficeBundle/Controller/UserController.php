@@ -6,6 +6,7 @@ use FrontofficeBundle\Entity\Contact;
 use FrontofficeBundle\Entity\Event;
 use FrontofficeBundle\Entity\Hike;
 use FrontofficeBundle\Entity\Member;
+use FrontofficeBundle\Form\Type\InvitationRequestFormType;
 use FrontofficeBundle\Form\Type\MemberFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,16 +14,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/member")
+ * @Route("/users")
  */
-class MemberController extends Controller
+class UserController extends Controller
 {
     /**
-     * @Route("/create", name="_member_create")
+     * @Route("/invitation/request", name="_users_invitation_request")
      */
-    public function createAction(Request $request){
+    public function invitationRequestAction(Request $request){
+
+
         $member = new Member();
-        $form = $this->createForm(new MemberFormType(), $member);
+        $form = $this->createForm(new InvitationRequestFormType(), $member);
 
         $form->handleRequest($request);
 
