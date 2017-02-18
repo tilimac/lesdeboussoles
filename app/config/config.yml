@@ -68,8 +68,8 @@ swiftmailer:
 #    encryption: ssl
 #    host:       smtp.gmail.com
 #    auth_mode:  login
-    username:   boschatel.valentin
-    password:   Val01Bos07
+    username:   %mailer_user%
+    password:   %mailer_password%
 #    port: 465
 
 knp_paginator:
