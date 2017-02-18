@@ -29,7 +29,7 @@ class DefaultController extends Controller
         $hikeManager = $this->get('hike.manager');
         $eventManager = $this->get('event.manager');
         $contactManager = $this->get('contact.manager');
-        $memberManager = $this->get('member.manager');
+        $memberManager = $this->get('fos_user.user_manager');
 
         $nextEvents = $eventManager->getNextEvent();
 
@@ -37,15 +37,9 @@ class DefaultController extends Controller
 
         $contacts = $contactManager->getAll();
 
-        $members = $memberManager->getAll();
+        $users = $memberManager->findUsers();
 
 
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Hello Email')
-            ->setFrom('tilimac@gmail.com')
-            ->setTo('tilimac@gmail.com')
-            ->setBody('test');
-        $this->get('mailer')->send($message);
 
         $form = $this->createForm(new MessageType(), new Message());
 
@@ -53,7 +47,7 @@ class DefaultController extends Controller
             'nextEvents' => $nextEvents,
             'nextHikes' => $nextHikes,
             'contacts' => $contacts,
-            'members' => $members,
+            'users' => $users,
             'form' => $form->createView()
         );
     }

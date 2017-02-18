@@ -94,6 +94,8 @@ fos_user:
     firewall_name: main
     user_class: FrontofficeBundle\Entity\User
     registration:
+        confirmation:
+            enabled: true
         form:
             type: FrontofficeBundle\Form\Type\RegistrationFormType
     profile:

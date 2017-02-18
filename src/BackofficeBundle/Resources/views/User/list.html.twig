@@ -26,31 +26,77 @@
         <div class="col-lg-12">
             <table class="table table-bordered table-hover table-striped">
                 <thead>
-                <tr>
-                    <th class="col-xs-12">
-                        {{ knp_pagination_sortable(pagination, 'Nom d\'utilisateur', 'u.username') }}
-                        {% if pagination.isSorted('u.username') %}
-                            <i class="fa fa-sort-{{ pagination.params.direction }} pull-right"></i>
-                        {% else %}
-                            <i class="fa fa-sort pull-right"></i>
-                        {% endif %}
-                    </th>
-                    <th style="min-width: 310px;">
-                        Option
-                    </th>
-                </tr>
+                    <tr>
+                        <th class="col-xs-6">
+                            {{ knp_pagination_sortable(pagination, 'Prénom', 'm.firstName') }}
+                            {% if pagination.isSorted('m.firstName') %}
+                                <i class="fa fa-sort-{{ pagination.params.direction }} pull-right"></i>
+                            {% else %}
+                                <i class="fa fa-sort pull-right"></i>
+                            {% endif %}
+                        </th>
+                        <th class="col-xs-6">
+                            {{ knp_pagination_sortable(pagination, 'Nom', 'm.lastName') }}
+                            {% if pagination.isSorted('m.lastName') %}
+                                <i class="fa fa-sort-{{ pagination.params.direction }} pull-right"></i>
+                            {% else %}
+                                <i class="fa fa-sort pull-right"></i>
+                            {% endif %}
+                        </th>
+                        <th style="min-width: 100px;">
+                            Adresse
+                        </th>
+                        <th style="min-width: 100px;">
+                            E-mail
+                        </th>
+                        <th style="min-width: 100px;">
+                            Téléphone
+                        </th>
+                        <th style="min-width: 100px;">
+                            Atif
+                        </th>
+                        <th style="min-width: 200px;">
+                            Option
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
                 {% for user in pagination %}
                     <tr {% if loop.index is odd %}class="color"{% endif %}>
-                        <td>{{ user.username }}</td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.lastName }}</td>
                         <td>
-                            <button class="btn btn-danger remove-user" data-user="{{ user.id }}" data-username="{{ user.username }}"><span class="fa fa-times"></span> Supprimer</button>
-                            <select class="form-control switch-user" data-user="{{ user.id }}" style="width: 100px;display: inline;">
-                                <option value="ROLE_GUEST" {% if user.hasRole('ROLE_GUEST') %}selected="selected"{% endif %}>Invité</option>
-                                <option value="ROLE_MEMBER" {% if user.hasRole('ROLE_MEMBER') %}selected="selected"{% endif %}>Membre</option>
-                                <option value="ROLE_ADMIN" {% if user.hasRole('ROLE_ADMIN') or user.hasRole('ROLE_SUPER_ADMIN') %}selected="selected"{% endif %}>Admin</option>
-                            </select>
+                            <label>
+                                <input class="enable-user" type="checkbox" data-type="adress" data-user="{{ user.id }}" {% if user.adressVisible == true %}checked{% endif %}>
+                            </label>
+                        </td>
+                        <td>
+                            <label>
+                                <input class="enable-user" type="checkbox" data-type="mail" data-user="{{ user.id }}" {% if user.mailVisible == true %}checked{% endif %}>
+                            </label>
+                        </td>
+                        <td>
+                            <label>
+                                <input class="enable-user" type="checkbox" data-type="phone" data-user="{{ user.id }}" {% if user.phoneVisible == true %}checked{% endif %}>
+                            </label>
+                        </td>
+                        <td>
+                            <label>
+                                <input class="enable-user" type="checkbox" data-user="{{ user.id }}" {% if user.enabled == true %}checked{% endif %}>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary see-user" data-member="{{ user.id }}" data-civil="{{ user.civil }}" data-first-name="{{ user.firstName }}" data-last-name="{{ user.lastName }}"><span class="fa fa-eye"></span></button>
+                                    <button class="btn btn-danger remove-user" data-user="{{ user.id }}" data-username="{{ user.username }}"><span class="fa fa-times"></span></button>
+                                </div>
+                                <select class="form-control switch-user" data-user="{{ user.id }}" style="width: 100px;display: inline;">
+                                    <option value="ROLE_GUEST" {% if user.hasRole('ROLE_GUEST') %}selected="selected"{% endif %}>Invité</option>
+                                    <option value="ROLE_MEMBER" {% if user.hasRole('ROLE_MEMBER') %}selected="selected"{% endif %}>Membre</option>
+                                    <option value="ROLE_ADMIN" {% if user.hasRole('ROLE_ADMIN') or user.hasRole('ROLE_SUPER_ADMIN') %}selected="selected"{% endif %}>Admin</option>
+                                </select>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}
@@ -83,11 +129,46 @@
         </div>
     </div>
 
+    <div id="modal_see_user" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(function(){
             var $removeUser = $(".remove-user");
             var $modalRemoveUser = $("#modal_remove_user");
-            var $switchUser = $(".switch-user");
+            var $modalSeeUser = $("#modal_see_user");
+            var $seeUser = $(".see-user");
+
+            var $switchUser = $(".enable-user");
+            $switchUser.bootstrapSwitch({
+                onSwitchChange: function(){
+                    var type = $(this).data('type');
+                    var user = $(this).data('user');
+                    var enabled = $(this).is(':checked');
+                    $.get(Routing.generate('_admin_users_status', {type: type, user: user, enabled: enabled}))
+                }
+            });
+
+            $seeUser.on('click', function(e){
+                e.preventDefault();
+
+                $modalSeeUser.find('.modal-title').html($(this).data('civil')+' '+$(this).data('firstName')+' '+$(this).data('lastName'));
+                $modalSeeUser.find('.modal-body').load(Routing.generate('_admin_member_detail', {member: $(this).data('member')}), function(){
+                    $modalSeeUser.modal('show');
+                })
+            });
 
             var userId;
             $removeUser.on('click', function(e){
@@ -113,4 +194,10 @@
             });
         });
     </script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('bundles/app/lib/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
 {% endblock %}
