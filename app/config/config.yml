@@ -2,8 +2,8 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@BackofficeBundle/Resources/config/services.yml" }
-    - { resource: "@FrontofficeBundle/Resources/config/services.yml" }
+    - { resource: "@AdminBundle/Resources/config/services.yml" }
+    - { resource: "@AppBundle/Resources/config/services.yml" }
     - { resource: "@AppBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -64,7 +64,7 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport:  gmail
+    transport:  %mailer_transport%
 #    encryption: ssl
 #    host:       smtp.gmail.com
 #    auth_mode:  login
@@ -92,15 +92,13 @@ assetic:
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: FrontofficeBundle\Entity\User
+    user_class: AppBundle\Entity\User
     from_email:
-        address:        noreply@example.com
+        address:        noreply@lesdeboussoles.com
         sender_name:    Les déboussolés
     registration:
-        confirmation:
-            enabled: true
         form:
-            type: FrontofficeBundle\Form\Type\RegistrationFormType
+            type: AppBundle\Form\Type\RegistrationFormType
     profile:
         form:
-            type: FrontofficeBundle\Form\Type\ProfileFormType
+            type: AppBundle\Form\Type\ProfileFormType

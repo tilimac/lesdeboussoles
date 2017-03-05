@@ -1,0 +1,36 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block page_container %}
+    
+    <style>
+        .carousel-inner{
+            height: 340px;
+        }
+        .carousel-inner > .item,.carousel-inner > .item > .fill{
+            height: 100%;
+        }
+    </style>
+
+    <!-- Page Heading/Breadcrumbs -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ event.title }}
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+
+        <div class="col-md-6">
+            <img src="{{ event.image }}" class="img-responsive">
+        </div>
+
+        <div class="col-md-6">
+            <p><i>Le {{ event.dateEvent|date('d/m/Y') }} à {{ event.dateEvent|date('H\\hi') }}</i></p>
+            <h3>Description</h3>
+            <p class="text-justify">{{ event.content|raw }}</p>
+        </div>
+
+    </div>
+{% endblock %}

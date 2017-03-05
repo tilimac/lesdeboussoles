@@ -1,0 +1,123 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block page_container %}
+    <style>
+        .portfolio-item {
+            margin-bottom: 25px;
+        }
+        .portfolio-item .fill {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+        }
+        .modal-dialog {
+            position: relative;
+            width: auto;
+            margin: 10px;
+        }
+
+        #big_carousel{
+            height: 100%;
+        }
+        #big_carousel div{
+            height: 100%;
+        }
+        #big_carousel .fill{
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        #close_diapo{
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            border-radius: 50%;
+            background-color: #FFFFFF;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #a5a5a5;
+            z-index: 1;
+            font-size: 31px;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ hike.title }}
+                <small>{{ hike.locality }}</small>
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for key,picture in picturesList %}
+            <div class="col-md-3 portfolio-item">
+                <a href="#" data-ref="#picture_{{ key }}">
+                    <div class="fill" style="background-image:url('{{ asset('uploads/hike/'~hike.id~'/'~picture) }}');"></div>
+                </a>
+            </div>
+            {% if loop.index%4 == 0 %}
+                </div>
+                <div class="row">
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="modal fade" id="modal_diapo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="height: 96%;">
+            <div class="modal-content" style="height: 100%;">
+                <div class="modal-body" style="height: 100%;">
+                    <span id="close_diapo" data-dismiss="modal" class="fa fa-close close-diapo"></span>
+                    <div id="big_carousel" class="carousel slide" data-ride="carousel" data-pause="none" style="height: 100%;">
+                        <!-- Indicators
+                        <ol class="carousel-indicators">
+                            <li data-target="#little_carousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#little_carousel" data-slide-to="1"></li>
+                            <li data-target="#little_carousel" data-slide-to="2"></li>
+                        </ol>-->
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox" style="height: 100%;">
+                            {% for key, picture in picturesList %}
+                                <div id="picture_{{ key }}" class="item" style="height: 100%;">
+                                    <div class="fill" style="height: 100%;background-image:url('{{ asset('uploads/hike/'~hike.id~'/'~picture) }}');"></div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#big_carousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#big_carousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(function(){
+            $(".portfolio-item a").on('click', function(e){
+                e.preventDefault();
+
+                var $modalDiapo = $("#modal_diapo");
+                $modalDiapo.modal('show');
+                $modalDiapo.find(".item").removeClass('active');
+                $($(this).data('ref')).addClass('active');
+            });
+        });
+    </script>
+{% endblock %}

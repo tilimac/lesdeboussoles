@@ -1,0 +1,24 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% form_theme form _self %}
+
+{% block form_label_class -%}
+    col-sm-5
+{%- endblock form_label_class %}
+
+{% block form_group_class -%}
+    col-sm-7
+{%- endblock form_group_class %}
+
+{% block page_container %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="page-header">Mot de passe oublié</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        {% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
+    </div>
+</div>
+{% endblock page_container %}

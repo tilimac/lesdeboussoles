@@ -1,0 +1,119 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block page_container %}
+    <style>
+        td, th {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow:'.';
+        }
+        a.label{
+            padding: 5px;
+            margin-right: 2px;
+        }
+        .table > thead:first-child > tr:first-child > th{
+            border: 1px solid #DDD;
+        }
+        .table > thead:first-child > tr:first-child > th.empty,
+        .table > thead > tr > th.empty, table.table{
+            border: none;
+        }
+        .table > tbody > tr > td, .table > tbody > tr > th,
+        .table > tfoot > tr > td, .table > tfoot > tr > th,
+        .table > thead > tr > td, .table > thead > tr > th{
+            padding: 2px
+        }
+        .sunday{
+            background-color:#DDD;
+        }
+        td.empty{
+            background-color:#fff !important;
+        }
+    </style>
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Calendrier
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- Content Row -->
+    <div class="row" style="margin-bottom: 15px;">
+        <div class="col-md-12">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <span class="fa fa-child fa-lg"></span>
+                    <input class="hide-show" type="checkbox" autocomplete="off" data-type="hike" checked> Randonnées
+                </label>
+            </div>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-success active">
+                    <span class="fa fa-child fa-lg"></span>
+                    <input class="hide-show" type="checkbox" autocomplete="off" data-type="event" checked> Evènement
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 table-responsive">
+            <table class="table table-bordered" style="table-layout: fixed">
+                <thead>
+                    <tr>
+                        {% if nbMonthCurrentYear != 0 %}<th colspan="{{ nbMonthCurrentYear }}">{{ currentYear }}</th>{% endif %}
+                        {% if nbMonthnextYear != 0 %}<th colspan="{{ nbMonthnextYear }}">{{ nextYear }}</th>{% endif %}
+                    </tr>
+                    <tr>
+                        {% for month, number in nbDayByMonth %}
+                            <th class="text-center col-xs-1">{{ months[month] }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {#{% set dayNum = 1 %}#}
+                    {#{% for num, calendarLine in calendar %}#}
+                    {% for day in 1..31 %}
+                        <tr>
+                            {% for month, nbDay in nbDayByMonth %}
+                                <td {% if day > nbDay %}class="empty"{% elseif isWeekEnd[month][day] %}class="sunday"{% endif %}>
+                                    {% if day <= nbDay %}
+                                        <span class="pull-left">{{ day }}</span>
+                                        {% if programmeEvent[month][day] is defined %}
+                                            <a href="{{ path('_event_show',{'event':programmeEvent[month][day].id}) }}" class="label label-success label-event pull-right" data-toggle="tooltip" data-placement="top" title="{{ programmeEvent[month][day].title }}">
+                                                <span class="fa fa-child fa-lg"></span>
+                                            </a>
+                                        {% endif %}
+                                        {% if programmeHike[month][day] is defined %}
+                                            <a href="{{ path('_hike',{'hike':programmeHike[month][day].id}) }}" class="label label-primary label-hike pull-right" data-toggle="tooltip" data-placement="top" title="{{ programmeHike[month][day].locality }}">
+                                                <span class="fa fa-child fa-lg"></span>
+                                            </a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+                    
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $(".hide-show").change(function(){
+                var $elements = $(".label-"+$(this).data('type'));
+                if($(this).is(':checked')){
+                    $elements.show();
+                }
+                else{
+                    $elements.hide();
+                }
+            });
+        })
+    </script>
+{% endblock %}

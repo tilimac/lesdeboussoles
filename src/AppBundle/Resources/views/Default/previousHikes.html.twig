@@ -1,0 +1,28 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block page_container %}
+    <div class="row portfolio">
+        <div class="col-lg-12">
+            <h2 class="page-header">Nos dernières randonnées</h2>
+        </div>
+
+        {% for hike in previousHikes %}
+            <div class="col-md-4 col-sm-6">
+                <a href="{{ path('_hike',{'hike':hike.id}) }}">
+                    <div class="img-portfolio" style="background-image: url('{{ asset('uploads/hikes/'~hike.images.first.path) }}');">
+
+                    </div>
+                    {#<img class="img-responsive img-portfolio img-hover" src="{{ asset('uploads/'~hike.image1) }}" alt="">#}
+                    <div class="caption">
+                        <div class="caption-content">
+                            <h3>
+                                {{ hike.locality }}<br>
+                                <i class="fa fa-search fa-2x"></i>
+                            </h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block page_container %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">Confirmation inscription</h2>
+        </div>
+    </div>
+    <p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+{% endblock page_container %}

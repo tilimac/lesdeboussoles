@@ -4,12 +4,12 @@ app:
     prefix:   /default/
 
 frontoffice:
-    resource: "@FrontofficeBundle/Controller/"
+    resource: "@AppBundle/Controller/"
     type:     annotation
     prefix:   /
 
 backoffice:
-    resource: "@BackofficeBundle/Controller/"
+    resource: "@AdminBundle/Controller/"
     type:     annotation
     prefix:   /admin/
 

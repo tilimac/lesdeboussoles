@@ -1,0 +1,191 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block page_container %}
+    
+    <style>
+        .carousel-inner{
+            height: 340px;
+        }
+        .carousel-inner > .item,.carousel-inner > .item > .fill{
+            height: 100%;
+        }
+        #little_carousel .carousel-inner{
+            height: 170px;
+        }
+        #little_carousel .carousel-inner > .item > .fill{
+            width: 25%;
+            float: left;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+
+    <!-- Page Heading/Breadcrumbs -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ hike.title }}
+                <small>{{ hike.locality }}</small>
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+
+        <div class="col-md-6">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    {% for image in hike.images %}
+                        <li data-target="#carousel-example-generic" data-slide-to="{{ loop.index0 }}" class="active"></li>
+                    {% endfor %}
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    {% for image in hike.images %}
+                        <div class="item{% if loop.first %} active{% endif %}">
+                            <div class="fill" style="background-image:url('{{ asset('uploads/hikes/'~image.path) }}');background-size: cover;"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <p><i>Le {{ hike.date|date('d/m/Y') }} à {{ hike.date|date('H\\hi') }}</i></p>
+            <h3>Description</h3>
+            <p class="text-justify">{{ hike.description|raw }}</p>
+            <h3>Trajet</h3>
+            <dl class="dl-horizontal">
+                <dt>Départ</dt>
+                <dd>{{ hike.start }}</dd>
+                <dt>Arrivé</dt>
+                <dd>{{ hike.locality }}</dd>
+                <dt>Longeur du trajet</dt>
+                <dd>{{ hike.distance }} km</dd>
+            </dl>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">Les parcours</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for course in hike.courses %}
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><b>Parcours de {{ course.lenght }} km</b></h3>
+                    </div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Longueur</dt>
+                            <dd>{{ course.lenght }} km</dd>
+                            <dt>Dénivelé</dt>
+                            <dd>{{ course.heightDifference }} m</dd>
+                            <dt>Durée</dt>
+                            <dd>{{ course.duration|date('H\\hi') }}</dd>
+                            <dt>Difficulté</dt>
+                            <dd>{{ dificulty[course.dificulty] }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">
+                Les photos de la randonnée
+                {% if is_granted("ROLE_ADMIN")  %}
+                    <button id="add_pictures" class="btn btn-primary pull-right">Ajouter des photos</button>
+                {% endif %}
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {% if is_granted("ROLE_MEMBER") %}
+                    {% if picturesList is empty %}
+                        <div class="alert alert-info">Aucune photos ajouté pour le moment</div>
+                    {% else %}
+                        <div id="little_carousel" class="carousel slide" data-ride="carousel">
+                            <!-- Indicators
+                            <ol class="carousel-indicators">
+                                <li data-target="#little_carousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#little_carousel" data-slide-to="1"></li>
+                                <li data-target="#little_carousel" data-slide-to="2"></li>
+                            </ol>-->
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner" role="listbox">
+                                <div class="item active">
+                                    {% for picture in picturesList %}
+                                        <div class="fill" style="background-image:url('{{ asset('uploads/hike/'~hike.id~'/'~picture) }}');"></div>
+                                        {% if loop.index%4 == 0 %}
+                                            </div>
+                                            <div class="item">
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Controls -->
+                            <a class="left carousel-control" href="#little_carousel" role="button" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#little_carousel" role="button" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <a href="{{ path('_hike_pictures', {'hike': hike.id}) }}" class="btn btn-primary btn-lg btn-block" style="margin-top: 25px;">Voir toutes les photos</a>
+                    {% endif %}
+                {% else %}
+                    <p>Votre compte n'a pas encore été vérifié. Veuillez ré-essayer ultérieurement.</p>
+                {% endif %}
+            {% else %}
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <a href="{{ path('fos_user_security_login') }}" class="btn btn-default btn-block btn-lg">Se connecter</a>
+                        <h1 class="text-center">OU</h1>
+                        <a href="{{ path('_contact') }}" class="btn btn-primary btn-block btn-lg">Effectuer un demande d'inscription</a>
+                        {#<a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary btn-block btn-lg">S'inscrire au site</a>#}
+                        <p>L'inscription au site permet aux membres de voir les photos des randonnées effectuées.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(function(){
+            $("#add_pictures").on('click', function(e){
+                e.preventDefault();
+
+                moxman.browse();
+            });
+        });
+    </script>
+{% endblock %}

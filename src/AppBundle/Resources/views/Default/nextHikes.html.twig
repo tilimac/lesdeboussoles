@@ -1,0 +1,42 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block page_container %}
+    <!-- Features Section -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">Les prochaines randonnées <a href="{{ path('_calendar') }}" class="btn btn-primary pull-right"><span class="fa fa-calendar"></span> Le calendrier</a></h2>
+        </div>
+    </div>
+    {% for hike in nextHikes %}
+        <div class="row">
+            <div class="col-md-6">
+                <img class="img-responsive" src="{{ asset('uploads/hikes/'~hike.images.first.path) }}" alt="" style="margin-top: 20px;width: 100%;">
+            </div>
+            <div class="col-md-6">
+                <h1>{{ hike.locality }}<br><small>{{ hike.title }}</small></h1>
+                <p>{{ hike.date|date('d/m/Y H:i:s') }}</p>
+                {#<ul>
+                    <li><strong>Longueur : </strong>{{ hike.lenght }}</li>
+                    <li><strong>Durée estimée : </strong>{{ hike.duration|date('H:i') }}</li>
+                    <li><strong>Dénivelé cumulé : </strong>{{ hike.heightDifference }}</li>
+                    <li><strong>Difficulté : </strong>{{ hike.dificulty }}</li>
+                    <li><strong>Départ  : </strong>{{ hike.start }}</li>
+                </ul>#}
+                <p>
+                    {{ hike.description|raw }}
+                </p>
+                <a href="{{ path('_hike',{'hike':hike.id}) }}" class="btn btn-primary">En savoir plus</a>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+    {% endfor %}
+    
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <a href="{{ path('_calendar') }}" class="btn btn-primary btn-lg"><span class="fa fa-calendar"></span> Le calendrier</a>
+        </div>
+    </div>
+    
+{% endblock %}

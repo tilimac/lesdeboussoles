@@ -1,0 +1,117 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<style>
+    .panel > .panel-heading > .close{
+        color: #a94442;
+        opacity: 0.8;
+    }
+</style>
+
+{{ form_start(form) }}
+    <div class="hidden">
+        {{ form_row(form.invitation, {value: app.request.get('code')}) }}
+    </div>
+    {{ form_row(form.email, {value: app.request.get('email')}) }}
+    {{ form_row(form.plainPassword) }}
+    <div class="form-group">
+        {{ form_errors(form.members) }}
+        <div class="col-sm-12">
+            <div id="member_fields_list"
+                 class="row"
+                 data-prototype="<div class='col-sm-6 member'>
+                                     <div class='panel panel-default'>
+                                         <div class='panel-heading'>
+                                            Information membre
+                                            <button type='button' class='close' aria-label='Close'>
+                                                <span aria-hidden='true'>&times;</span>
+                                            </button></div>
+                                         <div class='panel-body'>{{ form_widget(form.members.vars.prototype)|e }}</div>
+                                     </div>
+                                 </div>">
+                {% for memberField in form.members %}
+                    <div class="col-sm-6 member">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Information membre
+                                {% if not loop.first %}
+                                    <button type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                {% endif %}
+                            </div>
+                            <div class="panel-body">
+                                {{ form_errors(memberField) }}
+                                {{ form_widget(memberField) }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-9 col-sm-offset-3">
+            <button type="submit" id="app_hike_save" name="app_hike[save]" class="btn-primary btn">{{ 'registration.submit'|trans }}</button>
+        </div>
+    </div>
+{{ form_end(form) }}
+
+<script>
+    var $collectionHolder;
+
+    // setup an "add a tag" link
+    var $addTagLink = $('<div id="add_another_member" class="col-sm-6"><a href="#" class="btn btn-primary btn-block">Ajouter un membre</a></div>');
+    var $newLinkBlock = $addTagLink;
+
+    jQuery(document).ready(function() {
+        // Get the ul that holds the collection of tags
+        $collectionHolder = $('#member_fields_list');
+
+        // add the "add a tag" anchor and li to the tags ul
+        $collectionHolder.append($newLinkBlock);
+
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find('.panel').length);
+
+        $addTagLink.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // add a new tag form (see next code block)
+            addMemberForm($collectionHolder, $newLinkBlock);
+        });
+        /*$(".close").on('click', function(e) {
+         e.preventDefault();
+         $(this).closest('.course').remove();
+         });*/
+    });
+
+    function addMemberForm($collectionHolder, $newLinkBlock) {
+        // Get the data-prototype explained earlier
+        var prototype = $collectionHolder.data('prototype');
+
+        // get the new index
+        var index = $collectionHolder.data('index');
+        index++;
+
+        // Replace '__name__' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        var newForm = prototype.replace(/__name__/g, index);
+
+        // increase the index with one for the next item
+        $collectionHolder.data('index', index);
+
+        // Display the form in the page in an li, before the "Add a tag" link li
+        var $newForm = $(newForm);
+        $(".close",$newForm).on('click', function(e) {
+            e.preventDefault();
+            $newForm.remove();
+            $("#add_another_member").show();
+        });
+        $newLinkBlock.before($newForm);
+        if($("#member_fields_list .member").length >= 4) {
+            $("#add_another_member").hide();
+        }
+    }
+</script>

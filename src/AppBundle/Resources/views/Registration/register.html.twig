@@ -1,0 +1,27 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% form_theme form _self %}
+
+{% block form_label_class -%}
+    col-sm-5
+{%- endblock form_label_class %}
+
+{% block form_group_class -%}
+    col-sm-7
+{%- endblock form_group_class %}
+
+{% block page_container %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="page-header">Inscription</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <p>Inscrivez-vous pour devenir membre et participer aux randonnées.</p>
+            <p>Vous devez membre après validation par un administrateur.</p>
+            <p>Seul les membres peuvent voir les photos des randonnées effectuées.</p>
+            {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+        </div>
+    </div>
+{% endblock page_container %}

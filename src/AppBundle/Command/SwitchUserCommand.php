@@ -8,12 +8,12 @@
 
 namespace AppBundle\Command;
 
-use FrontofficeBundle\Entity\Member;
+use AppBundle\Entity\Member;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use FrontofficeBundle\Entity\User;
+use AppBundle\Entity\User;
 
 class SwitchUserCommand extends ContainerAwareCommand
 {
@@ -31,14 +31,14 @@ class SwitchUserCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $users = $this->getContainer()->get('doctrine')
-            ->getRepository('FrontofficeBundle:User')->findAll();
+            ->getRepository('AppBundle:User')->findAll();
 
         foreach ($users as $user) {
             /* @var User $user */
             $output->writeln($user->getEmail());
             /* @var Member $member */
             $member = $this->getContainer()->get('doctrine')
-                ->getRepository('FrontofficeBundle:Member')->findOneByMail($user->getEmail());
+                ->getRepository('AppBundle:Member')->findOneByMail($user->getEmail());
             if($member != null){
                 $user->setPhone($member->getPhone());
                 $user->setPhoneVisible($member->getPhoneVisible());

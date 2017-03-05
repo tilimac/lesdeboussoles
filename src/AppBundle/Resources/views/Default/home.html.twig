@@ -1,0 +1,256 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block page_header %}
+    <style>
+        body {
+            padding-top: 0px;
+        }
+        @media (min-width: 768px){
+            .navbar-inverse {
+                background-color: rgba(34, 34, 34, 0.7);
+                /*background-image: none;*/
+                transition: all 0.3s ease-in-out 0s;
+            }
+        }
+        blockquote {
+            padding: 5px 15px;
+            font-size: inherit;
+        }
+    </style>
+
+    <!-- Header Carousel -->
+    <header id="myCarousel" class="carousel slide" data-pause="none">
+        <div id="innerCarousel" style="position: absolute; bottom: 0px; width: 100%; height: 100%;">
+        <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+                <li data-target="#myCarousel" data-slide-to="4"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="fill" style="background-image:url('{{ asset('bundles/app/img/IMG_1148.JPG') }}');"></div>
+                </div>
+                <div class="item">
+                    <div class="fill" style="background-image:url('{{ asset('bundles/app/img/IMG_1156.JPG') }}');"></div>
+                </div>
+                <div class="item">
+                    <div class="fill" style="background-image:url('{{ asset('bundles/app/img/IMG_2630.JPG') }}');"></div>
+                </div>
+                <div class="item">
+                    <div class="fill" style="background-image:url('{{ asset('bundles/app/img/IMG_2639.JPG') }}');"></div>
+                </div>
+                <div class="item">
+                    <div class="fill" style="background-image:url('http://matthieudefolleville.fr/wp-content/uploads/2015/01/chaussures-randonnee.jpg');"></div>
+                </div>
+                <div style="position: absolute; height: 100%; width: 100%; top: 0px; background-color: rgba(0, 0, 0, 0.3);"></div>
+            </div>
+
+            <div class="caption-header">
+                <h1 style="font-size: 55px;">Les Déboussolés</h1>
+                <h2>Club de randonnée pédestre</h2>
+            </div>
+
+            {#<a class="btn btn-primary btn-lg" href="{{ path('fos_user_registration_register') }}">
+                S'inscrire maintenant
+            </a>#}
+
+            <a class="btn btn-scroll-light sink" href="#container">
+                <i class="fa fa-angle-double-down"></i>
+            </a>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="icon-prev"></span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <span class="icon-next"></span>
+            </a>
+        </div>
+    </header>
+{% endblock %}
+
+{% block page_container %}
+        <!-- Marketing Icons Section -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Bienvenue sur le site des Déboussolés
+                </h1>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><i class="fa fa-fw fa-user-secret"></i> Qui sommes nous ?</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>Le Club « Les Déboussolés » est une association, affiliée à la Fédération Française de Randonnées Pédestres. Créée en 1999, à Le Crès (34920), elle compte actuellement 70 Membres, dont la majorité a atteint l'âge de la retraite.</p>
+                        <a href="{{ path('_association') }}" class="btn btn-default">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><i class="fa fa-fw fa-rocket"></i> Ou s'inscrire ?</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>L'inscription se fait par invitation mail. Vous pouvez effectuer un demande sur la <a href="{{ path('_contact') }}">page de contact</a>. Lors de la première randonnée, un certificat médical et la cotisation de 50€ qui comprend l'assurance ainsi que la license pour les randonnées.</p>
+                        <a href="{{ path('_contact') }}" class="btn btn-primary">Demande d'inscription</a>
+                        {#<a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary">S'incrire</a>#}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><i class="fa fa-fw fa-compass"></i> Comment venir au randonnées ?</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>Les trajets pour les randonnées s'effectuent en co-voiturage. Les rendez-vous de départ se font le dimanche à 9 heures (sauf indications modificatives) au parking sous la salle Jean Moulin, au Crès. </p>
+                        <a href="{{ path('_contact') }}" class="btn btn-default">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Features Section -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Actualités</h2>
+            </div>
+        </div>
+        {% for event in nextEvents %}
+            <div class="row" style="margin-bottom: 15px;">
+                <div class="col-md-4">
+                    <div style="background-image:url('{{ asset(event.image|replace({'/web': ""})) }}');height: 141px;background-size: cover;background-position: center;"></div>
+                </div>
+                <div class="col-md-8">
+                    <div class="caption">
+                        <h3>{{ event.title }}</h3>
+                        <p>
+                            {% if event.content|striptags|length > 120 %}
+                                {{ event.content|striptags|slice(0, 120)|raw }} ...
+                            {% else %}
+                                {{ event.content|striptags|raw }}
+                            {% endif %}
+                        </p>
+                        <p>
+                            <a href="{{ path('_event_show',{'event':event.id}) }}" class="btn btn-default">En savoir plus</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {#<div class="col-md-6">
+            <div class="box" style="background-image: url('{{ asset(nextEvent.image|replace({'/web': ""})) }}')">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>{{ nextEvent.title }}</h3>
+            <p>{{ nextEvent.dateEvent|date('d/m/Y H:i:s') }}</p>
+            <p class="text-justify">
+                {{ nextEvent.content|raw }}
+            </p>
+        </div>#}
+        <!-- /.row -->
+
+        <!-- Features Section -->
+        {% if nextHike is not null %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">La prochaine randonnée <a href="{{ path('_calendar') }}" class="btn btn-primary pull-right"><span class="fa fa-calendar"></span> Le calendrier</a></h2>
+                </div>
+                <div class="col-md-6">
+                    <h3>{{ nextHike.title }}<br><small>{{ nextHike.locality }}</small></h3>
+                    <p><i>Le {{ nextHike.date|date('d/m/Y') }} à {{ nextHike.date|date('H\\hi') }}</i></p>
+                    <blockquote>
+                        {{ nextHike.description|raw }}
+                    </blockquote>
+                    <p><i>Cette randonnée comprend <b>{{ nextHike.courses|length }}</b> parcours</i></p>
+                    <a href="{{ path('_hike',{'hike':nextHike.id}) }}" class="btn btn-default">En savoir plus</a>
+                </div>
+                <div class="col-md-6">
+                    <div class="box" style="background-image: url('{{ asset('uploads/hikes/'~nextHike.images.first.path) }}')">
+                        {% if nextHike.canceled == 1 %}
+                            <div class="ribbon ribbon-danger"><span>Annulé</span></div>
+                        {% elseif nextHike.canceled == 2 %}
+                            <div class="ribbon ribbon-danger"><span>Reporté</span></div>
+                        {% else %}
+                            <div class="ribbon ribbon-success"><span>Maintenue</span></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <!-- /.row -->
+
+        <!-- Portfolio Section -->
+        <div class="row portfolio">
+            <div class="col-lg-12">
+                <h2 class="page-header">Nos dernières randonnées</h2>
+            </div>
+            
+            {% for hike in previousHikes %}
+                <div class="col-md-4 col-sm-6">
+                    <a href="{{ path('_hike',{'hike':hike.id}) }}">
+                        <div class="img-portfolio" style="background-image: url('{{ asset('uploads/hikes/'~hike.images.first.path) }}');">
+                            
+                        </div>
+                        {#<img class="img-responsive img-portfolio img-hover" src="{{ asset('uploads/'~hike.image1) }}" alt="">#}
+                        <div class="caption">
+                            <div class="caption-content">
+                                <h3>
+                                    {{ hike.locality }}<br>
+                                    <i class="fa fa-search fa-2x"></i>
+                                </h3>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <a href="{{ path('_previous_hikes') }}" class="btn btn-default">Voir toute les précédentes randonnées</a>
+            </div>
+        </div>
+        <!-- /.row -->
+    <!-- /.container -->
+{% endblock %}
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script>
+        $('.carousel').carousel({
+            interval: 5000 //changes the speed
+        });
+
+        $( window ).scroll(function() {
+            if($( window ).scrollTop() != 0)
+                $("nav.navbar-inverse").css('backgroundColor','rgba(34, 34, 34, 1)');
+            else
+                $("nav.navbar-inverse").css('backgroundColor','');
+            
+            $("#innerCarousel").css('height',(100-$( window ).scrollTop()/15)+"%");
+        });
+
+
+        $(".sink").click(function(){
+            var the_id = $(this).attr("href");
+
+            $('html, body').animate({
+                    scrollTop:$(the_id).offset().top-50
+            }, 1500);
+            return false;
+        });
+    </script>
+{% endblock %}

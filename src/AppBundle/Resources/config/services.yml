@@ -1,4 +1,27 @@
+parameters:
+    hike_manager.class: AppBundle\Manager\HikeManager
+    event_manager.class: AppBundle\Manager\EventManager
+    contact_manager.class: AppBundle\Manager\ContactManager
+    member_manager.class: AppBundle\Manager\MemberManager
+
 services:
-#    app.example:
-#        class: AppBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    app_user.profile.form.type:
+        class: AppBundle\Form\Type\ProfileFormType
+        tags:
+            - { name: form.type, alias: app_user_profile }
+    app_user.registration.form.type:
+        class: AppBundle\Form\Type\RegistrationFormType
+        tags:
+            - { name: form.type, alias: app_user_registration }
+    hike.manager:
+        class:     "%hike_manager.class%"
+        arguments: ["@doctrine.orm.entity_manager"]
+    event.manager:
+        class:     "%event_manager.class%"
+        arguments: ["@doctrine.orm.entity_manager"]
+    contact.manager:
+        class:     "%contact_manager.class%"
+        arguments: ["@doctrine.orm.entity_manager"]
+    member.manager:
+        class:     "%member_manager.class%"
+        arguments: ["@doctrine.orm.entity_manager"]

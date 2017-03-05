@@ -1,8 +1,0 @@
-{% trans_default_domain 'FOSUserBundle' %}
-
-{{ form_start(form) }}
-    <div class="hidden">
-        {{ form_row(form.invitation, {value: app.request.get('code')}) }}
-    </div>
-    {{ form_row(form.email, {value: app.request.get('email')}) }}
-{{ form_end(form) }}
