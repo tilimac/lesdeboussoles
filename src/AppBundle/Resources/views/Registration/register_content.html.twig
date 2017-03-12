@@ -5,9 +5,22 @@
         color: #a94442;
         opacity: 0.8;
     }
+    #add_another_member > a {
+        border: 2px dashed;
+        border-radius: 5px;
+        height: 612px;
+        display: block;
+        text-align: center;
+        padding-top: 180px;
+        font-size: 35px;
+    }
 </style>
 
 {{ form_start(form) }}
+    {% if not form.vars.valid %}
+        {{ form_errors(form) }}
+        {{ form_errors(form.email) }}
+    {% endif %}
     <div class="hidden">
         {{ form_row(form.invitation, {value: app.request.get('code')}) }}
     </div>
@@ -21,25 +34,34 @@
                  data-prototype="<div class='col-sm-6 member'>
                                      <div class='panel panel-default'>
                                          <div class='panel-heading'>
-                                            Information membre
-                                            <button type='button' class='close' aria-label='Close'>
-                                                <span aria-hidden='true'>&times;</span>
-                                            </button></div>
-                                         <div class='panel-body'>{{ form_widget(form.members.vars.prototype)|e }}</div>
+                                            Membre __number__
+                                            <button type='button' class='btn btn-danger btn-xs pull-right' aria-label='Close'>
+                                                Supprimer le membre
+                                            </button>
+                                         </div>
+                                         <div class='panel-body'>
+                                            <div class='alert alert-danger'>
+                                                Ce membre n'est pas validé
+                                            </div>
+                                            {{ form_widget(form.members.vars.prototype)|e }}
+                                        </div>
                                      </div>
                                  </div>">
                 {% for memberField in form.members %}
                     <div class="col-sm-6 member">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Information membre
+                                Membre {{ loop.index }}
                                 {% if not loop.first %}
-                                    <button type="button" class="close" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                    <button type='button' class='btn btn-danger btn-xs pull-right' aria-label='Close'>
+                                        Supprimer le membre
                                     </button>
                                 {% endif %}
                             </div>
                             <div class="panel-body">
+                                <div class="alert {% if memberField.vars.data.enabled %}alert-success{% else %}alert-danger{% endif %}">
+                                    {% if memberField.vars.data.enabled %}Ce membre est confirmé{% else %}Ce membre n'est pas validé{% endif %}
+                                </div>
                                 {{ form_errors(memberField) }}
                                 {{ form_widget(memberField) }}
                             </div>
@@ -49,23 +71,23 @@
             </div>
         </div>
     </div>
+    {{ form_row(form.accept) }}
+    {{ form_row(form._token) }}
     <div class="form-group">
-        <div class="col-sm-9 col-sm-offset-3">
-            <button type="submit" id="app_hike_save" name="app_hike[save]" class="btn-primary btn">{{ 'registration.submit'|trans }}</button>
+        <div class="col-sm-6 col-sm-offset-3">
+            <button type="submit" id="app_hike_save" name="app_hike[save]" class="btn-primary btn btn-lg btn-block">{{ 'registration.submit'|trans }}</button>
         </div>
     </div>
-{{ form_end(form) }}
+{{ form_end(form, {'render_rest': false}) }}
 
 <script>
-    var $collectionHolder;
 
     // setup an "add a tag" link
-    var $addTagLink = $('<div id="add_another_member" class="col-sm-6"><a href="#" class="btn btn-primary btn-block">Ajouter un membre</a></div>');
+    var $addTagLink = $('<div id="add_another_member" class="col-sm-6"><a href="#"><span class="fa fa-plus-circle fa-2x"></span><br>Ajouter un membre</a></div>');
     var $newLinkBlock = $addTagLink;
+    var $collectionHolder = $('#member_fields_list');
 
     jQuery(document).ready(function() {
-        // Get the ul that holds the collection of tags
-        $collectionHolder = $('#member_fields_list');
 
         // add the "add a tag" anchor and li to the tags ul
         $collectionHolder.append($newLinkBlock);
@@ -98,20 +120,21 @@
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
         var newForm = prototype.replace(/__name__/g, index);
+        newForm = newForm.replace(/__number__/g, $collectionHolder.find('.member').length+1);
 
         // increase the index with one for the next item
         $collectionHolder.data('index', index);
 
         // Display the form in the page in an li, before the "Add a tag" link li
         var $newForm = $(newForm);
-        $(".close",$newForm).on('click', function(e) {
+        $(".btn-danger",$newForm).on('click', function(e) {
             e.preventDefault();
             $newForm.remove();
-            $("#add_another_member").show();
+            $addTagLink.show();
         });
         $newLinkBlock.before($newForm);
-        if($("#member_fields_list .member").length >= 4) {
-            $("#add_another_member").hide();
+        if($collectionHolder.find('.member').length >= 4) {
+            $addTagLink.hide();
         }
     }
 </script>

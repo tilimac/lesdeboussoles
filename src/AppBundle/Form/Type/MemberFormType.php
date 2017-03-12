@@ -20,7 +20,10 @@ class MemberFormType extends AbstractType {
             ))
             ->add('firstName', 'text', array('label' => 'Prénom'))
             ->add('lastName', 'text', array('label' => 'Nom'))
-            ->add('birthdate', 'birthday', array( 'label' => 'Date de naissance'))
+            ->add('birthdate', 'birthday', array(
+                'label' => 'Date de naissance',
+                'years' => range(date("Y")-90, date("Y")-6)
+            ))
             ->add('adress1', 'text', array('label' => 'Adresse'))
             ->add('adress2', 'text', array('label' => 'Complément d\'adresse'))
             ->add('zipCode', 'integer', array('label' => 'Code postal'))

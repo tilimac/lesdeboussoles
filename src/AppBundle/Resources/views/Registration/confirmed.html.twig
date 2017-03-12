@@ -13,4 +13,29 @@
         {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
         {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>{% endif %}
     {% endif %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h4 class="page-header">Maintenant, que voulez vous faire ?</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <a href="{{ path('fos_user_profile_show') }}" class="btn btn-block btn-primary btn-lg">
+                <span class="fa fa-user fa-5x"></span><br>
+                Consulter mon profile
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ path('_next_hikes') }}" class="btn btn-block btn-primary btn-lg">
+                <span class="fa fa-blind fa-5x"></span><br>
+                Voir les prochaines randonnées
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ path('_home') }}" class="btn btn-block btn-primary btn-lg">
+                <span class="fa fa-home fa-5x"></span><br>
+                Retourner à l'accueil
+            </a>
+        </div>
+    </div>
 {% endblock page_container %}

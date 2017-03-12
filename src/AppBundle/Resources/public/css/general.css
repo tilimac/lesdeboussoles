@@ -2,6 +2,11 @@
     position: relative;
     padding-left: 50px;
 }
+.modal-body.alert{
+    border-radius: 0;
+    margin: 0;
+    border: none;
+}
 .alert:before {
     font-family:'FontAwesome';
     border: 2px solid;

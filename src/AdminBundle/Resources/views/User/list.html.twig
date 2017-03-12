@@ -28,29 +28,12 @@
                 <thead>
                     <tr>
                         <th class="col-xs-6">
-                            {{ knp_pagination_sortable(pagination, 'Prénom', 'm.firstName') }}
+                            {{ knp_pagination_sortable(pagination, 'Utilisateur', 'm.username') }}
                             {% if pagination.isSorted('m.firstName') %}
                                 <i class="fa fa-sort-{{ pagination.params.direction }} pull-right"></i>
                             {% else %}
                                 <i class="fa fa-sort pull-right"></i>
                             {% endif %}
-                        </th>
-                        <th class="col-xs-6">
-                            {{ knp_pagination_sortable(pagination, 'Nom', 'm.lastName') }}
-                            {% if pagination.isSorted('m.lastName') %}
-                                <i class="fa fa-sort-{{ pagination.params.direction }} pull-right"></i>
-                            {% else %}
-                                <i class="fa fa-sort pull-right"></i>
-                            {% endif %}
-                        </th>
-                        <th style="min-width: 100px;">
-                            Adresse
-                        </th>
-                        <th style="min-width: 100px;">
-                            E-mail
-                        </th>
-                        <th style="min-width: 100px;">
-                            Téléphone
                         </th>
                         <th style="min-width: 100px;">
                             Atif
@@ -63,23 +46,7 @@
                 <tbody>
                 {% for user in pagination %}
                     <tr {% if loop.index is odd %}class="color"{% endif %}>
-                        <td>{{ user.firstName }}</td>
-                        <td>{{ user.lastName }}</td>
-                        <td>
-                            <label>
-                                <input class="enable-user" type="checkbox" data-type="adress" data-user="{{ user.id }}" {% if user.adressVisible == true %}checked{% endif %}>
-                            </label>
-                        </td>
-                        <td>
-                            <label>
-                                <input class="enable-user" type="checkbox" data-type="mail" data-user="{{ user.id }}" {% if user.mailVisible == true %}checked{% endif %}>
-                            </label>
-                        </td>
-                        <td>
-                            <label>
-                                <input class="enable-user" type="checkbox" data-type="phone" data-user="{{ user.id }}" {% if user.phoneVisible == true %}checked{% endif %}>
-                            </label>
-                        </td>
+                        <td>{{ user.username }}</td>
                         <td>
                             <label>
                                 <input class="enable-user" type="checkbox" data-user="{{ user.id }}" {% if user.enabled == true %}checked{% endif %}>
@@ -88,7 +55,6 @@
                         <td>
                             <div class="input-group">
                                 <div class="input-group-btn">
-                                    <button class="btn btn-primary see-user" data-member="{{ user.id }}" data-civil="{{ user.civil }}" data-first-name="{{ user.firstName }}" data-last-name="{{ user.lastName }}"><span class="fa fa-eye"></span></button>
                                     <button class="btn btn-danger remove-user" data-user="{{ user.id }}" data-username="{{ user.username }}"><span class="fa fa-times"></span></button>
                                 </div>
                                 <select class="form-control switch-user" data-user="{{ user.id }}" style="width: 100px;display: inline;">

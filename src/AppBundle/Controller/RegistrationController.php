@@ -31,22 +31,5 @@ use FOS\UserBundle\Model\UserInterface;
  */
 class RegistrationController extends BaseController
 {
-    /**
-     * Tell the user his account is now confirmed
-     */
-    public function confirmedAction()
-    {
-        $user = $this->getUser();
-        if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
-
-        var_dump('tsezqt');
-
-        return $this->render('FOSUserBundle:Registration:confirmed.html.twig', array(
-            'user' => $user,
-            'targetUrl' => $this->getTargetUrlFromSession(),
-        ));
-    }
 
 }
