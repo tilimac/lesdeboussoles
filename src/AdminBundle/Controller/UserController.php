@@ -67,7 +67,7 @@ class UserController extends Controller
                 ' <head></head>' .
                 ' <body>' .
                 '  Bonjour, <br><br>' .
-                '  Je vous invite à venir rejoindre les Déboussolés. Veuillez cliquer sur le lien ci-dessous pour nous rejoindre.<br><br>' .
+                '  Je vous invite à venir rejoindre les Déboussolés. Veuillez cliquer sur le lien ci-dessous pour vous inscrire.<br><br>' .
                 '  <a href="'.$urlRegistration.'">'.$urlRegistration.'</a>' .
                 ' </body>' .
                 '</html>',

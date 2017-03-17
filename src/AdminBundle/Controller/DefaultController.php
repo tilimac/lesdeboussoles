@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -167,6 +168,18 @@ class DefaultController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('_admin_hikes_list');
+    }
+
+    /**
+     * @Route("/courses/{course}/delete", name="_admin_courses_delete", options={"expose"=true})
+     */
+    public function deleteCoursesAction(Course $course)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($course);
+        $em->flush();
+
+        return new JsonResponse();
     }
 
     /**

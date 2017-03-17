@@ -96,7 +96,7 @@
                                         <div class="panel-heading">
                                             Parcours
                                             {% if not loop.first %}
-                                                <button type="button" class="close" aria-label="Close">
+                                                <button type="button" class="close" aria-label="Close" data-id="{{ courseField.vars.value.id }}">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             {% endif %}
@@ -196,6 +196,15 @@
                 format: 'HH:mm',
                 defaultDate: '00/00/0000 00:00'
             });
+
+
+
+            $(".close").on('click', function(e) {
+                console.log($(this).data('id'));
+                e.preventDefault();
+                $.get(Routing.generate('_admin_courses_delete', {course: $(this).data('id')}));
+                $(this).closest('.course').remove();
+            });
         });
 
 
@@ -224,10 +233,6 @@
                 // add a new tag form (see next code block)
                 addCourseForm($collectionHolder, $newLinkBlock);
             });
-            /*$(".close").on('click', function(e) {
-             e.preventDefault();
-             $(this).closest('.course').remove();
-             });*/
         });
         function addCourseForm($collectionHolder, $newLinkBlock) {
             // Get the data-prototype explained earlier
