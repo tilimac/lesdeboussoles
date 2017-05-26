@@ -30,7 +30,8 @@ class DefaultController extends Controller
         $hikeManager = $this->get('hike.manager');
         $eventManager = $this->get('event.manager');
         $contactManager = $this->get('contact.manager');
-        $memberManager = $this->get('fos_user.user_manager');
+        $userManager = $this->get('fos_user.user_manager');
+        $memberManager = $this->get('member.manager');
 
         $nextEvents = $eventManager->getNextEvent();
 
@@ -38,8 +39,7 @@ class DefaultController extends Controller
 
         $contacts = $contactManager->getAll();
 
-        $users = $memberManager->findUsers();
-
+        $users = $userManager->findUsers();
 
 
         $form = $this->createForm(new MessageType(), new Message());
@@ -49,7 +49,8 @@ class DefaultController extends Controller
             'nextHikes' => $nextHikes,
             'contacts' => $contacts,
             'users' => $users,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'nextBirthday' => $memberManager->getNextBirthday(5)
         );
     }
 
@@ -180,6 +181,49 @@ class DefaultController extends Controller
         $em->flush();
 
         return new JsonResponse();
+    }
+
+    /**
+     * @Route("/hikes/{hike}/status", name="_admin_hikes_status", options={"expose"=true})
+     */
+    public function statusHikesAction(Request $request, Hike $hike)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $test = \DateTime::createFromFormat("d/m/Y H:i",$request->get('date'));
+        //var_dump(New \DateTime($test->format('Y/m/d H:i:s')));
+        //$hike->setDate($request->get('date'));
+        $hike->setCanceled($request->get('status'));
+        $hike->setDateReport(\DateTime::createFromFormat("d/m/Y H:i",$request->get('date')));
+
+
+        $em->persist($hike);
+        $em->flush();
+
+        switch ($request->get('status')){
+            case 1://Annulé
+                echo "i égal 0";
+                break;
+            case 2://Reporté
+
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Bonjour les déboussolés')
+                    ->setFrom('monique.boschatel@gmail.com')
+                    ->setTo('tilimac@gmail.com')
+                    ->setBody($this->renderView(
+                            // app/Resources/views/Emails/registration.html.twig
+                                '@App/Emails/postponed.html.twig',
+                                array('name' => 'test')
+                            ),
+                            'text/html'
+                    );
+                var_dump($this->get('mailer')->send($message));
+                break;
+            default:
+        }
+
+
+        return new Response();
     }
 
     /**

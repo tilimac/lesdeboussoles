@@ -98,7 +98,28 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
+            <h2 class="page-header">Anniverssaire</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Date de naissance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in nextBirthday %}
+                        <tr>
+                            <td>{{ member.first_name }}</td>
+                            <td>{{ member.last_name }}</td>
+                            <td>{{ member.birthdate }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
             {{ form(form) }}
         </div>
     </div>

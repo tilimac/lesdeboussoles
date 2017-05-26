@@ -22,4 +22,22 @@ class MemberRepository extends EntityRepository {
 
         return $query->getResult();
     }
+
+    public function findNextBirthday($count = 1) {
+        $dateNow = new \DateTime('now');
+
+        $query = $this->createQueryBuilder('m')
+            ->where('DAY(m.birthdate) > :dayBirthday')
+            ->andWhere('MONTH(m.birthdate) > :monthBirthday')
+            ->setParameter('dayBirthday', $dateNow->format('d'))
+            ->setParameter('monthBirthday', $dateNow->format('m'))
+            ->orderBy('m.birthdate', 'ASC')
+            ->setMaxResults($count)
+            ->getQuery();
+
+        /*var_dump($query->getSQL());
+        var_dump($query->getParameters());*/
+
+        return $query->getResult();
+    }
 }

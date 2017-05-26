@@ -33,6 +33,13 @@ class Hike {
     private $date;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_report", type="datetime")
+     */
+    private $dateReport;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="locality", type="string", length=255)
@@ -320,5 +327,28 @@ class Hike {
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Set dateReport
+     *
+     * @param \DateTime $dateReport
+     * @return Hike
+     */
+    public function setDateReport($dateReport)
+    {
+        $this->dateReport = $dateReport;
+
+        return $this;
+    }
+
+    /**
+     * Get dateReport
+     *
+     * @return \DateTime 
+     */
+    public function getDateReport()
+    {
+        return $this->dateReport;
     }
 }

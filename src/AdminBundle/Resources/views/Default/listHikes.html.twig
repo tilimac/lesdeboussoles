@@ -52,6 +52,8 @@
                             <td>
                                 <a href="{{ path('_admin_edit_hike', {'hike': hike.id}) }}" class="btn btn-primary btn-sm"><span class="fa fa-pencil"></span></a>
                                 <a href="#" data-toggle="modal" data-target="#modal_remove_hike" data-link="{{ path('_admin_hikes_delete', {'hike': hike.id}) }}" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></a>
+
+                                <a href="#" class="btn btn-primary btn-sm btn-switch-status" data-toggle="modal" data-target="#modal_change_status" data-url="{{ path('_admin_hikes_status', {'hike':hike.id}) }}"><span class="fa fa-pencil"></span></a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -84,12 +86,86 @@
         </div><!-- /.modal-dialog -->
     </div>
 
+    <div id="modal_change_status" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modifier le status de la randonnée</h4>
+                </div>
+                <form class="form-horizontal" action="" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="status" class="col-sm-4 control-label">Status</label>
+                            <div class="col-sm-8">
+                                <select id="change_status_hike" class="form-control" name="status">
+                                    <option value="0">Maintenu</option>
+                                    <option value="1">Annulé</option>
+                                    <option value="2">Repporté</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="date_report_group" class="form-group" style="display: none;">
+                            <label for="date_report" class="col-sm-4 control-label">Nouvelle date</label>
+                            <div class="col-sm-8">
+                                <div class="input-group date">
+                                    <input id="date_report" type="text" class="form-control"  name="date"/>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Valider</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
     <script>
+        var $formSwitch = $('#modal_change_status');
+        $(function () {
+            $(".date").datetimepicker({
+                locale: '{{ app.request.locale[:2] }}'
+            });
+
+            $formSwitch.find('form').ajaxForm();
+        });
+
         var $modalRemoveHike = $('#modal_remove_hike');
         $modalRemoveHike.on('show.bs.modal', function (event) {
             var link = $(event.relatedTarget).data('link');
             $modalRemoveHike.find("a.btn-danger").attr('href', link);
         });
+
+
+        $('#change_status_hike').change(function(e) {
+            e.preventDefault();
+            var $dateReportGroup = $("#date_report_group");
+
+            if($(this).val() == 2){
+                $dateReportGroup.show();
+                $dateReportGroup.find("input").prop('required',true);
+            }
+            else{
+                $dateReportGroup.hide();
+                $dateReportGroup.find("input").prop('required',false);
+                $dateReportGroup.find("input").val('');
+            }
+        });
+        $('.btn-switch-status').click(function(e) {
+            e.preventDefault();
+
+            $formSwitch.find('form').attr('action',$(this).data('url'));
+        });
+
+
+
+
 
         $modalRemoveHike.find("a.btn-danger").click(function(){
             $(this).button('loading');
