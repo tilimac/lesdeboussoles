@@ -113,7 +113,7 @@
                         <tr>
                             <td>{{ member.first_name }}</td>
                             <td>{{ member.last_name }}</td>
-                            <td>{{ member.birthdate }}</td>
+                            <td>{{ member.birthdate|date("d/m/Y") }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
