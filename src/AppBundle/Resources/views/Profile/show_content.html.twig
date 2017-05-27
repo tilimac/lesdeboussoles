@@ -2,5 +2,7 @@
 
 <div class="fos_user_user_show">
     <p>{{ 'profile.show.email'|trans }} : <b>{{ user.email }}</b></p>
+    <p>{{ 'form.password'|trans }} : <b>******</b></p>
+    <p>Nombre de membre : <b>{{ user.members|length }}</b></p>
     <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary">Modifier</a>
 </div>

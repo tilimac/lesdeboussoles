@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends Controller
 {
@@ -190,38 +191,36 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $test = \DateTime::createFromFormat("d/m/Y H:i",$request->get('date'));
-        //var_dump(New \DateTime($test->format('Y/m/d H:i:s')));
-        //$hike->setDate($request->get('date'));
         $hike->setCanceled($request->get('status'));
-        $hike->setDateReport(\DateTime::createFromFormat("d/m/Y H:i",$request->get('date')));
-
+        //$hike->setDateReport($hike->getDate());
+        //$hike->setDate(\DateTime::createFromFormat("d/m/Y H:i",$request->get('date')));
 
         $em->persist($hike);
         $em->flush();
 
         switch ($request->get('status')){
             case 1://Annulé
-                echo "i égal 0";
+                //echo "i égal 0";
                 break;
-            case 2://Reporté
-
+            case 2://Repporté
                 $message = \Swift_Message::newInstance()
-                    ->setSubject('Bonjour les déboussolés')
-                    ->setFrom('monique.boschatel@gmail.com')
+                    ->setSubject('Report de la randonnée')
+                    ->setFrom('monique.boschatel@gmail.com', 'Les déboussolés')
                     ->setTo('tilimac@gmail.com')
                     ->setBody($this->renderView(
                             // app/Resources/views/Emails/registration.html.twig
                                 '@App/Emails/postponed.html.twig',
-                                array('name' => 'test')
+                                array(
+                                    'hike' => $hike,
+                                    'today' => new \DateTime('now')
+                                )
                             ),
                             'text/html'
                     );
-                var_dump($this->get('mailer')->send($message));
+                $this->get('mailer')->send($message);
                 break;
             default:
         }
-
 
         return new Response();
     }

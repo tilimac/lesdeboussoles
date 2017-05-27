@@ -53,7 +53,7 @@
                                 <a href="{{ path('_admin_edit_hike', {'hike': hike.id}) }}" class="btn btn-primary btn-sm"><span class="fa fa-pencil"></span></a>
                                 <a href="#" data-toggle="modal" data-target="#modal_remove_hike" data-link="{{ path('_admin_hikes_delete', {'hike': hike.id}) }}" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></a>
 
-                                <a href="#" class="btn btn-primary btn-sm btn-switch-status" data-toggle="modal" data-target="#modal_change_status" data-url="{{ path('_admin_hikes_status', {'hike':hike.id}) }}"><span class="fa fa-pencil"></span></a>
+                                <a href="#" class="btn btn-success btn-sm btn-switch-status" data-toggle="modal" data-target="#modal_change_status" data-url="{{ path('_admin_hikes_status', {'hike':hike.id}) }}"><span class="fa fa-adjust"></span></a>
                             </td>
                         </tr>
                     {% endfor %}
