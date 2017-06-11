@@ -10,9 +10,9 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Description of HikeRepository
+ * Description of NewsletterRepository
  *
  * @author Tilimac
  */
-class MessageRepository extends EntityRepository {
+class NewsletterRepository extends EntityRepository {
 }

@@ -40,6 +40,17 @@ class User extends BaseUser {
      */
     private $members;
 
+    /**
+     * @ORM\Column(name="email_newsletter", type="boolean", options={"default" : 1})
+     */
+    private $emailNewsletter = true;
+
+    /**
+     * @ORM\Column(name="email_hike", type="boolean", options={"default" : 1})
+     */
+    private $emailHike = true;
+
+
     public function __construct() {
         parent::__construct();
         $this->members = new ArrayCollection();
@@ -102,5 +113,51 @@ class User extends BaseUser {
     public function getMembers()
     {
         return $this->members;
+    }
+
+    /**
+     * Set emailNewsletter
+     *
+     * @param boolean $emailNewsletter
+     * @return User
+     */
+    public function setEmailNewsletter($emailNewsletter)
+    {
+        $this->emailNewsletter = $emailNewsletter;
+
+        return $this;
+    }
+
+    /**
+     * Get emailNewsletter
+     *
+     * @return boolean 
+     */
+    public function getEmailNewsletter()
+    {
+        return $this->emailNewsletter;
+    }
+
+    /**
+     * Set emailHike
+     *
+     * @param boolean $emailHike
+     * @return User
+     */
+    public function setEmailHike($emailHike)
+    {
+        $this->emailHike = $emailHike;
+
+        return $this;
+    }
+
+    /**
+     * Get emailHike
+     *
+     * @return boolean 
+     */
+    public function getEmailHike()
+    {
+        return $this->emailHike;
     }
 }

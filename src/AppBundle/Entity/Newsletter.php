@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * Contact
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Repository\MessageRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\NewsletterRepository")
  */
-class Message
+class Newsletter
 {
     /**
      * @var integer
@@ -20,6 +20,13 @@ class Message
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
 
     /**
      * @var string
@@ -49,7 +56,7 @@ class Message
      * Set message
      *
      * @param string $message
-     * @return Message
+     * @return Newsletter
      */
     public function setMessage($message)
     {
@@ -72,7 +79,7 @@ class Message
      * Set date
      *
      * @param \DateTime $date
-     * @return Message
+     * @return Newsletter
      */
     public function setDate($date)
     {
@@ -89,5 +96,28 @@ class Message
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Newsletter
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 }

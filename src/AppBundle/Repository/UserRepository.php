@@ -22,4 +22,20 @@ class UserRepository extends EntityRepository {
 
         return $query->getResult();
     }
+
+    public function findSubscriberNewsletter() {
+        $query = $this->createQueryBuilder('u')
+            ->where('u.emailNewsletter = 1')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findSubscriberHike() {
+        $query = $this->createQueryBuilder('u')
+            ->where('u.emailHike = 1')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

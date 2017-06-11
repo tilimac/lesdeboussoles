@@ -3,6 +3,7 @@ parameters:
     event_manager.class: AppBundle\Manager\EventManager
     contact_manager.class: AppBundle\Manager\ContactManager
     member_manager.class: AppBundle\Manager\MemberManager
+    email_manager.class: AppBundle\Manager\EmailManager
 
 services:
     app_user.profile.form.type:
@@ -25,3 +26,6 @@ services:
     member.manager:
         class:     "%member_manager.class%"
         arguments: ["@doctrine.orm.entity_manager"]
+    email.manager:
+        class:     "%email_manager.class%"
+        arguments: []

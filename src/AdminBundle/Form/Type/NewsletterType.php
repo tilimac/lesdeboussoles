@@ -8,20 +8,21 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MessageType extends AbstractType {
+class NewsletterType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('message', 'textarea', array('label' => 'Message'));
+            ->add('title', 'text', array('label' => 'Titre'))
+            ->add('message', 'textarea', array('label' => 'Message', 'attr' => array('class' => 'tinymce')));
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Message',
+            'data_class' => 'AppBundle\Entity\Newsletter',
         ));
     }
 
     public function getName() {
-        return 'app_message';
+        return 'app_newsletter';
     }
 }
