@@ -23,8 +23,8 @@
             {{ form_errors(form.email) }}
         </div>
     {% endif %}
-    {{ form_row(form.email, {value: app.request.get('email')}) }}
-    {{ form_row(form.plainPassword) }}
+    {{ form_row(form.email, {value: form.vars.value.email}) }}
+    {{ form_row(form.plainPassword, {required: false}) }}
     <div class="form-group">
         {{ form_errors(form.members) }}
         <div class="col-sm-12">
@@ -51,7 +51,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 Membre {{ loop.index }}
-                                <button type='button' class='btn btn-danger btn-xs pull-right' aria-label='Close'>
+                                <button type='button' class='btn btn-danger btn-xs pull-right' aria-label='Close' data-id="{{ memberField.vars.data.id }}">
                                     Supprimer le membre
                                 </button>
                             </div>
@@ -119,19 +119,27 @@
             addMemberForm($collectionHolder, $newLinkBlock);
         });
 
+        var memberId;
+        var $panel;
         $(".panel .btn-danger").on('click', function(e) {
             e.preventDefault();
+            memberId = $(this).data('id');
             $modalMemberConfirmRemove.modal('show');
-            $modalMemberConfirmRemove.find(".btn-danger").data('id', $(this).data('id'));
+            $panel = $(this).closest('.panel');
+            //$modalMemberConfirmRemove.find(".btn-danger").data('id', $(this).data('id'));
 
         });
 
         $modalMemberConfirmRemove.find(".btn-danger").on('click', function(e) {
             e.preventDefault();
-            $modalMemberConfirmRemove.modal('hide');
-            var id = $(this).data('id');
+            //$modalMemberConfirmRemove.modal('hide');
+            //var id = $(this).data('id');
 
 
+            $.get(Routing.generate('_members_delete', {member: memberId}, function() {
+                $panel.remove();
+                $modalMemberConfirmRemove.modal('hide');
+            }));
         });
     });
 
@@ -142,10 +150,11 @@
 
         // get the new index
         var index = $collectionHolder.data('index');
-        index++;
+        //index++;
 
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
+        //console.log(index);
         var newForm = prototype.replace(/__name__/g, index);
         newForm = newForm.replace(/__number__/g, $collectionHolder.find('.member').length+1);
 

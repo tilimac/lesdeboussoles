@@ -29,14 +29,14 @@ class User extends BaseUser {
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Invitation")
+     * @ORM\OneToOne(targetEntity="Invitation" ,cascade={"remove"})
      * @ORM\JoinColumn(referencedColumnName="code")
      * @Assert\NotNull(message="Your invitation is wrong", groups={"Registration"})
      */
     protected $invitation;
 
     /**
-     * @ORM\OneToMany(targetEntity="Member", mappedBy="user",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Member", mappedBy="user" ,cascade={"persist", "remove"})
      */
     private $members;
 

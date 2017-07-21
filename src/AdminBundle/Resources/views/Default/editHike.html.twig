@@ -200,7 +200,6 @@
 
 
             $(".close").on('click', function(e) {
-                console.log($(this).data('id'));
                 e.preventDefault();
                 $.get(Routing.generate('_admin_courses_delete', {course: $(this).data('id')}));
                 $(this).closest('.course').remove();

@@ -10,7 +10,12 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/** @ORM\Entity */
+/**
+ * Invitation
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\InvitationRepository")
+ */
 class Invitation
 {
     /** @ORM\Id @ORM\Column(type="string", length=6) */

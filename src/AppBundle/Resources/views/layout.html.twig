@@ -57,7 +57,11 @@
                                     <li><a href="{{ path('_admin_home') }}"><i class="fa fa-cog fa-fw"></i>Administration</a></li>
                                 {% endif %}
                                 <li role="separator" class="divider"></li>
-                                <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out fa-fw"></i>{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
+                                {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                                    <li><a href="{{ path('_admin_users_list', {'_switch_user': '_exit'}) }}"><i class="fa fa-sign-out fa-fw"></i>{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
+                                {% else %}
+                                    <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out fa-fw"></i>{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
+                                {% endif %}
                             {% else %}
                                 <li><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-sign-in fa-fw"></i>{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
                                 <li><a href="{{ path('_contact') }}"><i class="fa fa-edit fa-fw"></i>Demande d'inscription</a></li>

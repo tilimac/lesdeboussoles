@@ -21,7 +21,6 @@ class UserController extends Controller
 {
     /**
      * @Route("/list", name="_admin_users_list")
-     * @Template()
      */
     public function listAction(){
         $query = $this->get('request')->query;
@@ -36,7 +35,9 @@ class UserController extends Controller
             10
         );
 
-        return array('pagination' => $pagination);
+        return $this->render('AdminBundle:User:list.html.twig', array(
+            'pagination' => $pagination
+        ));
     }
 
     /**
@@ -80,8 +81,21 @@ class UserController extends Controller
             $em->flush();
         }
 
+        $query = $this->get('request')->query;
+        $users = $this->get('doctrine')
+            ->getRepository('AppBundle:Invitation')
+            ->findAllOrdered($query->get('sort','i.code'),$query->get('direction','asc'));
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $users,
+            $query->get('page',1),
+            10
+        );
+
         return $this->render('AdminBundle:User:new.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'pagination' => $pagination
         ));
     }
 
@@ -99,11 +113,12 @@ class UserController extends Controller
 
     /**
      * @Route("/{user}/detail", name="_admin_users_detail", options={"expose"=true})
-     * @Template()
      */
     public function detailAction(User $user){
 
-        return array('user' => $user);
+        return $this->render('AdminBundle:User:list.html.twig', array(
+            'user' => $user
+        ));
     }
 
     /**

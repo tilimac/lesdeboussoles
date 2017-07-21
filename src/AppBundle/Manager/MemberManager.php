@@ -22,7 +22,7 @@ class MemberManager {
     }
 
     public function getNextBirthday($count = 1) {
-        $statement = $this->em->getConnection()->prepare("SELECT * FROM  member WHERE  DATE_ADD(birthdate, INTERVAL YEAR(CURDATE())-YEAR(birthdate) + IF(DAYOFYEAR(CURDATE()) > DAYOFYEAR(birthdate),1,0) YEAR) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY) ORDER BY DAY(birthdate)");
+        $statement = $this->em->getConnection()->prepare("SELECT * FROM  member WHERE  DATE_ADD(birthdate, INTERVAL YEAR(CURDATE())-YEAR(birthdate) + IF(DAYOFYEAR(CURDATE()) > DAYOFYEAR(birthdate),1,0) YEAR) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY) ORDER BY birthdate");
         //$statement->bindValue('id', 123);
         $statement->execute();
 

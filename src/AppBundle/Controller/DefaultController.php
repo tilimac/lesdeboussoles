@@ -15,15 +15,13 @@ class DefaultController extends Controller
 
     /**
      * @Route("/maintenance", name="_maintenance")
-     * @Template()
      */
     public function maintenanceAction(){
-        return array();
+        return $this->render('@App/Default/maintenance.html.twig', array());
     }
 
     /**
      * @Route("/", name="_home")
-     * @Template()
      */
     public function homeAction(){
         $invitation = new Invitation();
@@ -42,40 +40,37 @@ class DefaultController extends Controller
         $nextHikes = $hikeManager->getNextHikes(1);
         $nextHike = empty($nextHikes) ? NULL : $nextHikes[0];
 
-        return array(
+        return $this->render('@App/Default/home.html.twig', array(
             'nextEvents' => $nextEvents,
             'nextHike' => $nextHike,
             'previousHikes' => $hikeManager->getPreviousHikes(6)
-        );
+        ));
     }
 
     /**
      * @Route("/randonnees/precedentes/", name="_previous_hikes")
-     * @Template()
      */
     public function previousHikesAction(){
         $hikeManager = $this->get('hike.manager');
 
-        return array(
+        return $this->render('@App/Default/previousHikes.html.twig', array(
             'previousHikes' => $hikeManager->getPreviousHikes()
-        );
+        ));
     }
 
     /**
      * @Route("/randonnees/prochaines/", name="_next_hikes")
-     * @Template()
      */
     public function nextHikesAction(){
         $hikeManager = $this->get('hike.manager');
 
-        return array(
+        return $this->render('@App/Default/nextHikes.html.twig', array(
             'nextHikes' => $hikeManager->getNextHikes()
-        );
+        ));
     }
 
     /**
      * @Route("/randonnee/{hike}/", name="_hike")
-     * @Template()
      */
     public function hikeAction(Hike $hike){
         $path = __DIR__ . "/../../../web/uploads/hike/".$hike->getId()."/";
@@ -123,32 +118,29 @@ class DefaultController extends Controller
             "Difficile"
         );
 
-        return array(
+        return $this->render('@App/Default/hike.html.twig', array(
             'hike' => $hike,
             'dificulty' => $dificulty,
             'picturesList' => $picturesList
-        );
+        ));
     }
 
     /**
      * @Route("/association/", name="_association")
-     * @Template()
      */
     public function associationAction(){
-        return array();
+        return $this->render('@App/Default/association.html.twig', array());
     }
 
     /**
      * @Route("/loi/", name="_loi")
-     * @Template()
      */
     public function loiAction(){
-        return array();
+        return $this->render('@App/Default/loi.html.twig', array());
     }
 
     /**
      * @Route("/contact/", name="_contact")
-     * @Template()
      */
     public function contactAction(){
         $contact = new Contact();
@@ -183,16 +175,15 @@ class DefaultController extends Controller
             ->getRepository('AppBundle:Member')
             ->findAll();
 
-        return array(
+        return $this->render('@App/Default/contact.html.twig', array(
             'form' => $form->createView(),
             'success' => $success,
             'members' => $members
-        );
+        ));
     }
 
     /**
      * @Route("/calendrier/", name="_calendar")
-     * @Template()
      */
     public function calendarAction(){
         $hikeManager = $this->get('hike.manager');
@@ -209,6 +200,8 @@ class DefaultController extends Controller
         $count = 0;
         $currentYear = intval($now->format('Y'));
         $nextYear = $currentYear + 1;
+        $isWeekEnd = array();
+        $nbMonthCurrentYear = 0;
         for ($i = 0; $i < 12; $i++) {
             $month = $now->format('n');
             $year = $now->format('Y');
@@ -259,7 +252,7 @@ class DefaultController extends Controller
             }
         }
 
-        return array(
+        return $this->render('@App/Default/calendar.html.twig', array(
             'months' => $months,
             'firstDayByMonth' => $firstDayByMonth,
             'programmeHike' => $programmeHike,
@@ -270,12 +263,11 @@ class DefaultController extends Controller
             'nbMonthnextYear' => $nbMonthnextYear,
             'nbDayByMonth' => $nbDayByMonth,
             'isWeekEnd' => $isWeekEnd
-        );
+        ));
     }
 
     /**
      * @Route("/calendrieralign/", name="_calendar_old")
-     * @Template()
      */
     public function calendarOldAction(){
         $hikeManager = $this->get('hike.manager');
@@ -326,7 +318,7 @@ class DefaultController extends Controller
             $programme[$month][$day] = $hike;
         }
 
-        return array(
+        return $this->render('@App/Default/calendarOld.html.twig', array(
             'months' => $months,
             'days' => $days,
             'calendar' => $calendar,
@@ -336,12 +328,11 @@ class DefaultController extends Controller
             'nextYear' => $nextYear,
             'nbMonthCurrentYear' => $nbMonthCurrentYear,
             'nbMonthnextYear' => $nbMonthnextYear
-        );
+        ));
     }
 
     /**
      * @Route("/hike/{hike}/pictures/", name="_hike_pictures")
-     * @Template()
      */
     public function picturesAction(Hike $hike){
         $path = __DIR__ . "/../../../web/uploads/hike/".$hike->getId()."/";
@@ -352,9 +343,9 @@ class DefaultController extends Controller
 
         $picturesList = array_diff(scandir($path), array('..', '.', 'mcith'));
 
-        return array(
+        return $this->render('@App/Default/pictures.html.twig', array(
             'hike' => $hike,
             'picturesList' => $picturesList
-        );
+        ));
     }
 }
