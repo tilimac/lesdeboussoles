@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/members")
@@ -28,6 +29,6 @@ class MemberController extends Controller
         $em->remove($member);
         $em->flush();
 
-        return $this->redirectToRoute('fos_user_profile_edit');
+        return new Response();
     }
 }

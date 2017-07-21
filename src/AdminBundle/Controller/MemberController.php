@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/members")
@@ -43,13 +44,31 @@ class MemberController extends Controller
     /**
      * @Route("/{member}/delete", name="_admin_members_delete", options={"expose"=true})
      */
-    public function deleteAction(Member $member){
-
+    public function deleteAction(Member $member)
+    {
         $em = $this->getDoctrine()->getManager();
         $em->remove($member);
         $em->flush();
 
         return new JsonResponse(array());
+    }
+
+    /**
+     * @Route("/{member}/status", name="_admin_members_status", options={"expose"=true})
+     */
+    public function statusAction(Request $request, Member $member)
+    {
+        if($request->get('type') == 'enabled'){
+            $member->setEnabled($request->get('enabled') === 'true');
+        }
+        else{
+            $member->{'set'.ucfirst($request->get('type')).'visible'}($request->get('enabled') === 'true');
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($member);
+        $em->flush();
+
+        return new Response();
     }
 
 }

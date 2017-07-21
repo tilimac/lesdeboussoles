@@ -87,7 +87,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-danger">Supprimer</button>
+                <button type="button" class="btn btn-danger" data-loading-text="Chargement...">Supprimer</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -105,11 +105,13 @@
         // Get the ul that holds the collection of tags
 
         // add the "add a tag" anchor and li to the tags ul
-        $collectionHolder.append($newLinkBlock);
+        if($collectionHolder.find('.panel').length < 4){
+            $collectionHolder.append($newLinkBlock);
+        }
 
         // count the current form inputs we have (e.g. 2), use that as the new
         // index when inserting a new item (e.g. 2)
-        $collectionHolder.data('index', $collectionHolder.find('.panel').length);
+        //$collectionHolder.data('index', $collectionHolder.find('.panel').length);
 
         $addTagLink.on('click', function(e) {
             // prevent the link from creating a "#" on the URL
@@ -132,14 +134,14 @@
 
         $modalMemberConfirmRemove.find(".btn-danger").on('click', function(e) {
             e.preventDefault();
+            $(this).button('loading');
             //$modalMemberConfirmRemove.modal('hide');
             //var id = $(this).data('id');
 
 
-            $.get(Routing.generate('_members_delete', {member: memberId}, function() {
-                $panel.remove();
-                $modalMemberConfirmRemove.modal('hide');
-            }));
+            $.get(Routing.generate('_members_delete', {member: memberId}), function() {
+                location.reload();
+            });
         });
     });
 
@@ -149,7 +151,7 @@
         var prototype = $collectionHolder.data('prototype');
 
         // get the new index
-        var index = $collectionHolder.data('index');
+        var index = $collectionHolder.find('.panel').length;
         //index++;
 
         // Replace '__name__' in the prototype's HTML to

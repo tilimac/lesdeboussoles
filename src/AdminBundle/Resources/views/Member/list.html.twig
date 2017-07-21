@@ -82,12 +82,12 @@
                         </td>
                         <td>
                             <label>
-                                <input class="enable-member" type="checkbox" data-member="{{ member.id }}" {% if member.enabled == true %}checked{% endif %}>
+                                <input class="enable-member" type="checkbox" data-type="enabled" data-member="{{ member.id }}" {% if member.enabled == true %}checked{% endif %}>
                             </label>
                         </td>
                         <td>
                             <button class="btn btn-primary see-member" data-toggle="modal" data-target="#modal_see_member_{{ member.id }}"><span class="fa fa-eye"></span> Voir</button>
-                            <button class="btn btn-danger remove-member" data-id="{{ member.id }}" data-first-name="{{ member.firstName }}" data-last-name="{{ member.lastName }}"><span class="fa fa-times"></span> Supprimer</button>
+                            <button class="btn btn-danger remove-member" data-member="{{ member.id }}" data-first-name="{{ member.firstName }}" data-last-name="{{ member.lastName }}"><span class="fa fa-times"></span> Supprimer</button>
 
                             <div id="modal_see_member_{{ member.id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                 <div class="modal-dialog" role="document">
@@ -97,7 +97,8 @@
                                             <h4 class="modal-title" id="myModalLabel"></h4>
                                         </div>
                                         <div class="modal-body">
-                                            {{ member.civil }} {{ member.firstName }} {{ member.lastName }}
+                                            {% set civilText = ["Melle", "Mme", "Mr"] %}
+                                            {{ civilText[member.civil] }} {{ member.firstName }} {{ member.lastName }}
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
@@ -151,7 +152,7 @@
                     var type = $(this).data('type');
                     var member = $(this).data('member');
                     var enabled = $(this).is(':checked');
-                    $.get(Routing.generate('_admin_member_status', {type: type, member: member, enabled: enabled}))
+                    $.get(Routing.generate('_admin_members_status', {type: type, member: member, enabled: enabled}))
                 }
             });
 
@@ -175,8 +176,9 @@
 
             $modalRemoveMember.find('.btn-danger').on('click', function(e){
                 e.preventDefault();
+                $(this).button('loading');
 
-                $.post(Routing.generate('_admin_member_delete', {member: memberId}), function(){
+                $.post(Routing.generate('_admin_members_delete', {member: memberId}), function(){
                     location.reload();
                 });
             });
