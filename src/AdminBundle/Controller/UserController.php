@@ -50,35 +50,43 @@ class UserController extends Controller
 
         $form->handleRequest($request);
         if($form->isValid() && $form->isSubmitted()) {
-            $request->getSession()
-                ->getFlashBag()
-                ->add('success', 'Invitation envoyé avec succés')
-            ;
 
-            $urlRegistration = 'http://'.$request->getHttpHost().$this->get('router')->generate('fos_user_registration_register', array(
-                    'code' => $invitation->getCode(),
-                    'email' => $invitation->getEmail()
-                ));
-            $message = \Swift_Message::newInstance()
-                ->setSubject('Invitation aux déboussolés')
-                ->setFrom('monique.boschatel@gmail.com')
-                ->setTo($invitation->getEmail())
-                ->setBody(
-                '<html>' .
-                ' <head></head>' .
-                ' <body>' .
-                '  Bonjour, <br><br>' .
-                '  Je vous invite à venir rejoindre les Déboussolés. Veuillez cliquer sur le lien ci-dessous pour vous inscrire.<br><br>' .
-                '  <a href="'.$urlRegistration.'">'.$urlRegistration.'</a>' .
-                ' </body>' .
-                '</html>',
-                'text/html'
-            );
-            $this->get('mailer')->send($message);
+            $invitationCheck = $this->get('invitation.manager')->getInvitationByEmail($invitation->getEmail());
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($invitation);
-            $em->flush();
+            if(!$invitationCheck){
+
+                $urlRegistration = 'http://'.$request->getHttpHost().$this->get('router')->generate('fos_user_registration_register', array(
+                        'code' => $invitation->getCode(),
+                        'email' => $invitation->getEmail()
+                    ));
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Invitation aux déboussolés')
+                    ->setFrom('monique.boschatel@gmail.com')
+                    ->setTo($invitation->getEmail())
+                    ->setBody($this->renderView(
+                        '@App/Emails/invitation.html.twig',
+                        array(
+                            'urlRegistration' => $urlRegistration,
+                            'email' => $invitation->getEmail()
+                        )),
+                        'text/html'
+                    );
+                $this->get('mailer')->send($message);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($invitation);
+                $em->flush();
+
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('success', 'Invitation envoyé avec succés');
+            }
+            else{
+
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('danger', 'Une invitation a déja été envoyé à cet utilisateur');
+            }
         }
 
         $query = $this->get('request')->query;

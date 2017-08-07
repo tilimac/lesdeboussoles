@@ -3,6 +3,7 @@ parameters:
     event_manager.class: AppBundle\Manager\EventManager
     contact_manager.class: AppBundle\Manager\ContactManager
     member_manager.class: AppBundle\Manager\MemberManager
+    invitation_manager.class: AppBundle\Manager\InvitationManager
     email_manager.class: AppBundle\Manager\EmailManager
 
 services:
@@ -25,6 +26,9 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
     member.manager:
         class:     "%member_manager.class%"
+        arguments: ["@doctrine.orm.entity_manager"]
+    invitation.manager:
+        class:     "%invitation_manager.class%"
         arguments: ["@doctrine.orm.entity_manager"]
     email.manager:
         class:     "%email_manager.class%"

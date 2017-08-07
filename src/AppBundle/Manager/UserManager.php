@@ -16,7 +16,7 @@ class UserManager {
         $this->em = $em;
         $this->repository = $this->em->getRepository('AppBundle:User');
     }
-    
+
     public function getAll() {
         return $this->repository->findAll();
     }

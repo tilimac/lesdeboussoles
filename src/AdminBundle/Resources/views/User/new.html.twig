@@ -9,7 +9,21 @@
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-2">
+        <div class="col-sm-12">
+            {% if app.session.flashBag.has('success') %}
+                <div id="result_form" class="alert alert-success">
+                    {% for msg in app.session.flashBag.get('success') %}
+                        {{ msg }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if app.session.flashBag.has('danger') %}
+                <div id="result_form" class="alert alert-danger">
+                    {% for msg in app.session.flashBag.get('danger') %}
+                        {{ msg }}
+                    {% endfor %}
+                </div>
+            {% endif %}
             {{ form(form) }}
         </div>
     </div>
@@ -84,21 +98,29 @@
         var $modalRemoveInvitation = $("#modal_remove_invitation");
 
         var invitationCode;
+        var $trTarget;
         $removeInvitation.on('click', function(e){
             e.preventDefault();
             invitationCode = $(this).data('code');
 
             $modalRemoveInvitation.find('.modal-body b').html($(this).data('email'));
             $modalRemoveInvitation.modal('show');
+            $trTarget = $(this).closest('tr');
         });
 
         $modalRemoveInvitation.find('.btn-danger').on('click', function(e){
             e.preventDefault();
-            $(this).button('loading');
+            var $btn = $(this).button('loading');
 
             $.post(Routing.generate('_admin_invitations_delete', {invitation: invitationCode}), function(){
-                location.reload();
+                $trTarget.remove();
+                $btn.button('reset');
+                $modalRemoveInvitation.modal('hide');
             });
         });
+
+        setTimeout(function(){
+            $("#result_form").slideUp();
+        }, 5000);
     </script>
 {% endblock %}

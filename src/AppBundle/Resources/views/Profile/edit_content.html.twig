@@ -40,7 +40,7 @@
                                              </div>
                                              <div class='panel-body'>
                                                 <div class='alert alert-danger'>
-                                                    Ce membre n'est pas validé
+                                                    Membre en cours de validation
                                                 </div>
                                                 {{ form_widget(form.members.vars.prototype)|e }}
                                             </div>
@@ -57,7 +57,7 @@
                             </div>
                             <div class="panel-body">
                                 <div class="alert {% if memberField.vars.data.enabled %}alert-success{% else %}alert-danger{% endif %}">
-                                    {% if memberField.vars.data.enabled %}Ce membre est confirmé{% else %}Ce membre n'est pas validé{% endif %}
+                                    {% if memberField.vars.data.enabled %}Ce membre est confirmé{% else %}Membre en cours de validation{% endif %}
                                 </div>
                                 {{ form_errors(memberField) }}
                                 {{ form_widget(memberField) }}

@@ -8,11 +8,17 @@
     #add_another_member > a {
         border: 2px dashed;
         border-radius: 5px;
-        height: 612px;
+        /*height: 612px;*/
         display: block;
         text-align: center;
-        padding-top: 180px;
+        /*padding-top: 180px;*/
         font-size: 35px;
+    }
+    #add_another_member > a > span,#add_another_member > a > br {
+        display: none;
+    }
+    #add_another_member > a {
+        text-decoration: none;
     }
 </style>
 
@@ -41,7 +47,7 @@
                                          </div>
                                          <div class='panel-body'>
                                             <div class='alert alert-danger'>
-                                                Ce membre n'est pas validé
+                                                Membre en cours de validation
                                             </div>
                                             {{ form_widget(form.members.vars.prototype)|e }}
                                         </div>
@@ -60,7 +66,7 @@
                             </div>
                             <div class="panel-body">
                                 <div class="alert {% if memberField.vars.data.enabled %}alert-success{% else %}alert-danger{% endif %}">
-                                    {% if memberField.vars.data.enabled %}Ce membre est confirmé{% else %}Ce membre n'est pas validé{% endif %}
+                                    {% if memberField.vars.data.enabled %}Ce membre est confirmé{% else %}Membre en cours de validation{% endif %}
                                 </div>
                                 {{ form_errors(memberField) }}
                                 {{ form_widget(memberField) }}
@@ -108,14 +114,19 @@
          $(this).closest('.course').remove();
          });*/
     });
-
     function addMemberForm($collectionHolder, $newLinkBlock) {
+        $addTagLink.find('> a').css({
+            "padding-top": "180px",
+            "height": "612px"
+        });
+        $addTagLink.find('> a > span, > a > br').css({
+            "display": "inline"
+        });
         // Get the data-prototype explained earlier
         var prototype = $collectionHolder.data('prototype');
 
         // get the new index
-        var index = $collectionHolder.data('index');
-        index++;
+        var index = $collectionHolder.find('.panel').length;
 
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
@@ -131,6 +142,15 @@
             e.preventDefault();
             $newForm.remove();
             $addTagLink.show();
+            if($collectionHolder.find('.panel').length < 1){
+                $addTagLink.find('> a').css({
+                    "padding": "0",
+                    "height": "initial"
+                });
+                $addTagLink.find('> a > span, > a > br').css({
+                    "display": "none"
+                });
+            }
         });
         $newLinkBlock.before($newForm);
         if($collectionHolder.find('.member').length >= 4) {
