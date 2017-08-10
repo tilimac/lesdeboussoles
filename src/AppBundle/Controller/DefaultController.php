@@ -24,13 +24,6 @@ class DefaultController extends Controller
      * @Route("/", name="_home")
      */
     public function homeAction(){
-        $invitation = new Invitation();
-        $invitation->setEmail('tilimac@gmail.com');
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($invitation);
-        $em->flush();
-
-
         $hikeManager = $this->get('hike.manager');
         $eventManager = $this->get('event.manager');
 
