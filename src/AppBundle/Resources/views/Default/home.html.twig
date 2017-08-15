@@ -128,7 +128,7 @@
         {% for event in nextEvents %}
             <div class="row" style="margin-bottom: 15px;">
                 <div class="col-md-4">
-                    <div style="background-image:url('{{ asset(event.image|replace({'/web': ""})) }}');height: 141px;background-size: cover;background-position: center;"></div>
+                    <div style="background-image:url('{{ event.image }}');height: 141px;background-size: cover;background-position: center;"></div>
                 </div>
                 <div class="col-md-8">
                     <div class="caption">
