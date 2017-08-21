@@ -76,7 +76,7 @@ class Hike {
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Image", mappedBy="hike", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="hike", cascade={"persist", "remove"})
      */
     public $images;
 
