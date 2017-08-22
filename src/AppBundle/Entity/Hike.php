@@ -35,7 +35,7 @@ class Hike {
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_report", type="datetime")
+     * @ORM\Column(name="date_report", type="datetime", nullable=true)
      */
     private $dateReport;
 
