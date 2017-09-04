@@ -57,8 +57,9 @@ class HikeController extends Controller
         if($form->isValid() && $form->isSubmitted()) {
             $request->getSession()
                 ->getFlashBag()
-                ->add('success', 'La randonnée a été ajouter avec succés')
-            ;
+                ->add('success', 'La randonnée a été ajouter avec succés');
+
+            $hike->setCanceled(0);
             foreach($hike->getCourses() as $key => $course) {
                 $course->setHike($hike);
                 $gpx = $course->getGpx();
@@ -180,32 +181,67 @@ class HikeController extends Controller
         //$hike->setDateReport($hike->getDate());
         //$hike->setDate(\DateTime::createFromFormat("d/m/Y H:i",$request->get('date')));
 
-        $em->persist($hike);
-        $em->flush();
 
         switch ($request->get('status')){
             case 1://Annulé
-                //echo "i égal 0";
+                $users = $this->get('doctrine')
+                    ->getRepository('AppBundle:User')
+                    ->findSubscriberHike();
+                foreach ($users as $user){
+                    /* @var User $user */
+
+                    $message = \Swift_Message::newInstance()
+                        ->setSubject("Randonnée annilée : ".$hike->getTitle())
+                        ->setFrom('monique.boschatel@gmail.com', 'Les déboussolés')
+                        ->setTo($user->getEmail())
+                        ->setBody($this->renderView(
+                        // app/Resources/views/Emails/registration.html.twig
+                            '@App/Emails/hikesRemoved.html.twig',
+                            array(
+                                'hike' => $hike,
+                                'user' => $user,
+                                'email' => $user->getEmail()
+                            )
+                        ),
+                            'text/html'
+                        );
+
+                    $this->get('mailer')->send($message);
+                }
                 break;
             case 2://Repporté
-                $message = \Swift_Message::newInstance()
-                    ->setSubject('Report de la randonnée')
-                    ->setFrom('monique.boschatel@gmail.com', 'Les déboussolés')
-                    ->setTo('tilimac@gmail.com')
-                    ->setBody($this->renderView(
-                            // app/Resources/views/Emails/registration.html.twig
-                                '@App/Emails/postponed.html.twig',
-                                array(
-                                    'hike' => $hike,
-                                    'today' => new \DateTime('now')
-                                )
-                            ),
+                $hike->setDateReport($hike->getDate());
+                $hike->setDate(\DateTime::createFromFormat('d/m/Y H:i', $request->get('date')));
+
+                $users = $this->get('doctrine')
+                    ->getRepository('AppBundle:User')
+                    ->findSubscriberHike();
+                foreach ($users as $user){
+                    /* @var User $user */
+
+                    $message = \Swift_Message::newInstance()
+                        ->setSubject("Randonnée reportée : ".$hike->getTitle())
+                        ->setFrom('monique.boschatel@gmail.com', 'Les déboussolés')
+                        ->setTo($user->getEmail())
+                        ->setBody($this->renderView(
+                        // app/Resources/views/Emails/registration.html.twig
+                            '@App/Emails/hikesPostponed.html.twig',
+                            array(
+                                'hike' => $hike,
+                                'user' => $user,
+                                'email' => $user->getEmail()
+                            )
+                        ),
                             'text/html'
-                    );
-                $this->get('mailer')->send($message);
+                        );
+
+                    $this->get('mailer')->send($message);
+                }
                 break;
-            default:
         }
+
+        $em->persist($hike);
+        $em->flush();
 
         return new Response();
     }

@@ -120,33 +120,35 @@
         <!-- /.row -->
 
         <!-- Features Section -->
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="page-header">Actualités</h2>
-            </div>
-        </div>
-        {% for event in nextEvents %}
-            <div class="row" style="margin-bottom: 15px;">
-                <div class="col-md-4">
-                    <div style="background-image:url('{{ event.image }}');height: 141px;background-size: cover;background-position: center;"></div>
+        {% if nextEvents is not empty %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">Actualités</h2>
                 </div>
-                <div class="col-md-8">
-                    <div class="caption">
-                        <h3>{{ event.title }}</h3>
-                        <p>
-                            {% if event.content|striptags|length > 120 %}
-                                {{ event.content|striptags|slice(0, 120)|raw }} ...
-                            {% else %}
-                                {{ event.content|striptags|raw }}
-                            {% endif %}
-                        </p>
-                        <p>
-                            <a href="{{ path('_event_show',{'event':event.id}) }}" class="btn btn-default">En savoir plus</a>
-                        </p>
+            </div>
+            {% for event in nextEvents %}
+                <div class="row" style="margin-bottom: 15px;">
+                    <div class="col-md-4">
+                        <div style="background-image:url('{{ event.image }}');height: 141px;background-size: cover;background-position: center;"></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="caption">
+                            <h3>{{ event.title }}</h3>
+                            <p>
+                                {% if event.content|striptags|length > 120 %}
+                                    {{ event.content|striptags|slice(0, 120)|raw }} ...
+                                {% else %}
+                                    {{ event.content|striptags|raw }}
+                                {% endif %}
+                            </p>
+                            <p>
+                                <a href="{{ path('_event_show',{'event':event.id}) }}" class="btn btn-default">En savoir plus</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
         {#<div class="col-md-6">
             <div class="box" style="background-image: url('{{ asset(nextEvent.image|replace({'/web': ""})) }}')">
             </div>
@@ -168,7 +170,7 @@
                 </div>
                 <div class="col-md-6">
                     <h3>{{ nextHike.title }}<br><small>{{ nextHike.locality }}</small></h3>
-                    <p><i>Le {{ nextHike.date|date('d/m/Y') }} à {{ nextHike.date|date('H\\hi') }}</i></p>
+                    <p><i>Le {% if nextHike.canceled == 2 %}{{ nextHike.dateReport|date('d/m/Y') }}{% else %}{{ nextHike.date|date('d/m/Y') }}{% endif %} à {{ nextHike.date|date('H\\hi') }}</i></p>
                     <blockquote>
                         {{ nextHike.description|raw }}
                     </blockquote>
@@ -180,7 +182,7 @@
                         {% if nextHike.canceled == 1 %}
                             <div class="ribbon ribbon-danger"><span>Annulé</span></div>
                         {% elseif nextHike.canceled == 2 %}
-                            <div class="ribbon ribbon-danger"><span>Reporté</span></div>
+                            <div class="ribbon ribbon-danger"><span>Reporté au {{ nextHike.date|date('d/m/Y') }}</span></div>
                         {% else %}
                             <div class="ribbon ribbon-success"><span>Maintenue</span></div>
                         {% endif %}

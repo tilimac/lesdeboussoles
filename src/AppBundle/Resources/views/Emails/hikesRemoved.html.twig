@@ -311,8 +311,26 @@
                                             <tr>
                                                 <td valign="top" class="bodyContent">
                                                     <div mc:edit="std_content00">
-                                                        {{ newsletter.message|raw }}
+                                                        <h1 class="h1">Randonnée annulé</h1>
+                                                        <h4 class="h4">{{ hike.title }}</h4><br />
+                                                        Bonjour les déboussolés<br /><br />
+                                                        En raison de la méteo, nous sommes obliger d'annuler la randonnée qui aurait du avoir lieu à <strong>{{ hike.locality }}</strong> le <strong>{{ hike.dateReport|date("d/m/Y \à H:i") }}</strong>.
+                                                        <br /><br />
+                                                        Pour plus d'informations, cliquez sur le bouton ci-dessous.
                                                     </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" valign="top" style="padding-top:0;">
+                                                    <table border="0" cellpadding="15" cellspacing="0" class="templateButton">
+                                                        <tr>
+                                                            <td valign="middle" class="templateButtonContent">
+                                                                <div mc:edit="std_content01">
+                                                                    <a href="{{ absolute_url(path('_hike', {'hike' : hike.id})) }}" target="_blank" style="color: #ffffff;text-decoration: none;">En savoir plus</a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </td>
                                             </tr>
                                         </table>
@@ -347,7 +365,7 @@
                                             <tr>
                                                 <td valign="middle" id="utility">
                                                     <div mc:edit="std_utility">
-                                                        &nbsp;<a href="{{ absolute_url(path('_emails_newsletters', {'newsletter' : newsletter.id, 'user' : user.id})) }}" target="_blank">Voir ce mail dans le navigateur</a> | <a href="{{ absolute_url(path('_emails_unsubscribe', {'type' : 'newsletter', 'user':user.id, 'email':email})) }}">Se désinscrire de la liste</a> &nbsp;
+                                                        &nbsp;<a href="{{ absolute_url(path('_emails_hikes_removed', {'hike' : hike.id, 'user': user.id})) }}" target="_blank">Voir ce mail dans le navigateur</a> | <a href="{{ absolute_url(path('_emails_unsubscribe', {'type' : 'hike', 'user':user.id, 'email':email})) }}">Se désinscrire de la liste</a> &nbsp;
                                                     </div>
                                                 </td>
                                             </tr>

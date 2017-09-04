@@ -61,6 +61,12 @@
         </div>
 
         <div class="col-md-6">
+            {% if hike.canceled == 1 %}
+                <div class="alert alert-danger">Cette randonnée a été annulé.</div>
+            {% elseif hike.canceled == 2 %}
+                <div class="alert alert-warning">Cette randonnée a été reporté.</div>
+            {% endif %}
+
             <p><i>Le {{ hike.date|date('d/m/Y') }} à {{ hike.date|date('H\\hi') }}</i></p>
             <h3>Description</h3>
             <p class="text-justify">{{ hike.description|raw }}</p>

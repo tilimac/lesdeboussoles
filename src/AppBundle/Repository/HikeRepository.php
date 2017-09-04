@@ -30,7 +30,27 @@ class HikeRepository extends EntityRepository {
             ->orderBy('h.date');
         if($limit !== null) $query->setMaxResults($limit);
 
-        return $query->getQuery()->getResult();
+        if($limit == 1){
+
+            $queryHikeReported = $this->createQueryBuilder('h')
+                ->where("h.dateReport > :now")
+                ->setParameter('now', new \DateTime('now'))
+                ->orderBy('h.dateReport')
+                ->setMaxResults(1);
+
+            $nextHikeReported = $queryHikeReported->getQuery()->getOneOrNullResult();
+            $nextHike = $query->getQuery()->getOneOrNullResult();
+
+            if($nextHikeReported !== null && $nextHikeReported->getDateReport() > new \DateTime() && $nextHikeReported->getDateReport() < $nextHike->getDate()){
+                return $nextHikeReported;
+            }
+            else{
+                return $nextHike;
+            }
+        }
+        else{
+            return $query->getQuery()->getResult();
+        }
     }
     
     public function findPreviousHikes($limit = null) {

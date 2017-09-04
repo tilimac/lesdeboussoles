@@ -30,8 +30,8 @@ class DefaultController extends Controller
         $nextEvents = $eventManager->getNextEvent();
         //$nextEvent = empty($nextEvents) ? NULL : $nextEvents[0];
 
-        $nextHikes = $hikeManager->getNextHikes(1);
-        $nextHike = empty($nextHikes) ? NULL : $nextHikes[0];
+        $nextHike = $hikeManager->getNextHikes(1);
+        //$nextHike = empty($nextHikes) ? NULL : $nextHikes[0];
 
         return $this->render('@App/Default/home.html.twig', array(
             'nextEvents' => $nextEvents,

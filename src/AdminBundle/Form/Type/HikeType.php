@@ -18,7 +18,7 @@ class HikeType extends AbstractType {
             ->add('distance', 'number', array('label' => 'Distance'))
             ->add('start', 'text', array('label' => 'Début', 'data' => 'Parking sous la salle Jean Moulin, au Crès'))
             ->add('description', 'textarea', array('label' => 'Description', 'attr' => array('class' => 'tinymce')))
-            ->add('canceled', 'choice', array('label' => 'Etat', 'choices' => array('Maintenu', 'Annulé', 'Reporté')))
+            //->add('canceled', 'choice', array('label' => 'Etat', 'choices' => array('Maintenu', 'Annulé', 'Reporté')))
             ->add('images', 'collection', array(
                 // each item in the array will be an "email" field
                 'type'   => new ImageType(),

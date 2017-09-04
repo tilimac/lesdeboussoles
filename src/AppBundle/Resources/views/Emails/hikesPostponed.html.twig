@@ -358,14 +358,14 @@
                                                         <br />
                                                         <strong>Votre adresse mail est :</strong>
                                                         <br />
-                                                        ADRESSE MAIL CLIENT
+                                                        {{ email }}
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td valign="middle" id="utility">
                                                     <div mc:edit="std_utility">
-                                                        &nbsp;<a href="{{ absolute_url(path('_emails_hikes_postponed', {'hike' : hike.id})) }}" target="_blank">Voir ce mail dans le navigateur</a> | <a href="{{ absolute_url(path('_emails_unsubscribe')) }}">Se désinscrire de la liste</a> &nbsp;
+                                                        &nbsp;<a href="{{ absolute_url(path('_emails_hikes_postponed', {'hike' : hike.id, 'user': user.id})) }}" target="_blank">Voir ce mail dans le navigateur</a> | <a href="{{ absolute_url(path('_emails_unsubscribe', {'type' : 'hike', 'user':user.id, 'email':email})) }}">Se désinscrire de la liste</a> &nbsp;
                                                     </div>
                                                 </td>
                                             </tr>
