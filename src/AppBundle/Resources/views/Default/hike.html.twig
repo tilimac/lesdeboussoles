@@ -190,7 +190,11 @@
             $("#add_pictures").on('click', function(e){
                 e.preventDefault();
 
-                moxman.browse();
+                moxman.browse({
+                    onupload: function() {
+                        console.log('tset');
+                    }
+                });
             });
         });
     </script>
