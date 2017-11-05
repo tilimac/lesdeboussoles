@@ -340,14 +340,14 @@
                                                         <br />
                                                         <strong>Votre adresse mail est :</strong>
                                                         <br />
-                                                        {{ email }}
+                                                        {{ user.email }}
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td valign="middle" id="utility">
                                                     <div mc:edit="std_utility">
-                                                        &nbsp;<a href="{{ absolute_url(path('_emails_newsletters', {'newsletter' : newsletter.id, 'user' : user.id})) }}" target="_blank">Voir ce mail dans le navigateur</a> | <a href="{{ absolute_url(path('_emails_unsubscribe', {'type' : 'newsletter', 'user':user.id, 'email':email})) }}">Se désinscrire de la liste</a> &nbsp;
+                                                        &nbsp;<a href="{{ absolute_url(path('_emails_newsletters', {'newsletter' : newsletter.id, 'user' : user.id, 'email' : user.email})) }}" target="_blank">Voir ce mail dans le navigateur</a> | <a href="{{ absolute_url(path('_emails_unsubscribe', {'type' : 'newsletter', 'user':user.id, 'email':user.email})) }}">Se désinscrire de la liste</a> &nbsp;
                                                     </div>
                                                 </td>
                                             </tr>
