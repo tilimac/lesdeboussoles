@@ -191,8 +191,8 @@ class HikeController extends Controller
                     /* @var User $user */
 
                     $message = \Swift_Message::newInstance()
-                        ->setSubject("Randonnée annilée : ".$hike->getTitle())
-                        ->setFrom('monique.boschatel@gmail.com', 'Les déboussolés')
+                        ->setSubject("Randonnée annulée : ".$hike->getTitle())
+                        ->setFrom('monique.boschatel@gmail.com', 'Les Déboussolés')
                         ->setTo($user->getEmail())
                         ->setBody($this->renderView(
                         // app/Resources/views/Emails/registration.html.twig
@@ -221,7 +221,7 @@ class HikeController extends Controller
 
                     $message = \Swift_Message::newInstance()
                         ->setSubject("Randonnée reportée : ".$hike->getTitle())
-                        ->setFrom('monique.boschatel@gmail.com', 'Les déboussolés')
+                        ->setFrom('monique.boschatel@gmail.com', 'Les Déboussolés')
                         ->setTo($user->getEmail())
                         ->setBody($this->renderView(
                         // app/Resources/views/Emails/registration.html.twig

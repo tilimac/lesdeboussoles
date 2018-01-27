@@ -1,5 +1,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
+<script type="text/javascript" src="{{ asset('bundles/app/js/jquery.uploadPreview.min.js') }}"></script>
+
 <style>
     .panel > .panel-heading > .close{
         color: #a94442;
@@ -14,6 +16,22 @@
         padding-top: 180px;
         font-size: 35px;
     }
+
+    /*#image_preview {
+        background: #ffffff;
+        width: auto;
+        padding: 20px;
+        display: inline-block;
+    }
+
+    #fos_user_profile_form_members_0_pictureUrl {
+        cursor: pointer;
+        background-color: #bdc3c7;
+        color: #ecf0f1;
+        padding: 20px;
+        font-size: 20px;
+        text-transform: uppercase;
+    }*/
 </style>
 
 {{ form_start(form) }}
@@ -61,6 +79,7 @@
                                 </div>
                                 {{ form_errors(memberField) }}
                                 {{ form_widget(memberField) }}
+                                {#<div id="image_preview">No file selected</div>#}
                             </div>
                         </div>
                     </div>
@@ -102,6 +121,13 @@
     var $modalMemberConfirmRemove = $("#modal_member_confirm_remove");
 
     jQuery(document).ready(function() {
+        /*$.uploadPreview({
+            input_field: "#fos_user_profile_form_members_0_pictureUrl",
+            preview_box: "#image_preview",
+            no_label: true
+        });*/
+
+
         // Get the ul that holds the collection of tags
 
         // add the "add a tag" anchor and li to the tags ul

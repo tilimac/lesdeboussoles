@@ -61,7 +61,7 @@ class UserController extends Controller
                     ));
                 $message = \Swift_Message::newInstance()
                     ->setSubject('Invitation aux déboussolés')
-                    ->setFrom('monique.boschatel@gmail.com')
+                    ->setFrom('monique.boschatel@gmail.com', 'Les Déboussolés')
                     ->setTo($invitation->getEmail())
                     ->setBody($this->renderView(
                         '@App/Emails/invitation.html.twig',

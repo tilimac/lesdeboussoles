@@ -45,7 +45,7 @@
                 {% for member in members %}
                     {% if member.enabled %}
                         <div class="col-lg-4 col-sm-6 text-center">
-                            <img class="img-circle img-responsive img-center" src="http://www.mapannonce.net/images/user.jpg" alt="">
+                            <img class="img-circle img-responsive img-center" src="{{ asset('uploads/documents/'~member.path) }}" alt="">
                             <h3>{{ member.firstName|capitalize }} {{ member.lastName|upper }}</h3>
                             <p>
                                 {% if member.mailVisible and member.mail != '' %}<b>Email :</b> {{ member.mail }}<br>{% endif %}

@@ -126,7 +126,7 @@ class EmailsController extends Controller
 
                 $message = \Swift_Message::newInstance()
                     ->setSubject("Randonnée : ".$nextHike->getTitle())
-                    ->setFrom('monique.boschatel@gmail.com', 'Les déboussolés')
+                    ->setFrom('monique.boschatel@gmail.com', 'Les Déboussolés')
                     ->setTo($user->getEmail())
                     ->setBody($this->renderView(
                     // app/Resources/views/Emails/registration.html.twig
@@ -166,7 +166,7 @@ class EmailsController extends Controller
     {
         $message = \Swift_Message::newInstance()
             ->setSubject('Hello , it\'s a test')
-            ->setFrom('monique.boschatel@gmail.com')
+            ->setFrom('monique.boschatel@gmail.com', 'Les Déboussolés')
             ->setTo('tilimac@gmail.com')
             ->setBody('You should see me from the profiler!')
         ;

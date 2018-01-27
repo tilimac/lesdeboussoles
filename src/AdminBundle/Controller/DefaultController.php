@@ -69,7 +69,7 @@ class DefaultController extends Controller
 
                 $message = \Swift_Message::newInstance()
                     ->setSubject($newsletter->getTitle())
-                    ->setFrom('monique.boschatel@gmail.com')
+                    ->setFrom('monique.boschatel@gmail.com', 'Les Déboussolés')
                     ->setTo($user->getEmail())
                     ->setBody($this->renderView(
                     // app/Resources/views/Emails/registration.html.twig
