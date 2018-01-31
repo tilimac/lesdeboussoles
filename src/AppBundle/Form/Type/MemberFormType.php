@@ -30,7 +30,7 @@ class MemberFormType extends AbstractType {
             ->add('zipCode', 'integer', array('label' => 'Code postal'))
             ->add('city', 'text', array('label' => 'Ville'))
             ->add('phone', 'text', array('label' => 'Téléphone'))
-            ->add('file', 'file', array('data_class' => null, 'label' => 'Photo de profile'));
+            ->add('file', 'file', array('data_class' => null, 'label' => 'Photo de profile', 'required' => false));
 
 
     }
