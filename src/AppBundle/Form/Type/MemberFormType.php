@@ -26,7 +26,7 @@ class MemberFormType extends AbstractType {
                 'years' => range(date("Y")-90, date("Y")-6)
             ))
             ->add('adress1', 'text', array('label' => 'Adresse'))
-            ->add('adress2', 'text', array('label' => 'Complément d\'adresse'))
+            ->add('adress2', 'text', array('label' => 'Complément d\'adresse', 'required' => false))
             ->add('zipCode', 'integer', array('label' => 'Code postal'))
             ->add('city', 'text', array('label' => 'Ville'))
             ->add('phone', 'text', array('label' => 'Téléphone'))
